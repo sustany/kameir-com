@@ -1,0 +1,6 @@
+﻿---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/greendat/public_html/kameir.com
+    - /bin/cp -rf . $DEPLOYPATH/
+    - /bin/rm -rf $DEPLOYPATH/.git
