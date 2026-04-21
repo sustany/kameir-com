@@ -31,35 +31,19 @@ jobs:
         run: npm run build
         # dist/ is the output directory (Astro default)
 
-      # ── 5. Deploy via SFTP ─────────────────────────────────────
+      # ── 5. Deploy via FTP ──────────────────────────────────────
       # Secrets required in GitHub → Settings → Secrets → Actions:
-      #   SFTP_HOST     — 15.204.206.156 (or kameir.com once DNS propagates)
-      #   SFTP_USER     — cPanel / SFTP username (ChemiCloud)
-      #   SFTP_PASS     — cPanel / SFTP password
-      #   SFTP_PATH     — /home/<cpanel-user>/public_html  (no trailing slash)
-      - name: Install lftp
-        run: sudo apt-get install -y lftp
-
+      #   SFTP_HOST  — 15.204.206.156
+      #   SFTP_USER  — cPanel username (ChemiCloud)
+      #   SFTP_PASS  — cPanel password
+      #   FTP_PATH   — public_html/kameir.com/ (relative to FTP root, trailing slash required)
       - name: Deploy to ChemiCloud
-        env:
-          SFTP_HOST: ${{ secrets.SFTP_HOST }}
-          SFTP_USER: ${{ secrets.SFTP_USER }}
-          SFTP_PASS: ${{ secrets.SFTP_PASS }}
-          SFTP_PATH: ${{ secrets.SFTP_PATH }}
-        run: |
-          # URL-encode the password so special chars (& etc.) don't break the lftp URL
-          ENCODED_PASS=$(python3 -c "import urllib.parse,os; print(urllib.parse.quote(os.environ['SFTP_PASS'],safe=''))")
-          lftp -c "
-            set sftp:auto-confirm yes;
-            set net:timeout 30;
-            set net:max-retries 3;
-            set net:reconnect-interval-base 5;
-            open sftp://$SFTP_USER:${ENCODED_PASS}@$SFTP_HOST;
-            mirror \
-              --reverse \
-              --delete \
-              --verbose \
-              --exclude-glob .DS_Store \
-              dist/ $SFTP_PATH/;
-            quit
-          "
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USER }}
+          password: ${{ secrets.SFTP_PASS }}
+          local-dir: dist/
+          server-dir: ${{ secrets.FTP_PATH }}
+          protocol: ftps
+          port: 21
