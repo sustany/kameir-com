@@ -47,12 +47,14 @@ jobs:
           SFTP_PASS: ${{ secrets.SFTP_PASS }}
           SFTP_PATH: ${{ secrets.SFTP_PATH }}
         run: |
+          # URL-encode the password so special chars (& etc.) don't break the lftp URL
+          ENCODED_PASS=$(python3 -c "import urllib.parse,os; print(urllib.parse.quote(os.environ['SFTP_PASS'],safe=''))")
           lftp -c "
             set sftp:auto-confirm yes;
             set net:timeout 30;
             set net:max-retries 3;
             set net:reconnect-interval-base 5;
-            open sftp://$SFTP_USER:$SFTP_PASS@$SFTP_HOST;
+            open sftp://$SFTP_USER:${ENCODED_PASS}@$SFTP_HOST;
             mirror \
               --reverse \
               --delete \
