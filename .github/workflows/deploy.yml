@@ -1,4 +1,4 @@
-name: Build & Deploy
+﻿name: Build & Deploy
 
 on:
   push:
@@ -13,27 +13,26 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      # ── 1. Checkout ────────────────────────────────────────────
+      # -- 1. Checkout
       - name: Checkout
         uses: actions/checkout@v4
 
-      # ── 2. Node setup ──────────────────────────────────────────
+      # -- 2. Node setup
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
 
-      # ── 3. Install dependencies ────────────────────────────────
+      # -- 3. Install dependencies
       - name: Install dependencies
         run: npm ci
 
-      # ── 4. Build ───────────────────────────────────────────────
+      # -- 4. Build
       - name: Build
         run: npm run build
 
-      # ── 5. Push dist/ to deploy branch ─────────────────────────
-      # cPanel Git Version Control pulls from this branch.
+      # -- 5. Push dist/ to deploy branch
       # .cpanel.yml (from public/) tells cPanel to sync files to
       # /home/greendat/public_html/kameir.com after each pull.
       - name: Push to deploy branch
@@ -44,10 +43,8 @@ jobs:
           publish_dir: ./dist
           force_orphan: true
 
-      # ── 6. Trigger cPanel Git pull + deploy ──────────────────────
+      # -- 6. Trigger cPanel Git pull + deploy
       # Calls cPanel UAPI over HTTPS (no SSH needed).
-      # VersionControlDeployment/create: pulls deploy branch, then
-      # runs .cpanel.yml to sync files to public_html/kameir.com.
       - name: Trigger cPanel deployment
         run: |
           HTTP_STATUS=$(curl -sk -o /dev/null -w "%{http_code}" \
