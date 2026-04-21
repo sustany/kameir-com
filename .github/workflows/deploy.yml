@@ -31,19 +31,19 @@ jobs:
         run: npm run build
         # dist/ is the output directory (Astro default)
 
-      # ── 5. Deploy via FTP ──────────────────────────────────────
+      # ── 5. Deploy via SCP (SSH) ────────────────────────────────
       # Secrets required in GitHub → Settings → Secrets → Actions:
       #   SFTP_HOST  — 15.204.206.156
-      #   SFTP_USER  — cPanel username (ChemiCloud)
+      #   SFTP_USER  — cPanel SSH username (greendat)
       #   SFTP_PASS  — cPanel password
-      #   FTP_PATH   — public_html/kameir.com/ (relative to FTP root, trailing slash required)
+      # Target path is relative to SSH home (/home/greendat/)
       - name: Deploy to ChemiCloud
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: appleboy/scp-action@v0.1.7
         with:
-          server: ${{ secrets.SFTP_HOST }}
+          host: ${{ secrets.SFTP_HOST }}
           username: ${{ secrets.SFTP_USER }}
           password: ${{ secrets.SFTP_PASS }}
-          local-dir: dist/
-          server-dir: ${{ secrets.FTP_PATH }}
-          protocol: ftps
-          port: 21
+          source: "dist/"
+          target: "public_html/kameir.com"
+          strip_components: 1
+          rm: false
