@@ -44,11 +44,11 @@ jobs:
           force_orphan: true
 
       # -- 6. Trigger cPanel Git pull + deploy
-      # Calls cPanel UAPI over HTTPS (no SSH needed).
+      # Uses cPanel API token (no password special-char issues).
       - name: Trigger cPanel deployment
         run: |
           HTTP_STATUS=$(curl -sk -o /dev/null -w "%{http_code}" \
-            -u "${{ secrets.SFTP_USER }}:${{ secrets.SFTP_PASS }}" \
+            -H "Authorization: cpanel greendat:${{ secrets.CPANEL_API_TOKEN }}" \
             --data-urlencode "repository_root=/home/greendat/repositories/kameir-com" \
             "https://${{ secrets.SFTP_HOST }}:2083/execute/VersionControlDeployment/create")
           echo "cPanel API response: $HTTP_STATUS"
