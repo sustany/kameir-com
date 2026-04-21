@@ -1,9 +1,9 @@
----
+﻿---
 import Base from '../layouts/Base.astro';
 
 // Replace with your actual Formspree form ID after signing up at formspree.io
 // e.g. if your form URL is https://formspree.io/f/xpwzabcd, the ID is xpwzabcd
-const FORMSPREE_ID = 'YOUR_FORMSPREE_ID';
+const FORMSPREE_ID = 'xjgjawba';
 ---
 
 <Base
@@ -27,7 +27,7 @@ const FORMSPREE_ID = 'YOUR_FORMSPREE_ID';
         action={`https://formspree.io/f/${FORMSPREE_ID}`}
         method="POST"
       >
-        <!-- Honeypot — spam filter -->
+        <!-- Honeypot â€” spam filter -->
         <input type="text" name="_gotcha" style="display:none" aria-hidden="true" />
 
         <div class="form-group">
@@ -109,3 +109,4 @@ const FORMSPREE_ID = 'YOUR_FORMSPREE_ID';
   margin-top: 0.5rem;
 }
 </style>
+
