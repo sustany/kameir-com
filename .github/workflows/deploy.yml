@@ -3,11 +3,13 @@ name: Build & Deploy
 on:
   push:
     branches: [main]
-  workflow_dispatch:  # allow manual runs from GitHub UI
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write   # required to push the deploy branch
     timeout-minutes: 15
 
     steps:
@@ -30,16 +32,13 @@ jobs:
       - name: Build
         run: npm run build
 
-      # ── 5. Deploy via plain FTP ────────────────────────────────
-      # Secrets: SFTP_HOST, SFTP_USER, SFTP_PASS, FTP_PATH
-      # FTP_PATH = public_html/kameir.com/ (relative to FTP root, trailing slash)
-      - name: Deploy to ChemiCloud
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      # ── 5. Push dist/ to deploy branch ─────────────────────────
+      # cPanel Git Version Control pulls from this branch.
+      # No SSH/FTP needed — cPanel initiates the pull via webhook.
+      - name: Push to deploy branch
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          server: ${{ secrets.SFTP_HOST }}
-          username: ${{ secrets.SFTP_USER }}
-          password: ${{ secrets.SFTP_PASS }}
-          local-dir: dist/
-          server-dir: ${{ secrets.FTP_PATH }}
-          protocol: ftp
-          port: 21
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: deploy
+          publish_dir: ./dist
+          force_orphan: true
