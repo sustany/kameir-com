@@ -1,0 +1,63 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:  # allow manual runs from GitHub UI
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      # ── 1. Checkout ────────────────────────────────────────────
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ── 2. Node setup ──────────────────────────────────────────
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # ── 3. Install dependencies ────────────────────────────────
+      - name: Install dependencies
+        run: npm ci
+
+      # ── 4. Build ───────────────────────────────────────────────
+      - name: Build
+        run: npm run build
+        # dist/ is the output directory (Astro default)
+
+      # ── 5. Deploy via SFTP ─────────────────────────────────────
+      # Secrets required in GitHub → Settings → Secrets → Actions:
+      #   SFTP_HOST     — 15.204.206.156 (or kameir.com once DNS propagates)
+      #   SFTP_USER     — cPanel / SFTP username (ChemiCloud)
+      #   SFTP_PASS     — cPanel / SFTP password
+      #   SFTP_PATH     — /home/<cpanel-user>/public_html  (no trailing slash)
+      - name: Install lftp
+        run: sudo apt-get install -y lftp
+
+      - name: Deploy to ChemiCloud
+        env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_USER: ${{ secrets.SFTP_USER }}
+          SFTP_PASS: ${{ secrets.SFTP_PASS }}
+          SFTP_PATH: ${{ secrets.SFTP_PATH }}
+        run: |
+          lftp -c "
+            set sftp:auto-confirm yes;
+            set net:timeout 30;
+            set net:max-retries 3;
+            set net:reconnect-interval-base 5;
+            open sftp://$SFTP_USER:$SFTP_PASS@$SFTP_HOST;
+            mirror \
+              --reverse \
+              --delete \
+              --verbose \
+              --exclude-glob .DS_Store \
+              dist/ $SFTP_PATH/;
+            quit
+          "

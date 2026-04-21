@@ -1,0 +1,100 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Christian Kameir"
+  description="Reality does not have an advertising budget. Investor, writer, and lecturer based in Newport Beach, CA."
+>
+  <article class="home">
+
+    <!-- ── Hero ──────────────────────────────────────────── -->
+    <section class="home__hero">
+      <div class="container">
+        <p class="label">Newport Beach, California</p>
+        <h1 class="home__name">Christian<br />Kameir</h1>
+        <p class="home__tagline">Reality does not have an advertising budget.</p>
+      </div>
+    </section>
+
+    <!-- ── Rule ─────────────────────────────────────────── -->
+    <div class="container"><hr class="rule" /></div>
+
+    <!-- ── Intro ─────────────────────────────────────────── -->
+    <section class="home__intro">
+      <div class="container">
+        <div class="prose">
+          <p>
+            Managing Partner at <a href="https://sustany.co" target="_blank" rel="noopener">Sustany Capital</a>.
+            Three decades at the intersection of capital, technology, and ideas —
+            founding companies, backing them, and writing about the forces that shape both.
+          </p>
+          <p>
+            Contributor to Forbes and HackerNoon. Guest lecturer at Harvard on fintech and
+            central bank digital currencies. Chairs the Banking &amp; Finance Special Interest
+            Group at the Decentralized Identity Foundation.
+          </p>
+        </div>
+
+        <div class="home__cta">
+          <a href="/about" class="btn btn--primary">About</a>
+          <a href="/contact" class="btn btn--outline">Get in touch</a>
+        </div>
+      </div>
+    </section>
+
+  </article>
+</Base>
+
+<style>
+/* ── Hero ─────────────────────────────────────────────────── */
+.home__hero {
+  padding-top: 5rem;
+  padding-bottom: 0;
+}
+
+.home__hero .label {
+  margin-bottom: 1.5rem;
+}
+
+.home__name {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 10vw, 6.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+}
+
+.home__tagline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.15rem, 3vw, 1.45rem);
+  color: var(--text-muted);
+  line-height: 1.5;
+  max-width: 520px;
+}
+
+/* ── Intro ─────────────────────────────────────────────────── */
+.home__intro {
+  padding-bottom: var(--space-xl);
+}
+
+.home__intro .prose {
+  font-size: 1.05rem;
+  line-height: 1.85;
+}
+
+.home__cta {
+  display: flex;
+  gap: 1rem;
+  margin-top: var(--space-l);
+  flex-wrap: wrap;
+}
+
+@media (max-width: 480px) {
+  .home__cta { flex-direction: column; }
+  .home__cta .btn { text-align: center; }
+}
+</style>

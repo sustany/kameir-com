@@ -1,0 +1,104 @@
+---
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  noIndex?: boolean;
+}
+
+const {
+  title,
+  description = 'Christian Kameir — investor, writer, and lecturer based in Newport Beach, CA.',
+  ogImage = '/images/og-default.jpg',
+  noIndex = false,
+} = Astro.props;
+
+// Strip .html from canonical URLs (clean URLs served via .htaccess rewrite)
+const cleanPath = Astro.url.pathname.replace(/\.html$/, '');
+const canonicalURL = new URL(cleanPath, Astro.site);
+const fullTitle = title === 'Christian Kameir' ? title : `${title} — Christian Kameir`;
+
+const navLinks = [
+  { href: '/about', label: 'About' },
+  { href: '/writing', label: 'Writing' },
+  { href: '/contact', label: 'Contact' },
+];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="generator" content={Astro.generator} />
+
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  {noIndex && <meta name="robots" content="noindex" />}
+
+  <link rel="canonical" href={canonicalURL} />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+  <meta property="og:site_name" content="Christian Kameir" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={fullTitle} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  <!-- Sitemap -->
+  <link rel="sitemap" href="/sitemap-index.xml" />
+
+  <!-- Plausible Analytics — replace 'kameir.com' if your Plausible domain differs -->
+  <script
+    defer
+    data-domain="kameir.com"
+    src="https://plausible.io/js/script.js"
+  ></script>
+</head>
+
+<body>
+  <header>
+    <nav class="site-nav" aria-label="Main navigation">
+      <div class="site-nav__inner">
+        <a href="/" class="site-nav__home">Christian Kameir</a>
+        <ul class="site-nav__links" role="list">
+          {navLinks.map(({ href, label }) => (
+            <li>
+              <a
+                href={href}
+                aria-current={Astro.url.pathname === href || Astro.url.pathname.startsWith(href + '/') ? 'page' : undefined}
+              >
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <slot />
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <span>© {new Date().getFullYear()} Christian Kameir</span>
+      <a href="/contact">Get in touch</a>
+    </div>
+  </footer>
+</body>
+</html>

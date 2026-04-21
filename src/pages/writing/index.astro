@@ -1,0 +1,123 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const posts = (await getCollection('writing', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+
+const fmt = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<Base
+  title="Writing"
+  description="Essays and short takes by Christian Kameir on capital, technology, and ideas."
+>
+  <article class="writing">
+    <div class="container">
+
+      <header class="writing__header">
+        <p class="label">Writing</p>
+        <h1 class="writing__title">Notes &amp; Essays</h1>
+        <p class="writing__intro">
+          Observations on capital, technology, and the forces shaping both.
+        </p>
+      </header>
+
+      <hr class="rule" />
+
+      {posts.length === 0 ? (
+        <p class="writing__empty">Nothing published yet. Check back soon.</p>
+      ) : (
+        <ol class="writing__list" role="list">
+          {posts.map(post => (
+            <li class="writing__item">
+              <a href={`/writing/${post.slug}`} class="writing__item-link">
+                <time class="label writing__date" datetime={post.data.publishedAt.toISOString()}>
+                  {fmt.format(post.data.publishedAt)}
+                </time>
+                <h2 class="writing__item-title">{post.data.title}</h2>
+                <p class="writing__item-desc">{post.data.description}</p>
+              </a>
+            </li>
+          ))}
+        </ol>
+      )}
+
+    </div>
+  </article>
+</Base>
+
+<style>
+.writing__header {
+  padding-top: 4rem;
+  padding-bottom: var(--space-l);
+}
+
+.writing__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-top: 0.75rem;
+}
+
+.writing__intro {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  max-width: 480px;
+  line-height: 1.7;
+  margin-top: 1rem;
+}
+
+.writing__empty {
+  color: var(--text-muted);
+  padding-block: var(--space-l);
+}
+
+/* ── List ──────────────────────────────────────────── */
+.writing__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.writing__item + .writing__item {
+  border-top: 1px solid var(--rule);
+}
+
+.writing__item-link {
+  display: block;
+  padding-block: var(--space-m);
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.15s;
+}
+.writing__item-link:hover { opacity: 0.7; }
+
+.writing__date {
+  display: block;
+  margin-bottom: 0.6rem;
+}
+
+.writing__item-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.writing__item-desc {
+  font-size: 0.975rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  max-width: 520px;
+}
+</style>

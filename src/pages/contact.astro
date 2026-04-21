@@ -1,0 +1,111 @@
+---
+import Base from '../layouts/Base.astro';
+
+// Replace with your actual Formspree form ID after signing up at formspree.io
+// e.g. if your form URL is https://formspree.io/f/xpwzabcd, the ID is xpwzabcd
+const FORMSPREE_ID = 'YOUR_FORMSPREE_ID';
+---
+
+<Base
+  title="Contact"
+  description="Get in touch with Christian Kameir."
+>
+  <article class="contact">
+    <div class="container">
+
+      <header class="contact__header">
+        <p class="label">Contact</p>
+        <h1 class="contact__title">Get in touch</h1>
+        <p class="contact__intro">
+          Use the form below. I read everything and respond to messages that
+          warrant a reply.
+        </p>
+      </header>
+
+      <form
+        class="contact__form"
+        action={`https://formspree.io/f/${FORMSPREE_ID}`}
+        method="POST"
+      >
+        <!-- Honeypot — spam filter -->
+        <input type="text" name="_gotcha" style="display:none" aria-hidden="true" />
+
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input
+            id="name"
+            type="text"
+            name="name"
+            placeholder="Your name"
+            required
+            autocomplete="name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            placeholder="your@email.com"
+            required
+            autocomplete="email"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            placeholder="What's on your mind?"
+            required
+            rows="6"
+          ></textarea>
+        </div>
+
+        <button type="submit" class="btn btn--primary contact__submit">
+          Send message
+        </button>
+      </form>
+
+    </div>
+  </article>
+</Base>
+
+<style>
+.contact__header {
+  padding-top: 4rem;
+  padding-bottom: var(--space-l);
+}
+
+.contact__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-top: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.contact__intro {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  max-width: 480px;
+  line-height: 1.7;
+}
+
+.contact__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-bottom: var(--space-xl);
+}
+
+.contact__submit {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+}
+</style>

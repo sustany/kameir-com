@@ -1,0 +1,135 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('writing', ({ data }) => !data.draft);
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const fmt = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<Base
+  title={post.data.title}
+  description={post.data.description}
+>
+  <article class="post">
+    <div class="container">
+
+      <header class="post__header">
+        <a href="/writing" class="post__back label">← Writing</a>
+        <h1 class="post__title">{post.data.title}</h1>
+        <time class="label post__date" datetime={post.data.publishedAt.toISOString()}>
+          {fmt.format(post.data.publishedAt)}
+        </time>
+      </header>
+
+      <hr class="rule" />
+
+      <div class="post__body prose">
+        <Content />
+      </div>
+
+      <hr class="rule" />
+
+      <footer class="post__footer">
+        <a href="/writing" class="label post__back">← All writing</a>
+      </footer>
+
+    </div>
+  </article>
+</Base>
+
+<style>
+.post__header {
+  padding-top: 4rem;
+  padding-bottom: var(--space-m);
+}
+
+.post__back {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  text-decoration: none;
+  color: var(--text-muted);
+  transition: color 0.15s;
+}
+.post__back:hover { color: var(--accent); }
+
+.post__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+
+.post__date {
+  display: block;
+}
+
+/* ── Body prose ──────────────────────────────────── */
+.post__body {
+  padding-block: var(--space-m);
+  font-size: 1.05rem;
+  line-height: 1.85;
+}
+
+.post__body h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: var(--space-m);
+  margin-bottom: 1rem;
+}
+
+.post__body h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-top: var(--space-m);
+  margin-bottom: 0.75rem;
+}
+
+.post__body p + p { margin-top: 1.4rem; }
+
+.post__body ul,
+.post__body ol {
+  padding-left: 1.5rem;
+  margin-block: 1.25rem;
+}
+
+.post__body li + li { margin-top: 0.5rem; }
+
+.post__body blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 1.25rem;
+  margin-block: 1.5rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.post__body hr {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin-block: var(--space-m);
+}
+
+.post__body em { font-style: italic; }
+
+.post__footer {
+  padding-bottom: var(--space-xl);
+}
+</style>
