@@ -115,7 +115,8 @@ jobs:
                   parts      = Path(rel.parent).parts
                   parent_rel = DDIR if len(parts) == 1 else f"{DDIR}/{'/'.join(parts[:-1])}"
                   parent_abs = f"/home/{USER}/{parent_rel}"
-                  api2_mkdir(parent_abs, parts[-1])   # warn-only; dir may already exist
+                  mres = api2_mkdir(parent_abs, parts[-1])
+                  print(f"  mkdir {parts[-1]}: {json.dumps(mres)[:200]}", flush=True)
                   seen_dirs.add(rem_dir)
 
               raw       = fp.read_bytes()
@@ -127,7 +128,13 @@ jobs:
                   is_binary = True
 
               if is_binary:
-                  res = curl_upload_binary(rem_dir, fp)
+                  # Try save_file_content with base64 content, no to_charset conversion
+                  res = uapi("Fileman/save_file_content", {
+                      "dir":          rem_dir,
+                      "file":         fp.name,
+                      "content":      base64.b64encode(raw).decode("ascii"),
+                      "from_charset": "base64",
+                  })
                   ok  = res.get("status") == 1
               else:
                   res = uapi("Fileman/save_file_content", {
