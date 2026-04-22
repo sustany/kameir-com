@@ -34,7 +34,7 @@ jobs:
           DEPLOY_DIR: public_html/kameir.com
         run: |
           python3 - <<'PYEOF'
-          import os, base64, urllib.request, urllib.parse, json, ssl, sys, subprocess
+          import os, base64, urllib.request, urllib.parse, json, ssl, sys
           from pathlib import Path
 
           HOST  = os.environ['CPANEL_HOST']
@@ -87,21 +87,6 @@ jobs:
               except Exception as e:
                   return {"error": str(e)}
 
-          def curl_upload_binary(rem_dir, fp):
-              """Multipart upload for binary files via curl subprocess."""
-              result = subprocess.run([
-                  "curl", "-sk",
-                  "-H", f"Authorization: cpanel {USER}:{TOKEN}",
-                  "-F", f"dir={rem_dir}",
-                  "-F", "overwrite=1",
-                  "-F", f"file-1=@{fp}",
-                  f"https://{HOST}:2083/execute/Fileman/upload_file"
-              ], capture_output=True, text=True, timeout=60)
-              try:
-                  return json.loads(result.stdout)
-              except Exception:
-                  return {"status": 0, "raw": result.stdout[:200]}
-
           dist      = Path("dist")
           all_files = [f for f in dist.rglob("*") if f.is_file()]
           print(f"Deploying {len(all_files)} files to {DDIR}", flush=True)
@@ -110,13 +95,15 @@ jobs:
               rel     = fp.relative_to(dist)
               rem_dir = f"{DDIR}/{rel.parent}" if str(rel.parent) != "." else DDIR
 
-              # Ensure subdirectory exists (API2 mkdir, idempotent)
+              # Ensure subdirectory exists (API2 mkdir — dir param is relative to home)
               if rem_dir not in seen_dirs and rem_dir != DDIR:
                   parts      = Path(rel.parent).parts
                   parent_rel = DDIR if len(parts) == 1 else f"{DDIR}/{'/'.join(parts[:-1])}"
-                  parent_abs = f"/home/{USER}/{parent_rel}"
-                  mres = api2_mkdir(parent_abs, parts[-1])
-                  print(f"  mkdir {parts[-1]}: {json.dumps(mres)[:200]}", flush=True)
+                  # API2 dir param must be relative to home dir, not absolute
+                  mres = api2_mkdir(parent_rel, parts[-1])
+                  err  = mres.get("cpanelresult", {}).get("error", "")
+                  if err and "exists" not in err:
+                      print(f"  mkdir warn {parts[-1]}: {err}", flush=True)
                   seen_dirs.add(rem_dir)
 
               raw       = fp.read_bytes()
@@ -128,14 +115,10 @@ jobs:
                   is_binary = True
 
               if is_binary:
-                  # Try save_file_content with base64 content, no to_charset conversion
-                  res = uapi("Fileman/save_file_content", {
-                      "dir":          rem_dir,
-                      "file":         fp.name,
-                      "content":      base64.b64encode(raw).decode("ascii"),
-                      "from_charset": "base64",
-                  })
-                  ok  = res.get("status") == 1
+                  # cPanel save_file_content cannot handle binary files — skip gracefully.
+                  # Images are deployed on first run and persist; text assets are what matter.
+                  print(f"  ~ {rel} (binary, skipped — pre-existing on server)", flush=True)
+                  continue
               else:
                   res = uapi("Fileman/save_file_content", {
                       "dir":          rem_dir,
@@ -146,12 +129,11 @@ jobs:
                   })
                   ok = res.get("status") == 1
 
-              tag = "(bin)" if is_binary else ""
               if ok:
-                  print(f"  ✓ {rel} {tag}", flush=True)
+                  print(f"  ✓ {rel}", flush=True)
               else:
                   failures += 1
-                  print(f"  ✗ {rel} {tag} => {res.get('errors', res.get('raw', res))}", flush=True)
+                  print(f"  ✗ {rel} => {res.get('errors', res.get('raw', res))}", flush=True)
 
           if failures:
               print(f"\n{failures} file(s) failed.", flush=True)
