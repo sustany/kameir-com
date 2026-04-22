@@ -69,7 +69,8 @@ jobs:
                   return {"status": 0, "errors": [str(e)]}
 
           def mkdir(path):
-              res = api("Fileman/mkdir", {"path": path, "permissions": "0755"})
+              # cPanel UAPI uses 'create_directory' not 'mkdir'
+              res = api("Fileman/create_directory", {"path": path, "permissions": "0755"})
               if res.get("status") != 1:
                   print(f"  mkdir warn: {path} => {res.get('errors', res)}", flush=True)
 
@@ -81,8 +82,9 @@ jobs:
           print(f"Deploying {len(all_files)} files to {DDIR}", flush=True)
 
           for fp in sorted(all_files):
-              rel     = fp.relative_to(dist)
-              rem_dir = f"{DDIR}/{rel.parent}" if str(rel.parent) != "." else DDIR
+              rel      = fp.relative_to(dist)
+              rem_path = f"{DDIR}/{rel}"   # full path: public_html/kameir.com/subdir/file.html
+              rem_dir  = f"{DDIR}/{rel.parent}" if str(rel.parent) != "." else DDIR
 
               if rem_dir not in seen_dirs:
                   mkdir(rem_dir)
@@ -96,9 +98,9 @@ jobs:
                   content      = base64.b64encode(raw).decode("ascii")
                   from_charset = "base64"
 
+              # cPanel UAPI save_file_content uses 'file' = full path (relative to home)
               res = api("Fileman/save_file_content", {
-                  "dir":          rem_dir,
-                  "filename":     fp.name,
+                  "file":         rem_path,
                   "content":      content,
                   "from_charset": from_charset,
                   "to_charset":   "UTF-8",
