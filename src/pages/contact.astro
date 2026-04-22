@@ -1,7 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
 
+// Formspree — main notification to Chris
 const FORMSPREE_ID = 'xjgjawba';
+// Web3Forms — auto-response to submitter
+// Get your free key at web3forms.com (enter chris@kameir.com, copy the key)
+const WEB3FORMS_KEY = 'REPLACE_WITH_WEB3FORMS_KEY';
 ---
 
 <Base
@@ -118,7 +122,7 @@ const FORMSPREE_ID = 'xjgjawba';
         </button>
       </form>
 
-      <script define:vars={{ FORMSPREE_ID }}>
+      <script define:vars={{ FORMSPREE_ID, WEB3FORMS_KEY }}>
         const form = document.getElementById('contact-form');
         const btn  = document.getElementById('submit-btn');
 
@@ -129,22 +133,49 @@ const FORMSPREE_ID = 'xjgjawba';
           btn.disabled = true;
           btn.textContent = 'Sending…';
 
+          const data = new FormData(form);
+          const name    = data.get('name')    || '';
+          const email   = data.get('email')   || '';
+          const company = data.get('company') || '';
+          const message = data.get('message') || '';
+
           try {
-            const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+            // 1 — Main notification to Chris via Formspree
+            const fsRes = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
               method: 'POST',
-              body: new FormData(form),
+              body: data,
               headers: { Accept: 'application/json' },
             });
 
-            if (res.ok) {
-              window.location.href = '/thanks';
-            } else {
-              const data = await res.json().catch(() => ({}));
-              const msg  = data?.errors?.map(e => e.message).join(', ') || 'Submission failed. Please try again.';
+            if (!fsRes.ok) {
+              const fsData = await fsRes.json().catch(() => ({}));
+              const msg = fsData?.errors?.map(e => e.message).join(', ') || 'Submission failed. Please try again.';
               alert(msg);
               btn.disabled = false;
               btn.textContent = 'Send';
+              return;
             }
+
+            // 2 — Courtesy copy to submitter via Web3Forms
+            if (WEB3FORMS_KEY && WEB3FORMS_KEY !== 'REPLACE_WITH_WEB3FORMS_KEY') {
+              await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                body: JSON.stringify({
+                  access_key: WEB3FORMS_KEY,
+                  subject: 'Your message to Christian Kameir — received',
+                  from_name: 'Christian Kameir',
+                  name,
+                  email,
+                  company,
+                  message,
+                  // Web3Forms sends auto-response to the email field automatically
+                }),
+              }).catch(() => {}); // non-fatal — main submission already succeeded
+            }
+
+            window.location.href = '/thanks';
+
           } catch {
             alert('Network error. Please try again.');
             btn.disabled = false;
