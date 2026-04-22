@@ -55,7 +55,7 @@ a:hover { color: var(--accent-hover); }
   max-width: var(--max-w-wide);
 }
 
-main { flex: 1; }
+main { flex: 1; padding-bottom: 3rem; }
 
 /* ── Nav ─────────────────────────────────────────────────────────── */
 .site-nav {
@@ -103,9 +103,12 @@ main { flex: 1; }
 
 /* ── Footer ─────────────────────────────────────────────────────── */
 .site-footer {
-  margin-top: var(--space-xl);
-  padding-block: var(--space-m);
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  background: var(--bg);
   border-top: 1px solid var(--rule);
+  padding-block: 0.85rem;
 }
 
 .site-footer__inner {
@@ -120,11 +123,25 @@ main { flex: 1; }
   color: var(--text-muted);
 }
 
-.site-footer__inner a {
+.site-footer__social {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.site-footer__social a {
   color: var(--text-muted);
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s;
 }
-.site-footer__inner a:hover { color: var(--accent); }
+.site-footer__social a:hover { color: var(--accent); }
+
+.site-footer__contact {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+}
 
 /* ── Typography ─────────────────────────────────────────────────── */
 .label {

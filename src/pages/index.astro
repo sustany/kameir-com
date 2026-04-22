@@ -12,7 +12,7 @@ import Base from '../layouts/Base.astro';
     <section class="home__hero">
       <div class="container">
         <p class="label">Newport Beach, California</p>
-        <h1 class="home__name">Christian<br />Kameir</h1>
+        <h1 class="home__name">Christian Kameir</h1>
         <p class="home__tagline">Reality does not have an advertising budget.</p>
       </div>
     </section>
@@ -59,10 +59,11 @@ import Base from '../layouts/Base.astro';
 
 .home__name {
   font-family: var(--font-display);
-  font-size: clamp(3.5rem, 10vw, 6.5rem);
+  font-size: clamp(2rem, 5.5vw, 3.5rem);
   font-weight: 700;
-  line-height: 1.05;
+  line-height: 1.1;
   letter-spacing: -0.02em;
+  white-space: nowrap;
   color: var(--text);
   margin-bottom: 1.5rem;
 }
