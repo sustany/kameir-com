@@ -53,7 +53,6 @@ jobs:
           ctx.verify_mode = ssl.CERT_NONE
 
           BASE    = f"https://{HOST}:2083/execute"
-          BASE2   = f"https://{HOST}:2083/json-api/cpanel"
           HEADERS = {"Authorization": f"cpanel {USER}:{TOKEN}",
                      "Content-Type":  "application/x-www-form-urlencoded"}
 
@@ -69,23 +68,9 @@ jobs:
               except Exception as e:
                   return {"status": 0, "errors": [str(e)]}
 
-          def api2_mkdir(parent_abs, name):
-              """cPanel API2 mkdir — parent_abs is absolute path like /home/user/public_html/..."""
-              params = {
-                  "cpanel_jsonapi_user":       USER,
-                  "cpanel_jsonapi_apiversion": "2",
-                  "cpanel_jsonapi_module":     "Fileman",
-                  "cpanel_jsonapi_func":       "mkdir",
-                  "dir":  parent_abs,
-                  "name": name,
-              }
-              data = urllib.parse.urlencode(params).encode()
-              req  = urllib.request.Request(BASE2, data=data, headers=HEADERS)
-              try:
-                  with urllib.request.urlopen(req, context=ctx, timeout=30) as r:
-                      return json.load(r)
-              except Exception as e:
-                  return {"error": str(e)}
+          def uapi_mkdir(parent_dir, name):
+              """UAPI Fileman/create_directory — parent_dir is relative to home."""
+              return uapi("Fileman/create_directory", {"dir": parent_dir, "name": name})
 
           dist      = Path("dist")
           all_files = [f for f in dist.rglob("*") if f.is_file()]
@@ -99,11 +84,11 @@ jobs:
               if rem_dir not in seen_dirs and rem_dir != DDIR:
                   parts      = Path(rel.parent).parts
                   parent_rel = DDIR if len(parts) == 1 else f"{DDIR}/{'/'.join(parts[:-1])}"
-                  # API2 dir param must be relative to home dir, not absolute
-                  mres = api2_mkdir(parent_rel, parts[-1])
-                  err  = mres.get("cpanelresult", {}).get("error", "")
-                  if err and "exists" not in err:
-                      print(f"  mkdir warn {parts[-1]}: {err}", flush=True)
+                  mres = uapi_mkdir(parent_rel, parts[-1])
+                  if mres.get("status") != 1:
+                      errs = mres.get("errors") or []
+                      if not any("exist" in str(e).lower() for e in errs):
+                          print(f"  mkdir warn {parts[-1]}: {errs}", flush=True)
                   seen_dirs.add(rem_dir)
 
               raw       = fp.read_bytes()
