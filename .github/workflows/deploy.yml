@@ -85,10 +85,7 @@ jobs:
                   parts      = Path(rel.parent).parts
                   parent_rel = DDIR if len(parts) == 1 else f"{DDIR}/{'/'.join(parts[:-1])}"
                   mres = uapi_mkdir(parent_rel, parts[-1])
-                  if mres.get("status") != 1:
-                      errs = mres.get("errors") or []
-                      if not any("exist" in str(e).lower() for e in errs):
-                          print(f"  mkdir warn {parts[-1]}: {errs}", flush=True)
+                  print(f"  mkdir {parts[-1]}: status={mres.get('status')} errs={mres.get('errors')}", flush=True)
                   seen_dirs.add(rem_dir)
 
               raw       = fp.read_bytes()
