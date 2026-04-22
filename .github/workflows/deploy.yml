@@ -34,13 +34,18 @@ jobs:
           DEPLOY_DIR: public_html/kameir.com
         run: |
           python3 - <<'PYEOF'
-          import os, base64, urllib.request, urllib.parse, json, ssl
-          from pathlib import Path
+          import os, base64, urllib.request, urllib.parse, json, ssl, sys
 
           HOST  = os.environ['CPANEL_HOST']
           USER  = os.environ['CPANEL_USER']
-          TOKEN = os.environ['CPANEL_TOKEN']
+          TOKEN = os.environ.get('CPANEL_TOKEN', '')
           DDIR  = os.environ['DEPLOY_DIR']
+
+          if not TOKEN:
+              print("ERROR: CPANEL_API_TOKEN secret is empty or not set", flush=True)
+              sys.exit(1)
+
+          print(f"Token set (length={len(TOKEN)}), host={HOST}, user={USER}", flush=True)
 
           ctx = ssl.create_default_context()
           ctx.check_hostname = False
@@ -52,26 +57,30 @@ jobs:
               "Content-Type":  "application/x-www-form-urlencoded",
           }
 
+          failures = 0
+
           def api(endpoint, params):
               data = urllib.parse.urlencode(params).encode()
               req  = urllib.request.Request(f"{BASE}/{endpoint}", data=data, headers=HEADERS)
-              with urllib.request.urlopen(req, context=ctx, timeout=30) as r:
-                  return json.load(r)
+              try:
+                  with urllib.request.urlopen(req, context=ctx, timeout=30) as r:
+                      return json.load(r)
+              except Exception as e:
+                  return {"status": 0, "errors": [str(e)]}
 
           def mkdir(path):
               res = api("Fileman/mkdir", {"path": path, "permissions": "0755"})
               if res.get("status") != 1:
-                  print(f"  mkdir warn: {path} => {res}")
+                  print(f"  mkdir warn: {path} => {res.get('errors', res)}", flush=True)
 
+          from pathlib import Path
           dist = Path("dist")
           seen_dirs = set()
 
-          files = sorted(dist.rglob("*"))
-          print(f"Deploying {sum(1 for f in files if f.is_file())} files to {DDIR}")
+          all_files = [f for f in dist.rglob("*") if f.is_file()]
+          print(f"Deploying {len(all_files)} files to {DDIR}", flush=True)
 
-          for fp in dist.rglob("*"):
-              if not fp.is_file():
-                  continue
+          for fp in sorted(all_files):
               rel     = fp.relative_to(dist)
               rem_dir = f"{DDIR}/{rel.parent}" if str(rel.parent) != "." else DDIR
 
@@ -95,10 +104,21 @@ jobs:
                   "to_charset":   "UTF-8",
               })
 
-              ok = "✓" if res.get("status") == 1 else "✗"
-              print(f"  {ok} {rem_dir}/{fp.name}")
-              if res.get("status") != 1:
-                  print(f"    => {res}")
+              if res.get("status") == 1:
+                  print(f"  ✓ {rel}", flush=True)
+              else:
+                  failures += 1
+                  print(f"  ✗ {rel} => {res.get('errors', res)}", flush=True)
 
-          print("Deploy complete.")
+          if failures:
+              print(f"\n{failures} file(s) failed to upload.", flush=True)
+              sys.exit(1)
+          print(f"\nDeploy complete: {len(all_files)} files uploaded.", flush=True)
           PYEOF
+
+      - name: Verify deployment
+        run: |
+          echo "Fetching live site to verify..."
+          sleep 3
+          curl -sk https://kameir.com/ | grep -o 'Christian Kameir' | head -1 || echo "Name not found in live HTML"
+          curl -sk https://kameir.com/ | grep -o 'linkedin' | head -1 || echo "LinkedIn not found in live HTML"
