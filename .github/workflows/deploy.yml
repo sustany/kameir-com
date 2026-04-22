@@ -26,13 +26,24 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Deploy via SFTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.SFTP_HOST }}
-          username: ${{ secrets.SFTP_USER }}
-          password: ${{ secrets.SFTP_PASS }}
-          local-dir: ./dist/
-          server-dir: public_html/kameir.com/
-          protocol: sftp
-          port: 22
+      - name: Verify build output
+        run: |
+          echo "=== dist/ contents ==="
+          ls -la dist/
+          echo "=== index.html preview ==="
+          head -30 dist/index.html
+
+      - name: Install lftp
+        run: sudo apt-get install -y lftp
+
+      - name: Deploy via FTP
+        run: |
+          lftp -c "
+          set ftp:ssl-allow yes;
+          set ftp:ssl-force no;
+          set net:timeout 30;
+          set net:max-retries 3;
+          open ftp://${{ secrets.SFTP_USER }}:${{ secrets.SFTP_PASS }}@${{ secrets.SFTP_HOST }};
+          mirror --reverse --verbose --delete ./dist/ public_html/kameir.com/;
+          bye;
+          "
