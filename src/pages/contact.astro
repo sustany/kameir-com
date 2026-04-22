@@ -57,12 +57,10 @@ const FORMSPREE_ID = 'xjgjawba';
 
       <!-- ── Form ────────────────────────────────────────── -->
       <form
+        id="contact-form"
         class="contact__form"
-        action={`https://formspree.io/f/${FORMSPREE_ID}`}
-        method="POST"
+        novalidate
       >
-        <!-- Redirect after submission -->
-        <input type="hidden" name="_next" value="https://kameir.com/thanks" />
         <!-- Honeypot – spam filter -->
         <input type="text" name="_gotcha" style="display:none" aria-hidden="true" />
 
@@ -115,10 +113,45 @@ const FORMSPREE_ID = 'xjgjawba';
           ></textarea>
         </div>
 
-        <button type="submit" class="btn btn--primary contact__submit">
+        <button type="submit" id="submit-btn" class="btn btn--primary contact__submit">
           Send
         </button>
       </form>
+
+      <script define:vars={{ FORMSPREE_ID }}>
+        const form = document.getElementById('contact-form');
+        const btn  = document.getElementById('submit-btn');
+
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          if (!form.checkValidity()) { form.reportValidity(); return; }
+
+          btn.disabled = true;
+          btn.textContent = 'Sending…';
+
+          try {
+            const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+              method: 'POST',
+              body: new FormData(form),
+              headers: { Accept: 'application/json' },
+            });
+
+            if (res.ok) {
+              window.location.href = '/thanks';
+            } else {
+              const data = await res.json().catch(() => ({}));
+              const msg  = data?.errors?.map(e => e.message).join(', ') || 'Submission failed. Please try again.';
+              alert(msg);
+              btn.disabled = false;
+              btn.textContent = 'Send';
+            }
+          } catch {
+            alert('Network error. Please try again.');
+            btn.disabled = false;
+            btn.textContent = 'Send';
+          }
+        });
+      </script>
 
     </div>
   </article>
