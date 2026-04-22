@@ -35,21 +35,14 @@ jobs:
           SFTP_USER: ${{ secrets.SFTP_USER }}
           SFTP_PASS: ${{ secrets.SFTP_PASS }}
         run: |
-          # Write credentials to netrc so special chars in password don't break lftp parsing
-          python3 -c "
-import os, stat
-netrc = os.path.expanduser('~/.netrc')
-with open(netrc, 'w') as f:
-    f.write('machine {}\nlogin {}\npassword {}\n'.format(
-        os.environ['SFTP_HOST'], os.environ['SFTP_USER'], os.environ['SFTP_PASS']))
-os.chmod(netrc, stat.S_IRUSR | stat.S_IWUSR)
-"
+          printf 'machine %s\nlogin %s\npassword %s\n' "$SFTP_HOST" "$SFTP_USER" "$SFTP_PASS" > ~/.netrc
+          chmod 600 ~/.netrc
           lftp -c "
-          set ftp:ssl-allow yes;
-          set ftp:ssl-force no;
-          set net:timeout 30;
-          set net:max-retries 3;
-          open $SFTP_HOST;
-          mirror --reverse --verbose --delete ./dist/ public_html/kameir.com/;
-          bye;
+            set ftp:ssl-allow yes;
+            set ftp:ssl-force no;
+            set net:timeout 30;
+            set net:max-retries 3;
+            open $SFTP_HOST;
+            mirror --reverse --verbose --delete ./dist/ public_html/kameir.com/;
+            bye;
           "
