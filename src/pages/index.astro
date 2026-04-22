@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 
 <Base
   title="Christian Kameir"
-  description="Reality does not have an advertising budget. Investor, writer, and lecturer based in Newport Beach, CA."
+  description="Independent advisory helping capital-intensive companies from German-speaking countries enter the US market, capture federal and state incentives, and connect with private capital."
 >
   <article class="home">
 
@@ -25,21 +25,59 @@ import Base from '../layouts/Base.astro';
       <div class="container">
         <div class="prose">
           <p>
-            Managing Partner at <a href="https://sustany.co" target="_blank" rel="noopener">Sustany Capital</a>.
-            Three decades at the intersection of capital, technology, and ideas —
-            founding companies, backing them, and writing about the forces that shape both.
+            Independent advisory based in Newport Beach, California, with an operational
+            footprint in New Mexico. The practice helps capital-intensive companies —
+            primarily industrials, energy developers, and advanced manufacturers from
+            German-speaking countries — enter the United States market, capture the
+            federal, state, and county incentives available to them, and connect with
+            the private capital sources that complete the stack.
           </p>
           <p>
-            Contributor to Forbes and HackerNoon. Guest lecturer at Harvard on fintech and
-            central bank digital currencies. Chairs the Banking &amp; Finance Special Interest
-            Group at the Decentralized Identity Foundation.
+            Bilingual German&thinsp;/&thinsp;English. Operates what it advises on rather
+            than consulting from the sidelines. Does not accept referral fees from US
+            states, counties, or site-selection intermediaries. Engagements are retained,
+            paid, and scoped — not hourly.
+          </p>
+          <p>
+            The active roster is deliberately small. At any given time the practice
+            represents no more than a handful of clients, because the depth of involvement
+            each engagement demands cannot be scaled by adding accounts. When the roster
+            is full, new inquiries are declined or deferred.
           </p>
         </div>
 
         <div class="home__cta">
-          <a href="/about" class="btn btn--primary">About</a>
-          <a href="/contact" class="btn btn--outline">Get in touch</a>
+          <a href="/about" class="btn btn--primary">The practice</a>
+          <a href="/contact" class="btn btn--outline">Request a call</a>
         </div>
+      </div>
+    </section>
+
+    <!-- ── Rule ─────────────────────────────────────────── -->
+    <div class="container"><hr class="rule" /></div>
+
+    <!-- ── Anchors ───────────────────────────────────────── -->
+    <section class="home__anchors">
+      <div class="container">
+        <p class="label">Practice anchors</p>
+        <dl class="anchors__dl">
+          <div class="anchors__item">
+            <dt>Engagement floor</dt>
+            <dd>$18,000&thinsp;/&thinsp;month ($22,000 for US-entry onshoring)</dd>
+          </div>
+          <div class="anchors__item">
+            <dt>Minimums</dt>
+            <dd>Six months on capital and onshoring engagements. Twelve months on fractional advisory.</dd>
+          </div>
+          <div class="anchors__item">
+            <dt>Terms</dt>
+            <dd>Net-15. First month on signature.</dd>
+          </div>
+          <div class="anchors__item">
+            <dt>What Kameir does not do</dt>
+            <dd>Referral fees from US states. Contingent-only structures. Grant ghost-writing of record.</dd>
+          </div>
+        </dl>
       </div>
     </section>
 
@@ -79,7 +117,7 @@ import Base from '../layouts/Base.astro';
 
 /* ── Intro ─────────────────────────────────────────────────── */
 .home__intro {
-  padding-bottom: var(--space-xl);
+  padding-bottom: var(--space-l);
 }
 
 .home__intro .prose {
@@ -94,8 +132,43 @@ import Base from '../layouts/Base.astro';
   flex-wrap: wrap;
 }
 
+/* ── Anchors ───────────────────────────────────────────────── */
+.home__anchors {
+  padding-bottom: var(--space-xl);
+}
+
+.home__anchors .label {
+  margin-bottom: 1.5rem;
+}
+
+.anchors__dl {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.anchors__item {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.anchors__item dt {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.anchors__item dd {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
 @media (max-width: 480px) {
   .home__cta { flex-direction: column; }
   .home__cta .btn { text-align: center; }
+  .anchors__item { grid-template-columns: 1fr; gap: 0.2rem; }
 }
 </style>

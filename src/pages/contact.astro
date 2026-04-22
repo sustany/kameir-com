@@ -1,33 +1,67 @@
-﻿---
+---
 import Base from '../layouts/Base.astro';
 
-// Replace with your actual Formspree form ID after signing up at formspree.io
-// e.g. if your form URL is https://formspree.io/f/xpwzabcd, the ID is xpwzabcd
 const FORMSPREE_ID = 'xjgjawba';
 ---
 
 <Base
   title="Contact"
-  description="Get in touch with Christian Kameir."
+  description="The practice runs a capped roster. If you have a live US site decision, capital application, or transaction in front of you, request a call. Bring the situation, not a general inquiry."
 >
   <article class="contact">
     <div class="container">
 
       <header class="contact__header">
         <p class="label">Contact</p>
-        <h1 class="contact__title">Get in touch</h1>
+        <h1 class="contact__title">Request a call</h1>
         <p class="contact__intro">
-          Use the form below. I read everything and respond to messages that
-          warrant a reply.
+          Because the active roster is capped at a handful of clients, the intake
+          conversation is a qualification on both sides. Read the three paths below
+          before writing.
         </p>
       </header>
 
+      <!-- ── Three paths ─────────────────────────────────── -->
+      <div class="contact__paths">
+
+        <div class="path path--active">
+          <h2 class="path__title">If you have a live situation</h2>
+          <p>
+            A US site decision in front of you. A federal capital application open. A
+            private capital round or project-finance package you are structuring. An
+            acquisition you are evaluating. A board seat you need filled. Use the form
+            below to request a thirty-minute call. Bring the specific situation —
+            not a general inquiry.
+          </p>
+        </div>
+
+        <div class="path">
+          <h2 class="path__title">If you are not yet at a decision point</h2>
+          <p>
+            But expect to be inside the next two quarters: send a short note via the form
+            describing what you are working on and the rough timeline. The practice runs
+            on a cohort cadence and slots are taken first-come.
+          </p>
+        </div>
+
+        <div class="path path--decline">
+          <h2 class="path__title">If you are looking for a free consultation, a capability deck, a written proposal, or a paid pilot below the engagement floor</h2>
+          <p>
+            This is not the right fit. The practice does not offer those.
+          </p>
+        </div>
+
+      </div>
+
+      <hr class="rule" />
+
+      <!-- ── Form ────────────────────────────────────────── -->
       <form
         class="contact__form"
         action={`https://formspree.io/f/${FORMSPREE_ID}`}
         method="POST"
       >
-        <!-- Honeypot â€” spam filter -->
+        <!-- Honeypot – spam filter -->
         <input type="text" name="_gotcha" style="display:none" aria-hidden="true" />
 
         <div class="form-group">
@@ -55,18 +89,32 @@ const FORMSPREE_ID = 'xjgjawba';
         </div>
 
         <div class="form-group">
-          <label for="message">Message</label>
+          <label for="company">Company / organization</label>
+          <input
+            id="company"
+            type="text"
+            name="company"
+            placeholder="Company name"
+            autocomplete="organization"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="message">
+            The specific situation
+            <span class="form-hint">What decision is in front of you, and on what timeline?</span>
+          </label>
           <textarea
             id="message"
             name="message"
-            placeholder="What's on your mind?"
+            placeholder="Describe the live situation: site decision, capital structure, transaction, or advisory need — and your decision timeline."
             required
-            rows="6"
+            rows="7"
           ></textarea>
         </div>
 
         <button type="submit" class="btn btn--primary contact__submit">
-          Send message
+          Send
         </button>
       </form>
 
@@ -93,15 +141,73 @@ const FORMSPREE_ID = 'xjgjawba';
 .contact__intro {
   font-size: 1.05rem;
   color: var(--text-muted);
-  max-width: 480px;
-  line-height: 1.7;
+  max-width: 540px;
+  line-height: 1.75;
 }
 
+/* ── Paths ────────────────────────────────────────────────── */
+.contact__paths {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: var(--space-l);
+}
+
+.path {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--border);
+  max-width: 640px;
+}
+
+.path:first-child {
+  padding-top: 0;
+}
+
+.path__title {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 0.65rem;
+}
+
+.path p {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+}
+
+.path--active .path__title {
+  color: var(--text);
+}
+
+.path--active p {
+  color: var(--text);
+}
+
+.path--decline .path__title {
+  color: var(--text-muted);
+}
+
+/* ── Form ─────────────────────────────────────────────────── */
 .contact__form {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   padding-bottom: var(--space-xl);
+  max-width: 560px;
+}
+
+.form-hint {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .contact__submit {
@@ -109,4 +215,3 @@ const FORMSPREE_ID = 'xjgjawba';
   margin-top: 0.5rem;
 }
 </style>
-
