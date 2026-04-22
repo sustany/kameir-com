@@ -8,8 +8,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     timeout-minutes: 15
 
     steps:
@@ -28,18 +26,12 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Push to deploy branch
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: deploy
-          publish_dir: ./dist
-          keep_files: false
-
-      - name: Pull latest on cPanel then deploy
-        run: |
-          BASE="https://${{ secrets.SFTP_HOST }}:2083/execute"
-          AUTH="Authorization: cpanel greendat:${{ secrets.CPANEL_API_TOKEN }}"
-          REPO="repository_root=/home/greendat/repositories/kameir-com"
-          curl -sk -o /dev/null -w "pull: %{http_code}\n" -H "$AUTH" --data-urlencode "$REPO" "$BASE/VersionControl/update"
-          curl -sk -o /dev/null -w "deploy: %{http_code}\n" -H "$AUTH" --data-urlencode "$REPO" "$BASE/VersionControlDeployment/create"
+          server: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USER }}
+          password: ${{ secrets.SFTP_PASS }}
+          local-dir: ./dist/
+          server-dir: /public_html/kameir.com/
+          protocol: ftp
