@@ -84,8 +84,7 @@ jobs:
               if rem_dir not in seen_dirs and rem_dir != DDIR:
                   parts      = Path(rel.parent).parts
                   parent_rel = DDIR if len(parts) == 1 else f"{DDIR}/{'/'.join(parts[:-1])}"
-                  mres = uapi_mkdir(parent_rel, parts[-1])
-                  print(f"  mkdir {parts[-1]}: status={mres.get('status')} errs={mres.get('errors')}", flush=True)
+                  uapi_mkdir(parent_rel, parts[-1])  # best-effort; dir may already exist
                   seen_dirs.add(rem_dir)
 
               raw       = fp.read_bytes()

@@ -9,5 +9,6 @@ export default defineConfig({
   ],
   build: {
     format: 'file', // generates /about.html instead of /about/index.html
+    inlineStylesheets: 'always', // inline CSS → no _astro/ subdirectory needed
   },
 });
