@@ -61,6 +61,8 @@ const FORMSPREE_ID = 'xjgjawba';
         action={`https://formspree.io/f/${FORMSPREE_ID}`}
         method="POST"
       >
+        <!-- Redirect after submission -->
+        <input type="hidden" name="_next" value="https://kameir.com/thanks" />
         <!-- Honeypot – spam filter -->
         <input type="text" name="_gotcha" style="display:none" aria-hidden="true" />
 

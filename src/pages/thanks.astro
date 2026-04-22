@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Message received"
+  description="Your message has been received."
+  noIndex={true}
+>
+  <article class="thanks">
+    <div class="container">
+      <header class="thanks__header">
+        <p class="label">Contact</p>
+        <h1 class="thanks__title">Message received.</h1>
+        <p class="thanks__body">
+          If your situation fits the current roster, you will hear back within
+          two business days. If it does not, you will hear that too.
+        </p>
+        <a href="/" class="btn btn--outline thanks__back">Back to home</a>
+      </header>
+    </div>
+  </article>
+</Base>
+
+<style>
+.thanks__header {
+  padding-top: 6rem;
+  padding-bottom: var(--space-xl);
+  max-width: 520px;
+}
+
+.thanks__header .label {
+  margin-bottom: 1.5rem;
+}
+
+.thanks__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-top: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.thanks__body {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+  margin-bottom: var(--space-l);
+}
+
+.thanks__back {
+  display: inline-block;
+}
+</style>
