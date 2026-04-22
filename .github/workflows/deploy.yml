@@ -68,27 +68,15 @@ jobs:
               except Exception as e:
                   return {"status": 0, "errors": [str(e)]}
 
-          def mkdir(path):
-              # cPanel UAPI uses 'create_directory' not 'mkdir'
-              res = api("Fileman/create_directory", {"path": path, "permissions": "0755"})
-              if res.get("status") != 1:
-                  print(f"  mkdir warn: {path} => {res.get('errors', res)}", flush=True)
-
           from pathlib import Path
           dist = Path("dist")
-          seen_dirs = set()
 
           all_files = [f for f in dist.rglob("*") if f.is_file()]
           print(f"Deploying {len(all_files)} files to {DDIR}", flush=True)
 
           for fp in sorted(all_files):
-              rel      = fp.relative_to(dist)
-              rem_path = f"{DDIR}/{rel}"   # full path: public_html/kameir.com/subdir/file.html
-              rem_dir  = f"{DDIR}/{rel.parent}" if str(rel.parent) != "." else DDIR
-
-              if rem_dir not in seen_dirs:
-                  mkdir(rem_dir)
-                  seen_dirs.add(rem_dir)
+              rel     = fp.relative_to(dist)
+              rem_dir = f"{DDIR}/{rel.parent}" if str(rel.parent) != "." else DDIR
 
               raw = fp.read_bytes()
               try:
@@ -98,9 +86,10 @@ jobs:
                   content      = base64.b64encode(raw).decode("ascii")
                   from_charset = "base64"
 
-              # cPanel UAPI save_file_content uses 'file' = full path (relative to home)
+              # cPanel UAPI: dir = directory, file = filename only
               res = api("Fileman/save_file_content", {
-                  "file":         rem_path,
+                  "dir":          rem_dir,
+                  "file":         fp.name,
                   "content":      content,
                   "from_charset": from_charset,
                   "to_charset":   "UTF-8",
