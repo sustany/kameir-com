@@ -26,24 +26,79 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Install lftp
-        run: sudo apt-get install -y lftp
-
-      - name: Deploy via FTP
+      - name: Deploy via cPanel API
         env:
-          SFTP_HOST: ${{ secrets.SFTP_HOST }}
-          SFTP_USER: ${{ secrets.SFTP_USER }}
-          SFTP_PASS: ${{ secrets.SFTP_PASS }}
+          CPANEL_HOST: 15.204.206.156
+          CPANEL_USER: greendat
+          CPANEL_TOKEN: ${{ secrets.CPANEL_API_TOKEN }}
+          DEPLOY_DIR: public_html/kameir.com
         run: |
-          printf 'machine %s\nlogin %s\npassword %s\n' "$SFTP_HOST" "$SFTP_USER" "$SFTP_PASS" > ~/.netrc
-          chmod 600 ~/.netrc
-          lftp -c "
-            set ftp:ssl-allow yes;
-            set ftp:ssl-force no;
-            set ssl:verify-certificate no;
-            set net:timeout 30;
-            set net:max-retries 3;
-            open $SFTP_HOST;
-            mirror --reverse --verbose --delete ./dist/ public_html/kameir.com/;
-            bye;
-          "
+          python3 - <<'PYEOF'
+          import os, base64, urllib.request, urllib.parse, json, ssl
+          from pathlib import Path
+
+          HOST  = os.environ['CPANEL_HOST']
+          USER  = os.environ['CPANEL_USER']
+          TOKEN = os.environ['CPANEL_TOKEN']
+          DDIR  = os.environ['DEPLOY_DIR']
+
+          ctx = ssl.create_default_context()
+          ctx.check_hostname = False
+          ctx.verify_mode = ssl.CERT_NONE
+
+          BASE = f"https://{HOST}:2083/execute"
+          HEADERS = {
+              "Authorization": f"cpanel {USER}:{TOKEN}",
+              "Content-Type":  "application/x-www-form-urlencoded",
+          }
+
+          def api(endpoint, params):
+              data = urllib.parse.urlencode(params).encode()
+              req  = urllib.request.Request(f"{BASE}/{endpoint}", data=data, headers=HEADERS)
+              with urllib.request.urlopen(req, context=ctx, timeout=30) as r:
+                  return json.load(r)
+
+          def mkdir(path):
+              res = api("Fileman/mkdir", {"path": path, "permissions": "0755"})
+              if res.get("status") != 1:
+                  print(f"  mkdir warn: {path} => {res}")
+
+          dist = Path("dist")
+          seen_dirs = set()
+
+          files = sorted(dist.rglob("*"))
+          print(f"Deploying {sum(1 for f in files if f.is_file())} files to {DDIR}")
+
+          for fp in dist.rglob("*"):
+              if not fp.is_file():
+                  continue
+              rel     = fp.relative_to(dist)
+              rem_dir = f"{DDIR}/{rel.parent}" if str(rel.parent) != "." else DDIR
+
+              if rem_dir not in seen_dirs:
+                  mkdir(rem_dir)
+                  seen_dirs.add(rem_dir)
+
+              raw = fp.read_bytes()
+              try:
+                  content      = raw.decode("utf-8")
+                  from_charset = "UTF-8"
+              except UnicodeDecodeError:
+                  content      = base64.b64encode(raw).decode("ascii")
+                  from_charset = "base64"
+
+              res = api("Fileman/save_file_content", {
+                  "dir":          rem_dir,
+                  "filename":     fp.name,
+                  "content":      content,
+                  "from_charset": from_charset,
+                  "to_charset":   "UTF-8",
+              })
+
+              ok = "✓" if res.get("status") == 1 else "✗"
+              print(f"  {ok} {rem_dir}/{fp.name}")
+              if res.get("status") != 1:
+                  print(f"    => {res}")
+
+          print("Deploy complete.")
+          PYEOF
