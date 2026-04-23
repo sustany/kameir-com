@@ -39,8 +39,11 @@ const fmt = new Intl.DateTimeFormat('en-US', {
                 <time class="label writing__date" datetime={post.data.publishedAt.toISOString()}>
                   {fmt.format(post.data.publishedAt)}
                 </time>
-                <h2 class="writing__item-title">{post.data.title}</h2>
-                <p class="writing__item-desc">{post.data.description}</p>
+                <div class="writing__item-body">
+                  <h2 class="writing__item-title">{post.data.title}</h2>
+                  <p class="writing__item-desc">{post.data.description}</p>
+                </div>
+                <span class="writing__item-arrow" aria-hidden="true">→</span>
               </a>
             </li>
           ))}
@@ -84,6 +87,7 @@ const fmt = new Intl.DateTimeFormat('en-US', {
   list-style: none;
   padding: 0;
   margin: 0;
+  padding-bottom: var(--space-xl);
 }
 
 .writing__item + .writing__item {
@@ -91,33 +95,78 @@ const fmt = new Intl.DateTimeFormat('en-US', {
 }
 
 .writing__item-link {
-  display: block;
+  display: grid;
+  grid-template-columns: 160px 1fr auto;
+  align-items: baseline;
+  gap: 1.5rem;
   padding-block: var(--space-m);
   text-decoration: none;
   color: inherit;
-  transition: opacity 0.15s;
+  transition: color 0.15s;
+  border-left: 2px solid transparent;
+  padding-left: 0;
+  margin-left: -2px;
+  transition: border-color 0.2s, color 0.15s;
 }
-.writing__item-link:hover { opacity: 0.7; }
+.writing__item-link:hover {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  padding-left: 1rem;
+}
 
 .writing__date {
   display: block;
-  margin-bottom: 0.6rem;
+  padding-top: 0.15rem;
+}
+
+.writing__item-body {
+  min-width: 0;
 }
 
 .writing__item-title {
   font-family: var(--font-display);
-  font-size: clamp(1.2rem, 3vw, 1.5rem);
+  font-size: clamp(1.15rem, 2.5vw, 1.4rem);
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.01em;
   color: var(--text);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
 .writing__item-desc {
-  font-size: 0.975rem;
+  font-size: 0.9rem;
   color: var(--text-muted);
-  line-height: 1.65;
-  max-width: 520px;
+  line-height: 1.6;
+}
+
+.writing__item-arrow {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  color: var(--text-muted);
+  transition: color 0.15s, transform 0.15s;
+  display: inline-block;
+}
+.writing__item-link:hover .writing__item-arrow {
+  color: var(--accent);
+  transform: translateX(3px);
+}
+
+/* ── Responsive ─────────────────────────────────────── */
+@media (max-width: 640px) {
+  .writing__item-link {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+    padding-left: 0;
+    margin-left: 0;
+    border-left: none;
+    border-top: 2px solid transparent;
+    transition: border-color 0.2s, color 0.15s;
+  }
+  .writing__item-link:hover {
+    padding-left: 0;
+    border-left: none;
+    border-top-color: var(--accent);
+  }
+  .writing__item-arrow { display: none; }
 }
 </style>

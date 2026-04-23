@@ -276,7 +276,7 @@ import Base from '../layouts/Base.astro';
 /* ── Photo + Bio ─────────────────────────────────────────── */
 .about__body {
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 230px 1fr;
   gap: var(--space-l);
   align-items: start;
   margin-bottom: var(--space-l);
@@ -289,11 +289,13 @@ import Base from '../layouts/Base.astro';
 
 .about__photo {
   width: 100%;
-  border-radius: 2px;
+  border-radius: 1px;
   display: block;
   background: var(--bg-subtle);
   aspect-ratio: 4/5;
   object-fit: cover;
+  object-position: center top;
+  filter: grayscale(10%);
 }
 
 .about__bio {
