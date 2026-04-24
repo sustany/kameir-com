@@ -1,0 +1,131 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base
+  title="47-Point PI Firm AI Audit Checklist"
+  description="Free download: the 47-Point PI Firm AI Audit Checklist — Red/Yellow/Green scoring across intake, demand letters, pleadings, discovery, medical records, and advertising."
+  noIndex={false}
+>
+  <article class="aie-capture">
+    <div class="container">
+
+      <header class="aie-capture__header">
+        <p class="label"><a href="/ai-ethics">Ethics Safe AI Use for Law Firms</a></p>
+        <h1 class="aie-capture__title">The PI Firm AI Audit Checklist</h1>
+        <p class="aie-capture__sub">
+          47 risk points scored Red/Yellow/Green across intake, demand letters,
+          pleadings, discovery, medical records, and advertising. Free download.
+        </p>
+      </header>
+
+      <hr class="rule" />
+
+      <div class="aie-capture__body">
+        <div class="prose">
+          <p>
+            Each item identifies a specific exposure, the rule or opinion that
+            creates it, and the policy document required to close it. Run it
+            with your ops manager. Any Red item requires immediate attention.
+            Any Yellow item requires a written protocol.
+          </p>
+          <p>
+            The expanded version — with remediation steps and policy templates
+            for every item — is in the
+            <a href="/ai-ethics">full playbook</a>.
+          </p>
+        </div>
+
+        <!-- CONNECT TO ESP: replace this form with your ESP embed code -->
+        <!-- Suggested fields: first_name, email, firm_name (optional) -->
+        <!-- Tag subscriber: lead-magnet-checklist, ca-pi-firm (if geo confirmed) -->
+        <!-- Redirect after submit to: /ai-ethics/thanks (create separately) -->
+        <form class="aie-form" action="#" method="POST">
+          <div class="form-group">
+            <label for="first_name">First name</label>
+            <input type="text" id="first_name" name="first_name" placeholder="First name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Work email</label>
+            <input type="email" id="email" name="email" placeholder="you@yourfirm.com" required />
+          </div>
+          <button type="submit" class="btn btn--primary">Send me the checklist</button>
+          <p class="aie-form__note">
+            No spam. One email with the checklist, then a short series on the
+            six highest-risk areas for PI firms. Unsubscribe any time.
+          </p>
+        </form>
+      </div>
+
+      <hr class="rule" />
+
+      <p class="aie-capture__disclaimer">
+        <em>Informational only. Not legal advice. Ethics rules vary by jurisdiction.</em><br>
+        Christian Kameir &thinsp;·&thinsp; © 2026 Decentralized Publishing LLC. All rights reserved.
+      </p>
+
+    </div>
+  </article>
+</Base>
+
+<style>
+.aie-capture__header {
+  padding-top: 4rem;
+  padding-bottom: var(--space-m);
+}
+
+.aie-capture__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-top: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.aie-capture__sub {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  max-width: 480px;
+}
+
+.aie-capture__body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  padding-block: var(--space-l);
+  align-items: start;
+}
+
+.aie-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.aie-form__note {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+}
+
+.aie-capture__disclaimer {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  padding-bottom: var(--space-xl);
+}
+
+@media (max-width: 640px) {
+  .aie-capture__body {
+    grid-template-columns: 1fr;
+    gap: var(--space-m);
+  }
+}
+</style>

@@ -1,0 +1,145 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base
+  title="Book a 60-Minute AI Risk Audit"
+  description="Book a 60-minute AI risk audit with Christian Kameir — a review of your PI firm's current AI use across intake, drafting, discovery, and advertising, with a written gap analysis. $750."
+>
+  <article class="aie-call">
+    <div class="container">
+
+      <header class="aie-call__header">
+        <p class="label"><a href="/ai-ethics">Ethics Safe AI Use for Law Firms</a></p>
+        <h1 class="aie-call__title">60-Minute AI Risk Audit</h1>
+        <p class="aie-call__price">$750</p>
+        <p class="aie-call__sub">
+          A review of your firm's current AI use across intake, drafting, discovery,
+          and advertising — with a written gap analysis and the specific protocols
+          to address your highest-priority exposures.
+        </p>
+      </header>
+
+      <hr class="rule" />
+
+      <div class="aie-call__body prose">
+        <p>
+          The session covers the six risk areas the playbook maps: intake and UPL
+          exposure, demand letter verification, pleadings and citation protocols,
+          discovery and PHI handling, client communication, and advertising copy review.
+        </p>
+        <p>
+          You receive a written summary within 48 hours: your firm's current exposure
+          by category, scored Red/Yellow/Green, with the specific protocol or policy
+          document each Red and Yellow item requires.
+        </p>
+        <p>
+          Sessions are conducted via video conference. Scheduling is confirmed
+          by email within one business day of booking.
+        </p>
+      </div>
+
+      <div class="aie-call__cta">
+        <!-- CALENDLY or BOOKING LINK: replace href with your scheduling URL -->
+        <!-- Suggested: Calendly embed or link, pre-filled with "AI Risk Audit" -->
+        <a href="/contact" class="btn btn--primary">Request a booking</a>
+        <p class="aie-call__cta-note">
+          Use the contact form. Include your firm name, approximate number of
+          attorneys, and a brief description of your current AI use.
+        </p>
+      </div>
+
+      <hr class="rule" />
+
+      <div class="aie-call__also">
+        <p class="label">Also available</p>
+        <p>
+          <strong>Firm-wide staff training</strong> — 2-hour remote workshop, up to
+          25 attendees. Covers the policy, the verification protocol, PHI handling,
+          and advertising rules. Written materials included. $2,500.
+          <a href="/contact">Inquire via contact form.</a>
+        </p>
+      </div>
+
+      <p class="aie-call__disclaimer">
+        <em>Informational only. Not legal advice. Ethics rules vary by jurisdiction.</em><br>
+        Christian Kameir &thinsp;·&thinsp; © 2026 Decentralized Publishing LLC. All rights reserved.
+      </p>
+
+    </div>
+  </article>
+</Base>
+
+<style>
+.aie-call__header {
+  padding-top: 4rem;
+  padding-bottom: var(--space-m);
+}
+
+.aie-call__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.aie-call__price {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.aie-call__sub {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  max-width: 520px;
+}
+
+.aie-call__body {
+  padding-block: var(--space-l);
+  max-width: 560px;
+  font-size: 0.97rem;
+}
+
+.aie-call__cta {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding-bottom: var(--space-l);
+}
+
+.aie-call__cta-note {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 380px;
+}
+
+.aie-call__also {
+  padding-block: var(--space-m);
+  font-size: 0.95rem;
+  line-height: 1.75;
+  max-width: 540px;
+}
+
+.aie-call__also .label {
+  margin-bottom: 0.75rem;
+}
+
+.aie-call__disclaimer {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  padding-bottom: var(--space-xl);
+}
+</style>
