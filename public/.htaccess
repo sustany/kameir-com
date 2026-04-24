@@ -16,6 +16,12 @@
 # These rules let /about serve the same file without the extension.
 <IfModule mod_rewrite.c>
   RewriteEngine On
+
+  # Explicit rewrites for ai-ethics subpages (flat files, no subdirectory on server)
+  RewriteRule ^ai-ethics/lead-magnet/?$ /ai-ethics-lead-magnet.html [L]
+  RewriteRule ^ai-ethics/book-a-call/?$ /ai-ethics-book-a-call.html [L]
+
+  # Generic clean-URL rule: /page → /page.html
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME}.html -f

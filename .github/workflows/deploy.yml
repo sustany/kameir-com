@@ -51,66 +51,23 @@ jobs:
           ctx = ssl.create_default_context()
           ctx.check_hostname = False
           ctx.verify_mode = ssl.CERT_NONE
-          BASE    = f"https://{HOST}:2083"
+          BASE    = f"https://{HOST}:2083/execute"
           HEADERS = {"Authorization": f"cpanel {USER}:{TOKEN}",
                      "Content-Type": "application/x-www-form-urlencoded"}
 
           def uapi(endpoint, params):
-              """cPanel UAPI call."""
               data = urllib.parse.urlencode(params).encode()
-              req  = urllib.request.Request(
-                  f"{BASE}/execute/{endpoint}", data=data, headers=HEADERS)
+              req  = urllib.request.Request(f"{BASE}/{endpoint}", data=data, headers=HEADERS)
               try:
                   with urllib.request.urlopen(req, context=ctx, timeout=30) as r:
                       return json.load(r)
               except Exception as e:
                   return {"status": 0, "errors": [str(e)]}
 
-          def api2_mkdir(full_rel_path):
-              """
-              cPanel API2 Fileman/createdir.
-              full_rel_path: full path of the new directory, relative to home.
-              e.g. 'public_html/kameir.com/ai-ethics'
-              """
-              qs = urllib.parse.urlencode({
-                  "cpanel_jsonapi_user":       USER,
-                  "cpanel_jsonapi_apiversion": "2",
-                  "cpanel_jsonapi_module":     "Fileman",
-                  "cpanel_jsonapi_func":       "createdir",
-                  "path":                      full_rel_path,
-              })
-              req = urllib.request.Request(
-                  f"{BASE}/json-api/cpanel?{qs}", headers=HEADERS)
-              try:
-                  with urllib.request.urlopen(req, context=ctx, timeout=30) as r:
-                      return json.load(r)
-              except Exception as e:
-                  return {"cpanelresult": {"event": {"result": 0}, "errors": [str(e)]}}
-
           dist      = Path("dist")
           all_files = [f for f in dist.rglob("*") if f.is_file()]
           print(f"Deploying {len(all_files)} files to {DDIR}", flush=True)
 
-          # Step 1: pre-create all required subdirectories via cPanel API2
-          all_subdirs = set()
-          for fp in all_files:
-              rel = fp.relative_to(dist)
-              if str(rel.parent) != ".":
-                  parts = Path(rel.parent).parts
-                  for i in range(len(parts)):
-                      all_subdirs.add("/".join(parts[: i + 1]))
-
-          for subpath in sorted(all_subdirs):
-              full_path = f"{DDIR}/{subpath}"
-              r         = api2_mkdir(full_path)
-              result    = r.get("cpanelresult", {}).get("event", {}).get("result", 0)
-              reason    = r.get("cpanelresult", {}).get("reason", r)
-              if result == 1:
-                  print(f"  mkdir {subpath}: created", flush=True)
-              else:
-                  print(f"  mkdir {subpath}: {reason} (may already exist)", flush=True)
-
-          # Step 2: upload all files
           failures = 0
           for fp in sorted(all_files):
               rel     = fp.relative_to(dist)
@@ -121,7 +78,7 @@ jobs:
                   content      = raw.decode("utf-8")
                   from_charset = "UTF-8"
               except UnicodeDecodeError:
-                  print(f"  ~ {rel} (binary, skipped)", flush=True)
+                  print(f"  ~ {rel} (binary, skipped — pre-existing on server)", flush=True)
                   continue
 
               res = uapi("Fileman/save_file_content", {
