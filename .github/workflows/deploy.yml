@@ -34,7 +34,7 @@ jobs:
           DEPLOY_DIR: public_html/kameir.com
         run: |
           python3 - <<'PYEOF'
-          import os, base64, urllib.request, urllib.parse, json, ssl, sys
+          import os, urllib.request, urllib.parse, json, ssl, sys
           from pathlib import Path
 
           HOST  = os.environ['CPANEL_HOST']
@@ -51,13 +51,9 @@ jobs:
           ctx = ssl.create_default_context()
           ctx.check_hostname = False
           ctx.verify_mode = ssl.CERT_NONE
-
           BASE    = f"https://{HOST}:2083/execute"
           HEADERS = {"Authorization": f"cpanel {USER}:{TOKEN}",
-                     "Content-Type":  "application/x-www-form-urlencoded"}
-
-          failures  = 0
-          seen_dirs = set()
+                     "Content-Type": "application/x-www-form-urlencoded"}
 
           def uapi(endpoint, params):
               data = urllib.parse.urlencode(params).encode()
@@ -68,53 +64,54 @@ jobs:
               except Exception as e:
                   return {"status": 0, "errors": [str(e)]}
 
-          def uapi_mkdir(parent_dir, name):
-              """UAPI Fileman/create_directory — parent_dir is relative to home."""
-              return uapi("Fileman/create_directory", {"dir": parent_dir, "name": name})
-
           dist      = Path("dist")
           all_files = [f for f in dist.rglob("*") if f.is_file()]
           print(f"Deploying {len(all_files)} files to {DDIR}", flush=True)
 
+          # Step 1: pre-create all required subdirectories before uploading
+          all_subdirs = set()
+          for fp in all_files:
+              rel = fp.relative_to(dist)
+              if str(rel.parent) != ".":
+                  parts = Path(rel.parent).parts
+                  for i in range(len(parts)):
+                      all_subdirs.add("/".join(parts[: i + 1]))
+
+          for subpath in sorted(all_subdirs):
+              parts      = subpath.split("/")
+              parent_rel = DDIR if len(parts) == 1 else f"{DDIR}/{'/'.join(parts[:-1])}"
+              r          = uapi("Fileman/create_directory", {"dir": parent_rel, "name": parts[-1]})
+              if r.get("status") == 1:
+                  print(f"  mkdir {subpath}: created", flush=True)
+              else:
+                  print(f"  mkdir {subpath}: {r.get('errors', r)} (may already exist)", flush=True)
+
+          # Step 2: upload all files
+          failures = 0
           for fp in sorted(all_files):
               rel     = fp.relative_to(dist)
               rem_dir = f"{DDIR}/{rel.parent}" if str(rel.parent) != "." else DDIR
 
-              # Ensure subdirectory exists (API2 mkdir — dir param is relative to home)
-              if rem_dir not in seen_dirs and rem_dir != DDIR:
-                  parts      = Path(rel.parent).parts
-                  parent_rel = DDIR if len(parts) == 1 else f"{DDIR}/{'/'.join(parts[:-1])}"
-                  uapi_mkdir(parent_rel, parts[-1])  # best-effort; dir may already exist
-                  seen_dirs.add(rem_dir)
-
-              raw       = fp.read_bytes()
-              is_binary = False
+              raw = fp.read_bytes()
               try:
                   content      = raw.decode("utf-8")
                   from_charset = "UTF-8"
               except UnicodeDecodeError:
-                  is_binary = True
-
-              if is_binary:
-                  # cPanel save_file_content cannot handle binary files — skip gracefully.
-                  # Images are deployed on first run and persist; text assets are what matter.
-                  print(f"  ~ {rel} (binary, skipped — pre-existing on server)", flush=True)
+                  print(f"  ~ {rel} (binary, skipped)", flush=True)
                   continue
-              else:
-                  res = uapi("Fileman/save_file_content", {
-                      "dir":          rem_dir,
-                      "file":         fp.name,
-                      "content":      content,
-                      "from_charset": from_charset,
-                      "to_charset":   "UTF-8",
-                  })
-                  ok = res.get("status") == 1
 
-              if ok:
-                  print(f"  ✓ {rel}", flush=True)
+              res = uapi("Fileman/save_file_content", {
+                  "dir":          rem_dir,
+                  "file":         fp.name,
+                  "content":      content,
+                  "from_charset": from_charset,
+                  "to_charset":   "UTF-8",
+              })
+              if res.get("status") == 1:
+                  print(f"  ok {rel}", flush=True)
               else:
                   failures += 1
-                  print(f"  ✗ {rel} => {res.get('errors', res.get('raw', res))}", flush=True)
+                  print(f"  FAIL {rel} => {res.get('errors', res.get('raw', res))}", flush=True)
 
           if failures:
               print(f"\n{failures} file(s) failed.", flush=True)
@@ -125,7 +122,7 @@ jobs:
       - name: Verify deployment
         run: |
           sleep 3
-          echo "=== name check ==="
+          echo "=== homepage check ==="
           curl -sk https://kameir.com/ | grep -o 'Christian Kameir' | head -1 || echo "MISSING"
-          echo "=== linkedin check ==="
-          curl -sk https://kameir.com/ | grep -o 'linkedin' | head -1 || echo "MISSING"
+          echo "=== ai-ethics check ==="
+          curl -sk https://kameir.com/ai-ethics | grep -o 'Ethics Safe AI Use' | head -1 || echo "MISSING"
