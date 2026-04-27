@@ -1,0 +1,242 @@
+---
+import Base from '../../layouts/Base.astro';
+const updated = 'April 27, 2026';
+---
+
+<Base
+  title="Privacy Policy"
+  description="Privacy policy for kameir.com, operated by Decentralized Publishing LLC."
+  noIndex={false}
+>
+  <article class="privacy">
+    <div class="container">
+
+      <header class="privacy__header">
+        <p class="label">Legal</p>
+        <h1 class="privacy__title">Privacy Policy</h1>
+        <p class="privacy__meta">Last updated: {updated}</p>
+      </header>
+
+      <div class="privacy__body prose">
+
+        <p>
+          This website, <strong>kameir.com</strong>, is operated by
+          <strong>Decentralized Publishing LLC</strong> ("we," "us," or "our"),
+          a limited liability company headquartered in the United States.
+          This policy explains what information we collect, how we use it, and
+          your rights with respect to it.
+        </p>
+
+        <h2>1. Information we collect</h2>
+
+        <h3>Analytics</h3>
+        <p>
+          We use <a href="https://plausible.io" target="_blank" rel="noopener noreferrer">Plausible Analytics</a>,
+          a privacy-first analytics service. Plausible does not use cookies,
+          does not fingerprint your browser, and does not collect or store
+          any personally identifiable information. The aggregate traffic data
+          it records — page views, referrers, country of origin, device type —
+          cannot be used to identify you individually. No consent banner is
+          required because no personal data is processed.
+        </p>
+
+        <h3>Contact form</h3>
+        <p>
+          The contact form on this site is powered by
+          <a href="https://formspree.io" target="_blank" rel="noopener noreferrer">Formspree</a>.
+          When you submit the form, the information you enter — your name,
+          email address, and message — is transmitted to Formspree's servers
+          and forwarded to us by email. Formspree processes this data under
+          its own
+          <a href="https://formspree.io/legal/privacy-policy/" target="_blank" rel="noopener noreferrer">privacy policy</a>.
+          We retain your message for as long as necessary to respond to your
+          inquiry and for legitimate business record-keeping.
+        </p>
+
+        <h3>Server logs</h3>
+        <p>
+          Our hosting provider (ChemiCloud) may collect standard web server
+          logs, including IP addresses, browser user-agent strings, and
+          request timestamps. These logs are used solely for security,
+          performance, and abuse prevention purposes and are not shared
+          with third parties except as required by law.
+        </p>
+
+        <h2>2. Cookies</h2>
+        <p>
+          This site does not set any first-party cookies. Plausible Analytics
+          operates without cookies. No advertising networks or tracking
+          pixels are present on this site.
+        </p>
+
+        <h2>3. How we use your information</h2>
+        <p>
+          Information you submit via the contact form is used solely to
+          respond to your inquiry. We do not sell, rent, or share your
+          personal information with third parties for marketing purposes.
+          We do not build advertising profiles from site visitors.
+        </p>
+
+        <h2>4. Legal basis for processing (EEA and UK visitors)</h2>
+        <p>
+          If you are located in the European Economic Area or the United
+          Kingdom, we process any personal data you provide through the
+          contact form on the basis of your consent (Article 6(1)(a) GDPR)
+          and, where applicable, our legitimate interest in responding to
+          business inquiries (Article 6(1)(f) GDPR). You may withdraw
+          consent at any time by contacting us.
+        </p>
+
+        <h2>5. California residents (CCPA / CPRA)</h2>
+        <p>
+          California residents have the right to know what personal
+          information we collect, to request deletion of that information,
+          and to opt out of any sale of their information. We do not sell
+          personal information. To exercise your rights, contact us at the
+          address below. We will respond within 45 days as required by law.
+        </p>
+
+        <h2>6. Data retention</h2>
+        <p>
+          Contact form submissions are retained for as long as the
+          associated business relationship or inquiry is active, and
+          thereafter only as long as required for legitimate business
+          or legal purposes. Server logs are typically retained for
+          30 days and then deleted automatically.
+        </p>
+
+        <h2>7. Data security</h2>
+        <p>
+          All traffic to and from this site is encrypted via HTTPS (TLS).
+          We take reasonable technical measures to protect information
+          transmitted to us, but no method of transmission over the
+          internet is completely secure.
+        </p>
+
+        <h2>8. Third-party links</h2>
+        <p>
+          This site may contain links to third-party websites. We are
+          not responsible for the privacy practices or content of those
+          sites. We encourage you to review their privacy policies before
+          providing any personal information.
+        </p>
+
+        <h2>9. Children's privacy</h2>
+        <p>
+          This site is not directed at children under the age of 13. We
+          do not knowingly collect personal information from children.
+          If you believe a child has submitted personal information to us,
+          please contact us and we will delete it promptly.
+        </p>
+
+        <h2>10. Changes to this policy</h2>
+        <p>
+          We may update this policy from time to time. The date at the
+          top of this page reflects the most recent revision. Continued
+          use of the site after a change constitutes acceptance of the
+          updated policy.
+        </p>
+
+        <h2>11. Contact</h2>
+        <p>
+          Questions or requests regarding this privacy policy should be
+          directed to:
+        </p>
+        <address class="privacy__address">
+          Decentralized Publishing LLC<br />
+          Newport Beach, California, United States<br />
+          <a href="/contact">Contact form</a>
+        </address>
+
+      </div>
+    </div>
+  </article>
+</Base>
+
+<style>
+/* ── Header ───────────────────────────────────────────────── */
+.privacy__header {
+  padding-top: 4rem;
+  padding-bottom: var(--space-l);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: var(--space-l);
+}
+
+.privacy__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.privacy__meta {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ── Body ─────────────────────────────────────────────────── */
+.privacy__body {
+  max-width: 680px;
+  margin-bottom: var(--space-xl);
+}
+
+.privacy__body h2 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.privacy__body h3 {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.privacy__body p,
+.privacy__body address {
+  font-size: 0.975rem;
+  line-height: 1.85;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.privacy__body a {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.privacy__body a:hover {
+  color: var(--accent);
+}
+
+/* ── Address ──────────────────────────────────────────────── */
+.privacy__address {
+  font-style: normal;
+  background: var(--bg-subtle);
+  border-left: 3px solid var(--border);
+  padding: 1.25rem 1.5rem;
+  border-radius: 0 2px 2px 0;
+  line-height: 2;
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .privacy__header {
+    padding-top: 2.5rem;
+  }
+}
+</style>
