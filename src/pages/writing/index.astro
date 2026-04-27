@@ -102,7 +102,7 @@ const publications = [
 
       <hr class="rule" />
 
-      <!-- ── Hosted essays ──────────────────────────────── -->
+      <!-- Hosted essays -->
       {posts.length > 0 && (
         <ol class="writing__list" role="list">
           {posts.map(post => (
@@ -115,21 +115,21 @@ const publications = [
                   <h2 class="writing__item-title">{post.data.title}</h2>
                   <p class="writing__item-desc">{post.data.description}</p>
                 </div>
-                <span class="writing__item-arrow" aria-hidden="true">→</span>
+                <span class="writing__item-arrow" aria-hidden="true">&rarr;</span>
               </a>
             </li>
           ))}
         </ol>
       )}
 
-      <!-- ── Published elsewhere ────────────────────────── -->
+      <!-- Published elsewhere -->
       <section class="pub" aria-labelledby="pub-title">
         <p class="label pub__label" id="pub-title">Published work</p>
 
         {publications.map(group => (
           <div class="pub__year-group">
             <h2 class="pub__year">{group.year}</h2>
-            <ol class="pub__list" role="list">
+            <ul class="pub__list">
               {group.articles.map(article => (
                 <li class="pub__item">
                   <a
@@ -145,7 +145,7 @@ const publications = [
                   </a>
                 </li>
               ))}
-            </ol>
+            </ul>
           </div>
         ))}
       </section>
@@ -155,7 +155,7 @@ const publications = [
 </Base>
 
 <style>
-/* ── Header ─────────────────────────────────────────── */
+/* Header */
 .writing__header {
   padding-top: 4rem;
   padding-bottom: var(--space-l);
@@ -178,7 +178,7 @@ const publications = [
   margin-top: 1rem;
 }
 
-/* ── Hosted list ────────────────────────────────────── */
+/* Hosted essays list */
 .writing__list {
   list-style: none;
   padding: 0;
@@ -186,4 +186,23 @@ const publications = [
   padding-bottom: var(--space-l);
 }
 
-.writing__item + .writing__it
+.writing__item + .writing__item {
+  border-top: 1px solid var(--rule);
+}
+
+.writing__item-link {
+  display: grid;
+  grid-template-columns: 160px 1fr auto;
+  align-items: baseline;
+  gap: 1.5rem;
+  padding-block: var(--space-m);
+  text-decoration: none;
+  color: inherit;
+  border-left: 2px solid transparent;
+  padding-left: 0;
+  margin-left: -2px;
+  transition: border-color 0.2s, color 0.15s;
+}
+.writing__item-link:hover {
+  color: var(--accent);
+  border-left-color: var(--accen
