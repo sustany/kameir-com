@@ -5,20 +5,27 @@ export interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  ogType?: string;
+  publishedAt?: Date;
   noIndex?: boolean;
+  personSchema?: boolean;
 }
 
 const {
   title,
   description = 'Christian Kameir — investor, writer, and lecturer based in Newport Beach, CA.',
   ogImage = '/images/og-default.jpg',
+  ogType = 'website',
+  publishedAt,
   noIndex = false,
+  personSchema = false,
 } = Astro.props;
 
 // Strip .html from canonical URLs (clean URLs served via .htaccess rewrite)
 const cleanPath = Astro.url.pathname.replace(/\.html$/, '');
 const canonicalURL = new URL(cleanPath, Astro.site);
 const fullTitle = title === 'Christian Kameir' ? title : `${title} — Christian Kameir`;
+const ogImageAbsolute = new URL(ogImage, Astro.site);
 
 const navLinks = [
   { href: '/about', label: 'About' },
@@ -26,6 +33,42 @@ const navLinks = [
   { href: '/speaking', label: 'Speaking' },
   { href: '/contact', label: 'Contact' },
 ];
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Christian Kameir",
+  "url": "https://kameir.com",
+  "image": "https://kameir.com/images/christian-kameir.jpg",
+  "description": "Independent advisory helping capital-intensive companies from German-speaking countries enter the US market, capture federal and state incentives, and connect with private capital.",
+  "jobTitle": "Independent Advisor",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Decentralized Publishing LLC"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Newport Beach",
+    "addressRegion": "CA",
+    "addressCountry": "US"
+  },
+  "alumniOf": [
+    { "@type": "CollegeOrUniversity", "name": "University of Münster" },
+    { "@type": "CollegeOrUniversity", "name": "University of Oxford" },
+    { "@type": "CollegeOrUniversity", "name": "University of Bielefeld" },
+    { "@type": "CollegeOrUniversity", "name": "University of Munich" }
+  ],
+  "knowsLanguage": [
+    { "@type": "Language", "name": "English" },
+    { "@type": "Language", "name": "German" }
+  ],
+  "sameAs": [
+    "https://www.linkedin.com/in/kameir/",
+    "https://x.com/kameir",
+    "https://hackernoon.com/u/kameir",
+    "https://www.forbes.com/councils/forbesfinancecouncil/people/christiankameir1/"
+  ]
+};
 ---
 
 <!DOCTYPE html>
@@ -37,37 +80,64 @@ const navLinks = [
 
   <title>{fullTitle}</title>
   <meta name="description" content={description} />
-  {noIndex && <meta name="robots" content="noindex" />}
+  <meta name="author" content="Christian Kameir" />
+  {noIndex
+    ? <meta name="robots" content="noindex, nofollow" />
+    : <meta name="robots" content="index, follow, max-image-preview:large" />
+  }
 
   <link rel="canonical" href={canonicalURL} />
 
   <!-- Open Graph -->
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content={ogType} />
   <meta property="og:url" content={canonicalURL} />
   <meta property="og:title" content={fullTitle} />
   <meta property="og:description" content={description} />
-  <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+  <meta property="og:image" content={ogImageAbsolute} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta property="og:site_name" content="Christian Kameir" />
+  <meta property="og:locale" content="en_US" />
+  {ogType === 'article' && publishedAt && (
+    <>
+      <meta property="article:published_time" content={publishedAt.toISOString()} />
+      <meta property="article:author" content="https://kameir.com/about" />
+      <meta property="article:section" content="Investing" />
+    </>
+  )}
 
-  <!-- Twitter Card -->
+  <!-- Twitter / X Card -->
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@kameir" />
+  <meta name="twitter:creator" content="@kameir" />
   <meta name="twitter:title" content={fullTitle} />
   <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
+  <meta name="twitter:image" content={ogImageAbsolute} />
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
   <!-- Sitemap -->
   <link rel="sitemap" href="/sitemap-index.xml" />
 
-  <!-- Plausible Analytics — replace 'kameir.com' if your Plausible domain differs -->
+  <!-- Preconnect for analytics -->
+  <link rel="preconnect" href="https://plausible.io" />
+
+  <!-- Plausible Analytics -->
   <script
     defer
     data-domain="kameir.com"
     src="https://plausible.io/js/script.js"
   ></script>
+
+  <!-- Structured Data: Person (home + about pages) -->
+  {personSchema && (
+    <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
+  )}
+
+  <!-- Page-level structured data slot (e.g. Article schema on writing posts) -->
+  <slot name="head" />
 </head>
 
 <body>
@@ -100,31 +170,4 @@ const navLinks = [
       <span>© {new Date().getFullYear()} Decentralized Publishing LLC</span>
       <div class="site-footer__social">
         <a href="https://www.linkedin.com/in/kameir/" target="_blank" rel="noopener" aria-label="LinkedIn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-          </svg>
-        </a>
-        <a href="https://x.com/kameir" target="_blank" rel="noopener" aria-label="X (Twitter)">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-          </svg>
-        </a>
-        <!-- HackerNoon: official brand path (simple-icons) -->
-        <a href="https://hackernoon.com/u/kameir" target="_blank" rel="noopener" aria-label="HackerNoon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M5.701 0v6.223H8.85V4.654h1.576v7.842H12V4.654h1.574v1.569h3.15V0zm11.024 6.223v3.136h1.574V6.223zm1.574 3.136v4.705h1.576v-1.568h1.574v-1.568h-1.574V9.359zm0 4.705h-1.574v3.137h1.574zm-1.574 3.137h-3.15v1.569H8.85V17.2H5.7V24h11.024zm-11.024 0v-3.137H4.125v3.137zm-1.576-3.137V9.36H2.551v4.705zm0-4.705h1.576V6.223H4.125Z"/>
-          </svg>
-        </a>
-        <!-- Forbes: dark badge, serif F — thick stroke, tall arms, slab-serif base -->
-        <a href="https://www.forbes.com/councils/forbesfinancecouncil/people/christiankameir1/" target="_blank" rel="noopener" aria-label="Forbes">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-            <rect width="24" height="24" fill="currentColor"/>
-            <text x="2" y="21" font-family="Georgia,'Times New Roman',serif" font-size="22" font-weight="bold" fill="white">F</text>
-          </svg>
-        </a>
-        <a href="/contact" class="site-footer__contact">Get in touch</a>
-      </div>
-    </div>
-  </footer>
-</body>
-</html>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0

@@ -18,12 +18,41 @@ const fmt = new Intl.DateTimeFormat('en-US', {
   month: 'long',
   day: 'numeric',
 });
+
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": post.data.title,
+  "description": post.data.description,
+  "datePublished": post.data.publishedAt.toISOString(),
+  "dateModified": post.data.publishedAt.toISOString(),
+  "url": new URL(`/writing/${post.slug}`, Astro.site).toString(),
+  "image": new URL('/images/og-default.jpg', Astro.site).toString(),
+  "author": {
+    "@type": "Person",
+    "name": "Christian Kameir",
+    "url": "https://kameir.com"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Christian Kameir",
+    "url": "https://kameir.com"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": new URL(`/writing/${post.slug}`, Astro.site).toString()
+  }
+};
 ---
 
 <Base
   title={post.data.title}
   description={post.data.description}
+  ogType="article"
+  publishedAt={post.data.publishedAt}
 >
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
+
   <article class="post">
     <div class="container">
 
@@ -83,53 +112,4 @@ const fmt = new Intl.DateTimeFormat('en-US', {
 .post__body {
   padding-block: var(--space-m);
   font-size: 1.05rem;
-  line-height: 1.85;
-}
-
-.post__body h2 {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 700;
-  line-height: 1.2;
-  margin-top: var(--space-m);
-  margin-bottom: 1rem;
-}
-
-.post__body h3 {
-  font-family: var(--font-display);
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-top: var(--space-m);
-  margin-bottom: 0.75rem;
-}
-
-.post__body p + p { margin-top: 1.4rem; }
-
-.post__body ul,
-.post__body ol {
-  padding-left: 1.5rem;
-  margin-block: 1.25rem;
-}
-
-.post__body li + li { margin-top: 0.5rem; }
-
-.post__body blockquote {
-  border-left: 3px solid var(--accent);
-  padding-left: 1.25rem;
-  margin-block: 1.5rem;
-  color: var(--text-muted);
-  font-style: italic;
-}
-
-.post__body hr {
-  border: none;
-  border-top: 1px solid var(--rule);
-  margin-block: var(--space-m);
-}
-
-.post__body em { font-style: italic; }
-
-.post__footer {
-  padding-bottom: var(--space-xl);
-}
-</style>
+  

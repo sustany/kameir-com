@@ -16,6 +16,7 @@ const fmt = new Intl.DateTimeFormat('en-US', {
 <Base
   title="Christian Kameir"
   description="Independent advisory helping capital-intensive companies from German-speaking countries enter the US market, capture federal and state incentives, and connect with private capital."
+  personSchema={true}
 >
   <article class="home">
 
@@ -64,6 +65,8 @@ const fmt = new Intl.DateTimeFormat('en-US', {
             width="460"
             height="575"
             class="home__photo"
+            loading="eager"
+            fetchpriority="high"
           />
         </div>
 
@@ -332,7 +335,4 @@ const fmt = new Intl.DateTimeFormat('en-US', {
 
 @media (max-width: 480px) {
   .home__cta { flex-direction: column; }
-  .home__cta .btn { text-align: center; }
-  .anchors__item { grid-template-columns: 1fr; gap: 0.2rem; }
-}
-</style>
+  .home__cta .btn { text-align: c

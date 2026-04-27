@@ -5,6 +5,7 @@ import Base from '../layouts/Base.astro';
 <Base
   title="About"
   description="The practice, engagement structures, and who it is for. Independent advisory for industrials, energy developers, and advanced manufacturers from German-speaking countries entering the US market."
+  personSchema={true}
 >
   <article class="about">
     <div class="container">
@@ -25,6 +26,8 @@ import Base from '../layouts/Base.astro';
             class="about__photo"
             width="400"
             height="500"
+            loading="eager"
+            fetchpriority="high"
           />
         </div>
 
@@ -446,10 +449,3 @@ import Base from '../layouts/Base.astro';
     grid-template-columns: 1fr;
     gap: 0.25rem;
   }
-
-  .failures {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-}
-</style>
