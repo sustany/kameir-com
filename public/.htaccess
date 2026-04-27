@@ -17,6 +17,10 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # Strip trailing slashes (except root) → 301 to canonical no-slash URL
+  RewriteCond %{REQUEST_URI} ^/(.+)/$
+  RewriteRule ^(.+)/$ /$1 [R=301,L]
+
   # Explicit rewrites for ai-ethics subpages (flat files, no subdirectory on server)
   RewriteRule ^ai-ethics/lead-magnet/?$ /ai-ethics-lead-magnet.html [L]
   RewriteRule ^ai-ethics/book-a-call/?$ /ai-ethics-book-a-call.html [L]
@@ -54,9 +58,4 @@ ErrorDocument 404 /404.html
   </FilesMatch>
 </IfModule>
 
-# ── Security headers ──────────────────────────────────────────────────
-<IfModule mod_headers.c>
-  Header set X-Content-Type-Options "nosniff"
-  Header set X-Frame-Options "SAMEORIGIN"
-  Header set Referrer-Policy "strict-origin-when-cross-origin"
-</IfModule>
+# ── Security headers ─
