@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import Base from '../layouts/Base.astro';
+import Base from '../../layouts/Base.astro';
 
 const allPosts = await getCollection('writing', ({ data }) => !data.draft);
 const recentPosts = allPosts
@@ -14,22 +14,21 @@ const fmt = new Intl.DateTimeFormat('en-US', {
 ---
 
 <Base
-  title="Christian Kameir"
+  title="Advisory"
   description="Independent advisory helping capital-intensive companies from German-speaking countries enter the US market, capture federal and state incentives, and connect with private capital."
-  personSchema={true}
 >
-  <article class="home">
+  <article class="advisory">
 
     <!-- ── Hero ──────────────────────────────────────────── -->
-    <section class="home__hero">
-      <div class="home__hero-inner container--wide">
+    <section class="advisory__hero">
+      <div class="advisory__hero-inner container--wide">
 
-        <div class="home__hero-text">
-          <p class="label home__location">Newport Beach, California</p>
-          <h1 class="home__name">Christian<br>Kameir</h1>
-          <p class="home__tagline">Reality does not have an advertising budget.</p>
+        <div class="advisory__hero-text">
+          <p class="label advisory__location">Newport Beach, California</p>
+          <h1 class="advisory__name">Christian<br>Kameir</h1>
+          <p class="advisory__tagline">Reality does not have an advertising budget.</p>
 
-          <div class="home__bio prose">
+          <div class="advisory__bio prose">
             <p>
               Independent advisory based in Newport Beach, California, with an operational
               footprint in New Mexico. The practice helps capital-intensive companies —
@@ -38,21 +37,33 @@ const fmt = new Intl.DateTimeFormat('en-US', {
               federal, state, and county incentives available to them, and connect with
               the private capital sources that complete the stack.
             </p>
+            <p>
+              Bilingual German&thinsp;/&thinsp;English. Operates what it advises on rather
+              than consulting from the sidelines. Does not accept referral fees from US
+              states, counties, or site-selection intermediaries. Engagements are retained,
+              paid, and scoped — not hourly.
+            </p>
+            <p>
+              The active roster is deliberately small. At any given time the practice
+              represents no more than a handful of clients, because the depth of involvement
+              each engagement demands cannot be scaled by adding accounts. When the roster
+              is full, new inquiries are declined or deferred.
+            </p>
           </div>
 
-          <div class="home__cta">
-            <a href="/advisory" class="btn btn--primary">Advisory</a>
-            <a href="/contact" class="btn btn--outline">Get in touch</a>
+          <div class="advisory__cta">
+            <a href="/about" class="btn btn--primary">About Christian</a>
+            <a href="/contact" class="btn btn--outline">Request a call</a>
           </div>
         </div>
 
-        <div class="home__hero-photo">
+        <div class="advisory__hero-photo">
           <img
             src="/images/christian-kameir.jpg"
             alt="Christian Kameir"
             width="460"
             height="575"
-            class="home__photo"
+            class="advisory__photo"
             loading="eager"
             fetchpriority="high"
           />
@@ -61,22 +72,50 @@ const fmt = new Intl.DateTimeFormat('en-US', {
       </div>
     </section>
 
+    <!-- ── Rule ─────────────────────────────────────────── -->
+    <div class="container"><hr class="rule" /></div>
+
+    <!-- ── Anchors ───────────────────────────────────────── -->
+    <section class="advisory__anchors">
+      <div class="container">
+        <p class="label">Practice anchors</p>
+        <dl class="anchors__dl">
+          <div class="anchors__item">
+            <dt>Engagement floor</dt>
+            <dd>$18,000&thinsp;/&thinsp;month ($22,000 for US-entry onshoring)</dd>
+          </div>
+          <div class="anchors__item">
+            <dt>Minimums</dt>
+            <dd>Six months on capital and onshoring engagements. Twelve months on fractional advisory.</dd>
+          </div>
+          <div class="anchors__item">
+            <dt>Terms</dt>
+            <dd>Net-15. First month on signature.</dd>
+          </div>
+          <div class="anchors__item">
+            <dt>What Kameir does not do</dt>
+            <dd>Referral fees from US states. Contingent-only structures. Grant ghost-writing of record.</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
     <!-- ── Recent Writing ──────────────────────────────── -->
     {recentPosts.length > 0 && (
-      <section class="home__writing">
-        <div class="container--wide home__writing-inner">
-          <div class="home__writing-header">
+      <section class="advisory__writing">
+        <div class="container--wide advisory__writing-inner">
+          <div class="advisory__writing-header">
             <p class="label">Recent Writing</p>
-            <a href="/writing" class="home__writing-all">All essays →</a>
+            <a href="/writing" class="advisory__writing-all">All essays →</a>
           </div>
-          <ol class="home__writing-list" role="list">
+          <ol class="advisory__writing-list" role="list">
             {recentPosts.map(post => (
-              <li class="home__writing-item">
-                <a href={`/writing/${post.slug}`} class="home__writing-link">
-                  <time class="label home__writing-date" datetime={post.data.publishedAt.toISOString()}>
+              <li class="advisory__writing-item">
+                <a href={`/writing/${post.slug}`} class="advisory__writing-link">
+                  <time class="label advisory__writing-date" datetime={post.data.publishedAt.toISOString()}>
                     {fmt.format(post.data.publishedAt)}
                   </time>
-                  <span class="home__writing-title">{post.data.title}</span>
+                  <span class="advisory__writing-title">{post.data.title}</span>
                 </a>
               </li>
             ))}
@@ -90,13 +129,13 @@ const fmt = new Intl.DateTimeFormat('en-US', {
 
 <style>
 /* ── Hero ─────────────────────────────────────────────────── */
-.home__hero {
+.advisory__hero {
   padding-top: 5rem;
   padding-bottom: var(--space-xl);
   padding-inline: var(--space-m);
 }
 
-.home__hero-inner {
+.advisory__hero-inner {
   display: grid;
   grid-template-columns: 1fr 380px;
   gap: 5rem;
@@ -104,11 +143,11 @@ const fmt = new Intl.DateTimeFormat('en-US', {
   margin-inline: auto;
 }
 
-.home__location {
+.advisory__location {
   margin-bottom: 1.25rem;
 }
 
-.home__name {
+.advisory__name {
   font-family: var(--font-display);
   font-size: clamp(2.8rem, 7vw, 5rem);
   font-weight: 700;
@@ -118,7 +157,7 @@ const fmt = new Intl.DateTimeFormat('en-US', {
   margin-bottom: 1.5rem;
 }
 
-.home__tagline {
+.advisory__tagline {
   font-family: var(--font-display);
   font-style: italic;
   font-size: clamp(1.05rem, 2.5vw, 1.3rem);
@@ -130,7 +169,7 @@ const fmt = new Intl.DateTimeFormat('en-US', {
   border-bottom: 1px solid var(--rule);
 }
 
-.home__bio {
+.advisory__bio {
   font-size: 0.98rem;
   line-height: 1.8;
   color: var(--text);
@@ -138,20 +177,20 @@ const fmt = new Intl.DateTimeFormat('en-US', {
   margin-bottom: var(--space-l);
 }
 
-.home__cta {
+.advisory__cta {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
 }
 
 /* ── Photo ─────────────────────────────────────────────────── */
-.home__hero-photo {
+.advisory__hero-photo {
   display: flex;
   align-items: flex-start;
   justify-content: flex-end;
 }
 
-.home__photo {
+.advisory__photo {
   width: 100%;
   max-width: 380px;
   aspect-ratio: 4/5;
@@ -162,26 +201,60 @@ const fmt = new Intl.DateTimeFormat('en-US', {
   filter: grayscale(12%);
 }
 
+/* ── Anchors ───────────────────────────────────────────────── */
+.advisory__anchors {
+  padding-bottom: var(--space-xl);
+}
+
+.advisory__anchors .label {
+  margin-bottom: 1.5rem;
+}
+
+.anchors__dl {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.anchors__item {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.anchors__item dt {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.anchors__item dd {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
 /* ── Recent Writing ─────────────────────────────────────────── */
-.home__writing {
+.advisory__writing {
   background: var(--bg-subtle);
   border-top: 1px solid var(--rule);
   padding-block: var(--space-l);
   padding-inline: var(--space-m);
 }
 
-.home__writing-inner {
+.advisory__writing-inner {
   margin-inline: auto;
 }
 
-.home__writing-header {
+.advisory__writing-header {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   margin-bottom: var(--space-m);
 }
 
-.home__writing-all {
+.advisory__writing-all {
   font-family: var(--font-ui);
   font-size: 0.78rem;
   font-weight: 500;
@@ -190,22 +263,22 @@ const fmt = new Intl.DateTimeFormat('en-US', {
   color: var(--accent);
   transition: color 0.15s;
 }
-.home__writing-all:hover { color: var(--accent-hover); }
+.advisory__writing-all:hover { color: var(--accent-hover); }
 
-.home__writing-list {
+.advisory__writing-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.home__writing-item {
+.advisory__writing-item {
   border-top: 1px solid var(--border);
 }
-.home__writing-item:last-child {
+.advisory__writing-item:last-child {
   border-bottom: 1px solid var(--border);
 }
 
-.home__writing-link {
+.advisory__writing-link {
   display: flex;
   align-items: baseline;
   gap: 2rem;
@@ -214,16 +287,16 @@ const fmt = new Intl.DateTimeFormat('en-US', {
   color: inherit;
   transition: color 0.15s;
 }
-.home__writing-link:hover { color: var(--accent); }
-.home__writing-link:hover .home__writing-date { color: var(--accent); }
+.advisory__writing-link:hover { color: var(--accent); }
+.advisory__writing-link:hover .advisory__writing-date { color: var(--accent); }
 
-.home__writing-date {
+.advisory__writing-date {
   flex-shrink: 0;
   min-width: 120px;
   transition: color 0.15s;
 }
 
-.home__writing-title {
+.advisory__writing-title {
   font-family: var(--font-display);
   font-size: 1.05rem;
   font-weight: 700;
@@ -233,34 +306,35 @@ const fmt = new Intl.DateTimeFormat('en-US', {
 
 /* ── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .home__hero-inner {
+  .advisory__hero-inner {
     grid-template-columns: 1fr;
     gap: var(--space-l);
   }
 
-  .home__hero-photo {
+  .advisory__hero-photo {
     order: -1;
     justify-content: flex-start;
   }
 
-  .home__photo {
+  .advisory__photo {
     max-width: 220px;
     aspect-ratio: 4/5;
   }
 
-  .home__hero {
+  .advisory__hero {
     padding-top: 3rem;
     padding-bottom: var(--space-l);
   }
 
-  .home__writing-link {
+  .advisory__writing-link {
     flex-direction: column;
     gap: 0.35rem;
   }
 }
 
 @media (max-width: 480px) {
-  .home__cta { flex-direction: column; }
-  .home__cta .btn { text-align: center; }
+  .advisory__cta { flex-direction: column; }
+  .advisory__cta .btn { text-align: center; }
+  .anchors__item { grid-template-columns: 1fr; gap: 0.2rem; }
 }
 </style>

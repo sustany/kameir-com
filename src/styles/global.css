@@ -399,3 +399,23 @@ main { flex: 1; padding-bottom: 4rem; }
   .pub__link { flex-direction: column; gap: 0.25rem; }
   .pub__meta { white-space: normal; }
 }
+
+/* ── Footer copy + privacy link ─────────────────────────────── */
+.site-footer__copy {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.site-footer__privacy {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.site-footer__privacy:hover { color: var(--accent); }
+
+@media (max-width: 640px) {
+  .site-footer__copy { flex-direction: column; gap: 0.25rem; align-items: flex-start; }
+}
