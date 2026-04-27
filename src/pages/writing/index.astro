@@ -10,11 +10,74 @@ const fmt = new Intl.DateTimeFormat('en-US', {
   month: 'long',
   day: 'numeric',
 });
+
+const publications = [
+  {
+    year: '2022',
+    articles: [
+      { title: "The Fed's Disastrous Confusion about Money", venue: 'HackerNoon', date: 'July 9, 2022', url: 'https://hackernoon.com/the-feds-disaterous-confusion-about-money' },
+      { title: 'All The Money In The World — The Unbundling Of Fiat Currencies', venue: 'Forbes', date: 'July 7, 2022', url: 'https://www.forbes.com/councils/forbesfinancecouncil/2022/07/07/all-the-money-in-the-world-the-unbundling-of-fiat-currencies/' },
+      { title: 'The Fascinating Science of the Dollar', venue: 'HackerNoon', date: 'March 17, 2022', url: 'https://hackernoon.com/the-fascinating-science-of-the-dollar' },
+    ],
+  },
+  {
+    year: '2021',
+    articles: [
+      { title: 'DeFi — Definancializing Productive Activity', venue: 'HackerNoon', date: 'December 26, 2021', url: 'https://hackernoon.com/defi-definancializing-productive-activity' },
+      { title: 'Investor Perspective: Is Decentralized Finance Truly Fintech 3.0?', venue: 'Forbes', date: 'December 22, 2021', url: 'https://www.forbes.com/councils/forbesfinancecouncil/2021/12/22/investor-perspective-is-decentralized-finance-truly-fintech-30/' },
+      { title: 'CBDCs — The Folly of Digital Fiat', venue: 'HackerNoon', date: 'October 31, 2021', url: 'https://hackernoon.com/cbdcs-the-folly-of-digital-fiat' },
+      { title: '16 Premises for Web 3.0 — The Decentralized Web', venue: 'HackerNoon', date: 'June 6, 2021', url: 'https://hackernoon.com/16-premises-for-the-decentralized-web-dig355z' },
+      { title: "DAOs — Blockchain's Final Frontier", venue: 'HackerNoon', date: 'April 20, 2021', url: 'https://hackernoon.com/daos-blockchains-final-frontier-5i9331z' },
+      { title: 'NFTs — $69 Million & Still Undervalued', venue: 'HackerNoon', date: 'March 14, 2021', url: 'https://hackernoon.com/nfts-digital-twins-not-your-moms-facebook-profiles-f04g33jn' },
+      { title: 'Designing a Viable Central Bank Digital Currency', venue: 'HackerNoon', date: 'March 8, 2021', url: 'https://hackernoon.com/designing-a-viable-central-bank-digital-currency-nuf337t' },
+      { title: "An Investor's View On Central Bank Digital Currencies", venue: 'Forbes', date: 'March 1, 2021', url: 'https://www.forbes.com/councils/forbesfinancecouncil/2021/03/01/an-investors-view-on-central-bank-digital-currencies/' },
+      { title: 'Rock, Paper, Blockchain', venue: 'HackerNoon', date: 'February 2, 2021', url: 'https://hackernoon.com/how-far-away-are-we-from-mass-blockchain-adoption-7t5p32u3' },
+      { title: 'How Decentralized Software Is Transforming Money', venue: 'Forbes', date: 'January 28, 2021', url: 'https://www.forbes.com/councils/forbesfinancecouncil/2021/01/28/how-decentralized-software-is-transforming-money/' },
+    ],
+  },
+  {
+    year: '2020',
+    articles: [
+      { title: 'The Unit of Account for Bitcoin is $', venue: 'HackerNoon', date: 'December 3, 2020', url: 'https://hackernoon.com/explaining-bitcoin-and-money-to-third-graders-economists-and-bureaucrats-96y349h' },
+      { title: "Identity and Blockchain's Digital Vending Machines", venue: 'HackerNoon', date: 'August 19, 2020', url: 'https://hackernoon.com/blockchains-digital-vending-machines-and-the-question-of-identity-iw1i3xk9' },
+      { title: 'Digital Vending Machines And The Question Of Identity', venue: 'Forbes', date: 'July 13, 2020', url: 'https://www.forbes.com/councils/forbesfinancecouncil/2020/07/13/digital-vending-machines-and-the-question-of-identity/' },
+      { title: 'How To Raise Capital from Venture Funds', venue: 'HackerNoon', date: 'April 4, 2020', url: 'https://hackernoon.com/how-to-raise-capital-for-blockchain-projects-lghs32q0' },
+      { title: 'Blockchain Investment Opportunity: Fiat Money', venue: 'Forbes', date: 'February 18, 2020', url: 'https://www.forbes.com/councils/forbesfinancecouncil/2020/02/18/blockchain-investment-opportunity-fiat-money/' },
+      { title: 'Blockchain-Verified Sentiment', venue: 'HackerNoon', date: 'January 22, 2020', url: 'https://hackernoon.com/blockchain-verified-sentiment-postulate-p0z936pj' },
+    ],
+  },
+  {
+    year: '2019',
+    articles: [
+      { title: 'NFTs and the Future of — Not Just Digital — Ownership', venue: 'HackerNoon', date: 'December 9, 2019', url: 'https://hackernoon.com/blockchain-and-the-future-of-ownership-024h262q' },
+      { title: 'Blockchaining the Internet of Identity', venue: 'HackerNoon', date: 'November 8, 2019', url: 'https://hackernoon.com/the-internet-of-identity-qo3v367o' },
+      { title: 'Why Are There No Security Tokens Yet?', venue: 'HackerNoon', date: 'October 31, 2019', url: 'https://hackernoon.com/why-there-are-no-security-tokens-yet-vqnt36of' },
+      { title: 'Pitching A Blockchain VC', venue: 'Forbes', date: 'September 25, 2019', url: 'https://www.forbes.com/councils/forbesfinancecouncil/2019/09/25/pitching-a-blockchain-vc/' },
+      { title: 'Blockchain And Web 3.0 Investing', venue: 'Forbes', date: 'August 6, 2019', url: 'https://www.forbes.com/councils/forbesfinancecouncil/2019/08/06/blockchain-and-web-3-0-investing/' },
+      { title: 'The Future Of Money: From Cryptocurrencies To Money-Over-IP', venue: 'Forbes', date: 'January 24, 2019', url: 'https://www.forbes.com/councils/forbesfinancecouncil/2019/01/24/the-future-of-money-from-cryptocurrencies-to-money-over-ip/' },
+      { title: 'Blockchain Investing 101', venue: 'HackerNoon', date: '2019', url: 'https://hackernoon.com/blockchain-investing-101-402u33pn' },
+    ],
+  },
+  {
+    year: '2018',
+    articles: [
+      { title: 'The State Of Security Tokens', venue: 'Forbes', date: 'December 12, 2018', url: 'https://www.forbes.com/councils/forbesfinancecouncil/2018/12/12/the-state-of-security-tokens/' },
+      { title: 'What Could CryptoKitties Mean For The Future Of Ownership?', venue: 'Forbes', date: 'October 19, 2018', url: 'https://www.forbes.com/councils/forbesfinancecouncil/2018/10/19/what-could-cryptokitties-mean-for-the-future-of-ownership/' },
+      { title: 'The Economics Of Decentralized Organizations: The End Of For-Profit Corporations?', venue: 'Forbes', date: 'July 30, 2018', url: 'https://www.forbes.com/sites/forbesfinancecouncil/2018/07/30/the-economics-of-decentralized-organizations-the-end-of-for-profit-corporations/' },
+    ],
+  },
+  {
+    year: 'LinkedIn',
+    articles: [
+      { title: 'CBDC — A Mandate for Digital Property', venue: 'LinkedIn', date: '', url: 'https://www.linkedin.com/pulse/cbdc-mandate-digital-property-christian-kameir' },
+    ],
+  },
+];
 ---
 
 <Base
   title="Writing"
-  description="Essays and short takes by Christian Kameir on capital, technology, and ideas."
+  description="Essays and short takes by Christian Kameir on capital, technology, and ideas. Published in Forbes, HackerNoon, and here."
 >
   <article class="writing">
     <div class="container">
@@ -29,9 +92,8 @@ const fmt = new Intl.DateTimeFormat('en-US', {
 
       <hr class="rule" />
 
-      {posts.length === 0 ? (
-        <p class="writing__empty">Nothing published yet. Check back soon.</p>
-      ) : (
+      <!-- ── Hosted essays ──────────────────────────────── -->
+      {posts.length > 0 && (
         <ol class="writing__list" role="list">
           {posts.map(post => (
             <li class="writing__item">
@@ -49,6 +111,34 @@ const fmt = new Intl.DateTimeFormat('en-US', {
           ))}
         </ol>
       )}
+
+      <!-- ── Published elsewhere ────────────────────────── -->
+      <section class="pub" aria-labelledby="pub-title">
+        <p class="label pub__label" id="pub-title">Published work</p>
+
+        {publications.map(group => (
+          <div class="pub__year-group">
+            <h2 class="pub__year">{group.year}</h2>
+            <ol class="pub__list" role="list">
+              {group.articles.map(article => (
+                <li class="pub__item">
+                  <a
+                    href={article.url}
+                    class="pub__link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span class="pub__title">{article.title}</span>
+                    <span class="pub__meta">
+                      {article.venue}{article.date ? ` — ${article.date}` : ''}
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </div>
+        ))}
+      </section>
 
     </div>
   </article>
@@ -77,17 +167,12 @@ const fmt = new Intl.DateTimeFormat('en-US', {
   margin-top: 1rem;
 }
 
-.writing__empty {
-  color: var(--text-muted);
-  padding-block: var(--space-l);
-}
-
-/* ── List ──────────────────────────────────────────── */
+/* ── Hosted list ────────────────────────────────────── */
 .writing__list {
   list-style: none;
   padding: 0;
   margin: 0;
-  padding-bottom: var(--space-xl);
+  padding-bottom: var(--space-l);
 }
 
 .writing__item + .writing__item {
@@ -102,7 +187,6 @@ const fmt = new Intl.DateTimeFormat('en-US', {
   padding-block: var(--space-m);
   text-decoration: none;
   color: inherit;
-  transition: color 0.15s;
   border-left: 2px solid transparent;
   padding-left: 0;
   margin-left: -2px;
@@ -151,22 +235,64 @@ const fmt = new Intl.DateTimeFormat('en-US', {
   transform: translateX(3px);
 }
 
-/* ── Responsive ─────────────────────────────────────── */
-@media (max-width: 640px) {
-  .writing__item-link {
-    grid-template-columns: 1fr;
-    gap: 0.4rem;
-    padding-left: 0;
-    margin-left: 0;
-    border-left: none;
-    border-top: 2px solid transparent;
-    transition: border-color 0.2s, color 0.15s;
-  }
-  .writing__item-link:hover {
-    padding-left: 0;
-    border-left: none;
-    border-top-color: var(--accent);
-  }
-  .writing__item-arrow { display: none; }
+/* ── Published work ─────────────────────────────────── */
+.pub {
+  padding-bottom: var(--space-xl);
 }
-</style>
+
+.pub__label {
+  margin-bottom: var(--space-l);
+}
+
+.pub__year-group {
+  margin-bottom: var(--space-l);
+}
+
+.pub__year {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.pub__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pub__item + .pub__item {
+  border-top: 1px solid var(--border);
+}
+
+.pub__link {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 2rem;
+  padding-block: 0.9rem;
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.15s;
+}
+.pub__link:hover {
+  color: var(--accent);
+}
+
+.pub__title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  flex: 1;
+  min-width: 0;
+}
+
+.pub__meta {
+ 
