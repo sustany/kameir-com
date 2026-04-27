@@ -393,5 +393,9 @@ main { flex: 1; padding-bottom: 4rem; }
 .pub__link:hover .pub__meta { color: var(--accent); }
 
 @media (max-width: 640px) {
-  .writing__item-link {
-    grid
+  .writing__item-link { grid-template-columns: 1fr; gap: 0.4rem; padding-left: 0; margin-left: 0; border-left: none; }
+  .writing__item-link:hover { padding-left: 0; border-left: none; }
+  .writing__item-arrow { display: none; }
+  .pub__link { flex-direction: column; gap: 0.25rem; }
+  .pub__meta { white-space: normal; }
+}
