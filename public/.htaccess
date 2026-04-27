@@ -12,12 +12,19 @@
 </IfModule>
 
 # ── Clean URL handling ────────────────────────────────────────────────
-# Astro build:format=file generates /about.html, /contact.html etc.
-# These rules let /about serve the same file without the extension.
+# Astro build:format=file generates about.html, writing.html etc.
+# The writing/ directory also exists (holds individual post files), so
+# Apache's DirectorySlash would auto-redirect /writing → /writing/ and
+# create a loop with any trailing-slash fix. Turn it off globally.
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # Strip trailing slashes (except root) → 301 to canonical no-slash URL
+  # Disable Apache's auto-redirect of /path to /path/ when a directory exists.
+  # Required because writing/ directory and writing.html coexist.
+  DirectorySlash Off
+
+  # Strip trailing slashes → 301 to canonical no-slash URL (safe now that
+  # DirectorySlash Off prevents Apache from adding them back)
   RewriteCond %{REQUEST_URI} ^/(.+)/$
   RewriteRule ^(.+)/$ /$1 [R=301,L]
 
@@ -25,11 +32,12 @@
   RewriteRule ^ai-ethics/lead-magnet/?$ /ai-ethics-lead-magnet.html [L]
   RewriteRule ^ai-ethics/book-a-call/?$ /ai-ethics-book-a-call.html [L]
 
-  # Generic clean-URL rule: /page → /page.html
-  RewriteCond %{REQUEST_FILENAME} !-d
+  # Generic clean-URL rule: serve path.html when it exists.
+  # Uses DOCUMENT_ROOT check instead of !-d so the writing/ directory
+  # conflict doesn't block serving writing.html.
   RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME}.html -f
-  RewriteRule ^(.+)$ $1.html [L]
+  RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI}.html -f
+  RewriteRule ^(.+?)$ $1.html [L]
 </IfModule>
 
 # ── Custom 404 ────────────────────────────────────────────────────────
