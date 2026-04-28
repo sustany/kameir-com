@@ -65,33 +65,17 @@ const fmt = new Intl.DateTimeFormat('en-US', {
     <!-- ── §02 Credibility strip ──────────────────────────────── -->
     <div class="home__cred">
       <div class="container--wide home__cred-inner">
-
-        <div class="home__cred-item">
-          <span class="home__cred-stat">30 years</span>
-          <span class="home__cred-desc">At the intersection of capital markets,<br>technology, and law</span>
-        </div>
-
-        <div class="home__cred-rule" aria-hidden="true"></div>
-
-        <div class="home__cred-item">
-          <span class="home__cred-stat">Harvard</span>
-          <span class="home__cred-desc">Guest lecturer on fintech<br>and central bank digital currencies</span>
-        </div>
-
-        <div class="home__cred-rule" aria-hidden="true"></div>
-
-        <div class="home__cred-item">
-          <span class="home__cred-stat">Forbes</span>
-          <span class="home__cred-desc">Contributor on technology,<br>capital, and financial innovation</span>
-        </div>
-
-        <div class="home__cred-rule" aria-hidden="true"></div>
-
-        <div class="home__cred-item">
-          <span class="home__cred-stat">DIF Chair</span>
-          <span class="home__cred-desc">Banking &amp; Finance Special<br>Interest Group</span>
-        </div>
-
+        <span>Forbes contributor</span>
+        <span class="home__cred-sep" aria-hidden="true">·</span>
+        <span>HackerNoon</span>
+        <span class="home__cred-sep" aria-hidden="true">·</span>
+        <span>Harvard guest lecturer</span>
+        <span class="home__cred-sep" aria-hidden="true">·</span>
+        <span>Keynote speaker</span>
+        <span class="home__cred-sep" aria-hidden="true">·</span>
+        <span>Oxford · Munich · Münster</span>
+        <span class="home__cred-sep" aria-hidden="true">·</span>
+        <span>Author</span>
       </div>
     </div>
 
@@ -159,11 +143,11 @@ const fmt = new Intl.DateTimeFormat('en-US', {
             <li>12-month updates as the sanctions record grows</li>
           </ul>
           <div class="home__book-cta">
-            <a href="https://kameir.lemonsqueezy.com/checkout/buy/2b55aecd-d496-4892-9ec5-32559edb5662" class="btn btn--primary">Get the Firm License — $199</a>
+            <a href="https://kameir.lemonsqueezy.com/checkout/buy/c14c90b5-e6fd-4aef-aaef-e5a37cb3c7d1" class="btn btn--primary">Get the Firm License — $199</a>
             <a href="/ai-ethics/lead-magnet" class="btn btn--outline">Free: 47-Point AI Checklist</a>
           </div>
           <p class="home__book-single">
-            Single-user license: <a href="https://kameir.lemonsqueezy.com/checkout/buy/b0db44f3-58c3-4a76-adce-9f26ecfe6bcf">$49</a>
+            Single-user license: <a href="https://kameir.lemonsqueezy.com/checkout/buy/d48ff7aa-63b0-4499-9d02-56bf965d2347">$49</a>
             &thinsp;·&thinsp;
             <a href="/ai-ethics">Full details →</a>
           </p>
@@ -173,96 +157,4 @@ const fmt = new Intl.DateTimeFormat('en-US', {
     </section>
 
     <!-- ── §05 Speaking signal ────────────────────────────────── -->
-    <section class="home__speaking">
-      <div class="container--wide home__speaking-inner">
-
-        <div class="home__speaking-text">
-          <p class="label">Speaking</p>
-          <h2 class="home__speaking-title">The room needs a different frame<br>on the money question.</h2>
-          <p class="home__speaking-desc">
-            Thirty years across capital markets, technology, and law — including active
-            roles in CBDC development, decentralized identity infrastructure, and venture
-            investing across three continents. Kameir does not speak from the sidelines.
-          </p>
-          <p class="home__speaking-fees">US keynotes from $6,950 · Virtual from $1,950</p>
-          <a href="/speaking" class="btn btn--outline">Check availability</a>
-        </div>
-
-        <div class="home__speaking-engagements">
-          <p class="label home__eng-label">Selected past engagements</p>
-          <ol class="home__eng-list" role="list">
-            <li class="home__eng-item">
-              <a href="https://youtu.be/0-Lw9zp55Jk" target="_blank" rel="noopener" class="home__eng-link">
-                <span class="home__eng-name">IDEAS Conference</span>
-                <span class="home__eng-topic">Keynote — The Future of Fintech</span>
-              </a>
-            </li>
-            <li class="home__eng-item">
-              <a href="https://youtu.be/brzLTA2q6qs" target="_blank" rel="noopener" class="home__eng-link">
-                <span class="home__eng-name">OnChain Conference</span>
-                <span class="home__eng-topic">Keynote — Blockchain Investing</span>
-              </a>
-            </li>
-            <li class="home__eng-item">
-              <a href="https://youtu.be/F3two0v84JI" target="_blank" rel="noopener" class="home__eng-link">
-                <span class="home__eng-name">Web3 Conference</span>
-                <span class="home__eng-topic">Keynote</span>
-              </a>
-            </li>
-            <li class="home__eng-item">
-              <a href="https://youtu.be/neV9Mz6oOkk" target="_blank" rel="noopener" class="home__eng-link">
-                <span class="home__eng-name">Expert Panel</span>
-                <span class="home__eng-topic">Alternative Funding</span>
-              </a>
-            </li>
-          </ol>
-          <a href="/speaking" class="home__speaking-all">All topics and past engagements →</a>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ── §06 Recent Writing ──────────────────────────────────── -->
-    {recentPosts.length > 0 && (
-      <section class="home__writing">
-        <div class="container--wide home__writing-inner">
-          <div class="home__writing-header">
-            <div>
-              <p class="label">Writing</p>
-              <p class="home__writing-intro">Essays on money, capital, technology, and the institutions that govern them.</p>
-            </div>
-            <a href="/writing" class="home__writing-all">All essays →</a>
-          </div>
-          <ol class="home__writing-list" role="list">
-            {recentPosts.map(post => (
-              <li class="home__writing-item">
-                <a href={`/writing/${post.slug}`} class="home__writing-link">
-                  <time class="label home__writing-date" datetime={post.data.publishedAt.toISOString()}>
-                    {fmt.format(post.data.publishedAt)}
-                  </time>
-                  <span class="home__writing-title">{post.data.title}</span>
-                </a>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-    )}
-
-    <!-- ── §07 Advisory close ─────────────────────────────────── -->
-    <section class="home__close">
-      <div class="container--wide home__close-inner">
-        <div class="home__close-text">
-          <p class="label">Advisory practice</p>
-          <h2 class="home__close-title">Independent advisory for German-speaking companies entering the US market.</h2>
-          <p class="home__close-desc">
-            Retained engagements from $18,000/month. The roster is deliberately
-            small — no more than a handful of clients at any time. Currently accepting inquiries.
-          </p>
-        </div>
-        <a href="/contact" class="btn btn--primary home__close-btn">Request a call</a>
-      </div>
-    </section>
-
-  </article>
-</Base>
+    
