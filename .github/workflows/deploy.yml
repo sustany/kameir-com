@@ -5,6 +5,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -34,7 +38,7 @@ jobs:
           DEPLOY_DIR: public_html/kameir.com
         run: |
           python3 - <<'PYEOF'
-          import os, urllib.request, urllib.parse, json, ssl, sys, mimetypes, uuid
+          import os, urllib.request, urllib.parse, json, ssl, sys, mimetypes, uuid, time
           from pathlib import Path
 
           HOST  = os.environ['CPANEL_HOST']
@@ -65,46 +69,80 @@ jobs:
                   return {"status": 0, "errors": [str(e)]}
 
           def ensure_dir(remote_dir):
+              """Use cPanel API 2 createdir (legacy API, works on all cPanel versions)."""
               parts = remote_dir.split("/")
               for i in range(1, len(parts) + 1):
                   partial = "/".join(parts[:i])
-                  if not partial:
-                      continue
-                  res = uapi("Fileman/mkdir", {"path": partial})
-                  status = res.get("status")
-                  errors = res.get("errors") or []
-                  if status != 1 and errors:
-                      print(f"  mkdir {partial!r} => {status} {errors}", flush=True)
+                  if i == 1:
+                      parent = ""
+                      name   = parts[0]
+                  else:
+                      parent = "/".join(parts[:i-1])
+                      name   = parts[i-1]
+                  params = urllib.parse.urlencode({
+                      "cpanel_jsonapi_version": "2",
+                      "cpanel_jsonapi_module": "Fileman",
+                      "cpanel_jsonapi_func": "createdir",
+                      "dir": parent,
+                      "newdirname": name,
+                  }).encode()
+                  req = urllib.request.Request(
+                      f"https://{HOST}:2083/json-api/cpanel",
+                      data=params,
+                      headers=HEADERS,
+                  )
+                  try:
+                      with urllib.request.urlopen(req, context=ctx, timeout=30) as r:
+                          res = json.load(r)
+                      data = res.get("cpanelresult", {}).get("data", [{}])
+                      ok = data[0].get("result", 0) if data else 0
+                      if not ok:
+                          reason = data[0].get("reason", "") if data else ""
+                          if "exists" not in reason.lower():
+                              print(f"  createdir {partial!r} => {reason}", flush=True)
+                  except Exception as e:
+                      print(f"  createdir {partial!r} => error: {e}", flush=True)
 
-          def upload_binary(fp, rem_dir):
-              boundary = uuid.uuid4().hex.encode()
-              mime = mimetypes.guess_type(fp.name)[0] or "application/octet-stream"
-              raw = fp.read_bytes()
-              body = (
-                  b"--" + boundary + b"\r\n"
-                  b'Content-Disposition: form-data; name="dir"\r\n\r\n' +
-                  rem_dir.encode() + b"\r\n"
-                  b"--" + boundary + b"\r\n"
-                  b'Content-Disposition: form-data; name="file-1"; filename="' +
-                  fp.name.encode() + b'"\r\n'
-                  b"Content-Type: " + mime.encode() + b"\r\n\r\n" +
-                  raw + b"\r\n"
-                  b"--" + boundary + b"--\r\n"
-              )
-              req = urllib.request.Request(
-                  f"https://{HOST}:2083/execute/Fileman/upload_files",
-                  data=body,
-                  headers={
-                      "Authorization": AUTH,
-                      "Content-Type": f"multipart/form-data; boundary={boundary.decode()}",
-                  },
-                  method="POST",
-              )
-              try:
-                  with urllib.request.urlopen(req, context=ctx, timeout=60) as r:
-                      return json.load(r)
-              except Exception as e:
-                  return {"status": 0, "errors": [str(e)]}
+          def upload_binary(fp, rem_dir, retries=3):
+              for attempt in range(1, retries + 1):
+                  boundary = uuid.uuid4().hex.encode()
+                  mime = mimetypes.guess_type(fp.name)[0] or "application/octet-stream"
+                  raw = fp.read_bytes()
+                  body = (
+                      b"--" + boundary + b"\r\n"
+                      b'Content-Disposition: form-data; name="dir"\r\n\r\n' +
+                      rem_dir.encode() + b"\r\n"
+                      b"--" + boundary + b"\r\n"
+                      b'Content-Disposition: form-data; name="file-1"; filename="' +
+                      fp.name.encode() + b'"\r\n'
+                      b"Content-Type: " + mime.encode() + b"\r\n\r\n" +
+                      raw + b"\r\n"
+                      b"--" + boundary + b"--\r\n"
+                  )
+                  req = urllib.request.Request(
+                      f"https://{HOST}:2083/execute/Fileman/upload_files",
+                      data=body,
+                      headers={
+                          "Authorization": AUTH,
+                          "Content-Type": f"multipart/form-data; boundary={boundary.decode()}",
+                      },
+                      method="POST",
+                  )
+                  try:
+                      with urllib.request.urlopen(req, context=ctx, timeout=60) as r:
+                          res = json.load(r)
+                      if res.get("status") == 1:
+                          return res
+                      if attempt < retries:
+                          print(f"  retry {attempt}/{retries}: {res.get('errors', res)}", flush=True)
+                          time.sleep(5)
+                  except Exception as e:
+                      if attempt < retries:
+                          print(f"  retry {attempt}/{retries}: {e}", flush=True)
+                          time.sleep(5)
+                      else:
+                          return {"status": 0, "errors": [str(e)]}
+              return res
 
           dist      = Path("dist")
           all_files = [f for f in dist.rglob("*") if f.is_file()]
@@ -136,7 +174,7 @@ jobs:
                       print(f"  ok {rel} (binary)", flush=True)
                   else:
                       failures += 1
-                      print(f"  FAIL {rel} (binary) => {res.get('errors', res)}", flush=True)
+                      print(f"  FAIL {rel} (binary) => {json.dumps(res)}", flush=True)
               else:
                   res = uapi("Fileman/save_file_content", {
                       "dir":          rem_dir,
@@ -149,7 +187,7 @@ jobs:
                       print(f"  ok {rel}", flush=True)
                   else:
                       failures += 1
-                      print(f"  FAIL {rel} => {res.get('errors', res)}", flush=True)
+                      print(f"  FAIL {rel} => {json.dumps(res)}", flush=True)
 
           if failures:
               print(f"\n{failures} file(s) failed.", flush=True)
@@ -159,7 +197,7 @@ jobs:
 
       - name: Verify deployment
         run: |
-          sleep 3
+          sleep 5
           echo "=== homepage check ==="
           curl -sk https://kameir.com/ | grep -o 'Christian Kameir' | head -1 || echo "MISSING"
           echo "=== ai-ethics check ==="
