@@ -34,7 +34,7 @@ jobs:
           DEPLOY_DIR: public_html/kameir.com
         run: |
           python3 - <<'PYEOF'
-          import os, urllib.request, urllib.parse, json, ssl, sys
+          import os, urllib.request, urllib.parse, json, ssl, sys, mimetypes, uuid
           from pathlib import Path
 
           HOST  = os.environ['CPANEL_HOST']
@@ -52,8 +52,8 @@ jobs:
           ctx.check_hostname = False
           ctx.verify_mode = ssl.CERT_NONE
           BASE    = f"https://{HOST}:2083/execute"
-          HEADERS = {"Authorization": f"cpanel {USER}:{TOKEN}",
-                     "Content-Type": "application/x-www-form-urlencoded"}
+          AUTH    = f"cpanel {USER}:{TOKEN}"
+          HEADERS = {"Authorization": AUTH, "Content-Type": "application/x-www-form-urlencoded"}
 
           def uapi(endpoint, params):
               data = urllib.parse.urlencode(params).encode()
@@ -64,9 +64,59 @@ jobs:
               except Exception as e:
                   return {"status": 0, "errors": [str(e)]}
 
+          def ensure_dir(remote_dir):
+              """Create remote directory (and parents) if it doesn't exist."""
+              parts = remote_dir.split("/")
+              for i in range(1, len(parts) + 1):
+                  partial = "/".join(parts[:i])
+                  if not partial:
+                      continue
+                  uapi("Fileman/mkdir", {"path": partial, "name": ""})
+
+          def upload_binary(fp, rem_dir):
+              """Upload a binary file via cPanel multipart upload."""
+              boundary = uuid.uuid4().hex.encode()
+              mime = mimetypes.guess_type(fp.name)[0] or "application/octet-stream"
+              raw = fp.read_bytes()
+              body = (
+                  b"--" + boundary + b"\r\n"
+                  b'Content-Disposition: form-data; name="dir"\r\n\r\n' +
+                  rem_dir.encode() + b"\r\n"
+                  b"--" + boundary + b"\r\n"
+                  b'Content-Disposition: form-data; name="file-1"; filename="' +
+                  fp.name.encode() + b'"\r\n'
+                  b"Content-Type: " + mime.encode() + b"\r\n\r\n" +
+                  raw + b"\r\n"
+                  b"--" + boundary + b"--\r\n"
+              )
+              req = urllib.request.Request(
+                  f"https://{HOST}:2083/execute/Fileman/upload_files",
+                  data=body,
+                  headers={
+                      "Authorization": AUTH,
+                      "Content-Type": f"multipart/form-data; boundary={boundary.decode()}",
+                  },
+                  method="POST",
+              )
+              try:
+                  with urllib.request.urlopen(req, context=ctx, timeout=60) as r:
+                      return json.load(r)
+              except Exception as e:
+                  return {"status": 0, "errors": [str(e)]}
+
           dist      = Path("dist")
           all_files = [f for f in dist.rglob("*") if f.is_file()]
           print(f"Deploying {len(all_files)} files to {DDIR}", flush=True)
+
+          # Pre-create all subdirectories so save_file_content never fails on missing dirs
+          dirs_seen = set()
+          for fp in all_files:
+              rel = fp.relative_to(dist)
+              if str(rel.parent) != ".":
+                  rem_dir = f"{DDIR}/{rel.parent}"
+                  if rem_dir not in dirs_seen:
+                      ensure_dir(rem_dir)
+                      dirs_seen.add(rem_dir)
 
           failures = 0
           for fp in sorted(all_files):
@@ -77,33 +127,4 @@ jobs:
               try:
                   content      = raw.decode("utf-8")
                   from_charset = "UTF-8"
-              except UnicodeDecodeError:
-                  print(f"  ~ {rel} (binary, skipped — pre-existing on server)", flush=True)
-                  continue
-
-              res = uapi("Fileman/save_file_content", {
-                  "dir":          rem_dir,
-                  "file":         fp.name,
-                  "content":      content,
-                  "from_charset": from_charset,
-                  "to_charset":   "UTF-8",
-              })
-              if res.get("status") == 1:
-                  print(f"  ok {rel}", flush=True)
-              else:
-                  failures += 1
-                  print(f"  FAIL {rel} => {res.get('errors', res.get('raw', res))}", flush=True)
-
-          if failures:
-              print(f"\n{failures} file(s) failed.", flush=True)
-              sys.exit(1)
-          print(f"\nDeploy complete: {len(all_files)} files.", flush=True)
-          PYEOF
-
-      - name: Verify deployment
-        run: |
-          sleep 3
-          echo "=== homepage check ==="
-          curl -sk https://kameir.com/ | grep -o 'Christian Kameir' | head -1 || echo "MISSING"
-          echo "=== ai-ethics check ==="
-          curl -sk https://kameir.com/ai-ethics | grep -o 'Ethics Safe AI Use' | head -1 || echo "MISSING"
+                  is_binary   
