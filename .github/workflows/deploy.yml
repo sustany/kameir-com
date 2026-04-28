@@ -66,11 +66,12 @@ jobs:
 
           def ensure_dir(remote_dir):
               parts = remote_dir.split("/")
-              for i in range(1, len(parts) + 1):
-                  partial = "/".join(parts[:i])
-                  if not partial:
+              for i in range(len(parts)):
+                  parent = "/".join(parts[:i])
+                  name   = parts[i]
+                  if not name:
                       continue
-                  uapi("Fileman/mkdir", {"path": partial, "name": ""})
+                  uapi("Fileman/mkdir", {"path": parent, "name": name})
 
           def upload_binary(fp, rem_dir):
               boundary = uuid.uuid4().hex.encode()
@@ -160,3 +161,5 @@ jobs:
           curl -sk https://kameir.com/ | grep -o 'Christian Kameir' | head -1 || echo "MISSING"
           echo "=== ai-ethics check ==="
           curl -sk https://kameir.com/ai-ethics | grep -o 'Ethics Safe AI Use' | head -1 || echo "MISSING"
+          echo "=== pdf check ==="
+          curl -sI https://kameir.com/downloads/47-Point-PI-Firm-AI-Audit-Checklist.pdf | grep -E "HTTP|Content-Type" | head -3
