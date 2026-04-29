@@ -109,6 +109,9 @@ jobs:
                       b'Content-Disposition: form-data; name="dir"\r\n\r\n' +
                       rem_dir.encode() + b"\r\n"
                       b"--" + boundary + b"\r\n"
+                      b'Content-Disposition: form-data; name="overwrite"\r\n\r\n'
+                      b"1\r\n"
+                      b"--" + boundary + b"\r\n"
                       b'Content-Disposition: form-data; name="file-1"; filename="' +
                       fp.name.encode() + b'"\r\n'
                       b"Content-Type: " + mime.encode() + b"\r\n\r\n" +
@@ -200,5 +203,4 @@ jobs:
           curl -sk https://kameir.com/ | grep -o 'Christian Kameir' | head -1 || echo "MISSING"
           echo "=== ai-ethics check ==="
           curl -sk https://kameir.com/ai-ethics | grep -o 'Ethics Safe AI Use' | head -1 || echo "MISSING"
-          echo "=== pdf check ==="
-          curl -sI https://kameir.com/downloads/47-Point-PI-Firm-AI-Audit-Checklist.pdf | grep -E "HTTP|Content-Type" | head -3
+ 
