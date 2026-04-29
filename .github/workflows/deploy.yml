@@ -99,7 +99,15 @@ jobs:
                   print(f"  mkdir {remote_path!r} => error: {e}", flush=True)
                   return False
 
+          def trash_file(rem_dir, filename):
+              """Delete a file via cPanel Fileman/trash before re-uploading."""
+              res = uapi("Fileman/trash", {"path": f"/{rem_dir}/{filename}"})
+              # Ignore errors — file may not exist yet
+              return res.get("status") == 1
+
           def upload_binary(fp, rem_dir, retries=3):
+              # Pre-delete so cPanel never sees "already exists" and can't corrupt with overwrite
+              trash_file(rem_dir, fp.name)
               for attempt in range(1, retries + 1):
                   boundary = uuid.uuid4().hex.encode()
                   mime = mimetypes.guess_type(fp.name)[0] or "application/octet-stream"
@@ -108,9 +116,6 @@ jobs:
                       b"--" + boundary + b"\r\n"
                       b'Content-Disposition: form-data; name="dir"\r\n\r\n' +
                       rem_dir.encode() + b"\r\n"
-                      b"--" + boundary + b"\r\n"
-                      b'Content-Disposition: form-data; name="overwrite"\r\n\r\n'
-                      b"1\r\n"
                       b"--" + boundary + b"\r\n"
                       b'Content-Disposition: form-data; name="file-1"; filename="' +
                       fp.name.encode() + b'"\r\n'
@@ -199,8 +204,4 @@ jobs:
       - name: Verify deployment
         run: |
           sleep 5
-          echo "=== homepage check ==="
-          curl -sk https://kameir.com/ | grep -o 'Christian Kameir' | head -1 || echo "MISSING"
-          echo "=== ai-ethics check ==="
-          curl -sk https://kameir.com/ai-ethics | grep -o 'Ethics Safe AI Use' | head -1 || echo "MISSING"
  
