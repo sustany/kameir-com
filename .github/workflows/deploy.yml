@@ -68,40 +68,36 @@ jobs:
               except Exception as e:
                   return {"status": 0, "errors": [str(e)]}
 
-          def ensure_dir(remote_dir):
-              """Use cPanel API 2 createdir (legacy API, works on all cPanel versions)."""
-              parts = remote_dir.split("/")
-              for i in range(1, len(parts) + 1):
-                  partial = "/".join(parts[:i])
-                  if i == 1:
-                      parent = ""
-                      name   = parts[0]
-                  else:
-                      parent = "/".join(parts[:i-1])
-                      name   = parts[i-1]
-                  params = urllib.parse.urlencode({
-                      "cpanel_jsonapi_version": "2",
-                      "cpanel_jsonapi_module": "Fileman",
-                      "cpanel_jsonapi_func": "createdir",
-                      "dir": parent,
-                      "newdirname": name,
-                  }).encode()
-                  req = urllib.request.Request(
-                      f"https://{HOST}:2083/json-api/cpanel",
-                      data=params,
-                      headers=HEADERS,
-                  )
-                  try:
-                      with urllib.request.urlopen(req, context=ctx, timeout=30) as r:
-                          res = json.load(r)
-                      data = res.get("cpanelresult", {}).get("data", [{}])
-                      ok = data[0].get("result", 0) if data else 0
-                      if not ok:
-                          reason = data[0].get("reason", "") if data else ""
-                          if "exists" not in reason.lower():
-                              print(f"  createdir {partial!r} => {reason}", flush=True)
-                  except Exception as e:
-                      print(f"  createdir {partial!r} => error: {e}", flush=True)
+          def mkdir_once(remote_path):
+              """Single mkdir attempt via API2. remote_path e.g. public_html/kameir.com/images"""
+              parts = remote_path.rsplit("/", 1)
+              parent = parts[0] if len(parts) == 2 else ""
+              name   = parts[-1]
+              params = urllib.parse.urlencode({
+                  "cpanel_jsonapi_version": "2",
+                  "cpanel_jsonapi_module": "Fileman",
+                  "cpanel_jsonapi_func": "createdir",
+                  "dir": parent,
+                  "newdirname": name,
+              }).encode()
+              req = urllib.request.Request(
+                  f"https://{HOST}:2083/json-api/cpanel",
+                  data=params,
+                  headers=HEADERS,
+              )
+              try:
+                  with urllib.request.urlopen(req, context=ctx, timeout=30) as r:
+                      res = json.load(r)
+                  data = res.get("cpanelresult", {}).get("data", [{}])
+                  ok = data[0].get("result", 0) if data else 0
+                  reason = data[0].get("reason", "") if data else ""
+                  if ok or "exist" in reason.lower():
+                      return True
+                  print(f"  mkdir {remote_path!r} => {reason or json.dumps(res)}", flush=True)
+                  return False
+              except Exception as e:
+                  print(f"  mkdir {remote_path!r} => error: {e}", flush=True)
+                  return False
 
           def upload_binary(fp, rem_dir, retries=3):
               for attempt in range(1, retries + 1):
@@ -135,11 +131,11 @@ jobs:
                           return res
                       if attempt < retries:
                           print(f"  retry {attempt}/{retries}: {res.get('errors', res)}", flush=True)
-                          time.sleep(5)
+                          time.sleep(3)
                   except Exception as e:
                       if attempt < retries:
                           print(f"  retry {attempt}/{retries}: {e}", flush=True)
-                          time.sleep(5)
+                          time.sleep(3)
                       else:
                           return {"status": 0, "errors": [str(e)]}
               return res
@@ -148,14 +144,17 @@ jobs:
           all_files = [f for f in dist.rglob("*") if f.is_file()]
           print(f"Deploying {len(all_files)} files to {DDIR}", flush=True)
 
-          dirs_seen = set()
+          # Collect unique subdirectories (one level under DDIR) and attempt mkdir once each
+          dirs_needed = set()
           for fp in all_files:
               rel = fp.relative_to(dist)
               if str(rel.parent) != ".":
-                  rem_dir = f"{DDIR}/{rel.parent}"
-                  if rem_dir not in dirs_seen:
-                      ensure_dir(rem_dir)
-                      dirs_seen.add(rem_dir)
+                  dirs_needed.add(f"{DDIR}/{rel.parent}")
+
+          if dirs_needed:
+              print(f"Ensuring {len(dirs_needed)} subdirectorie(s):", flush=True)
+              for d in sorted(dirs_needed):
+                  mkdir_once(d)
 
           failures = 0
           for fp in sorted(all_files):
@@ -164,7 +163,6 @@ jobs:
               raw = fp.read_bytes()
               try:
                   content      = raw.decode("utf-8")
-                  from_charset = "UTF-8"
                   is_binary    = False
               except UnicodeDecodeError:
                   is_binary = True
@@ -180,7 +178,7 @@ jobs:
                       "dir":          rem_dir,
                       "file":         fp.name,
                       "content":      content,
-                      "from_charset": from_charset,
+                      "from_charset": "UTF-8",
                       "to_charset":   "UTF-8",
                   })
                   if res.get("status") == 1:
