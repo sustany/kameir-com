@@ -19,18 +19,6 @@ import Base from '../layouts/Base.astro';
       <!-- ── Photo + Bio ─────────────────────────────────── -->
       <div class="about__body">
 
-        <div class="about__photo-wrap">
-          <img
-            src="/images/speaker.jpg"
-            alt="Christian Kameir"
-            class="about__photo"
-            width="619"
-            height="928"
-            loading="eager"
-            fetchpriority="high"
-          />
-        </div>
-
         <div class="about__bio prose">
           <p>
             Independent advisory based in Newport Beach, California, with an operational
@@ -55,6 +43,19 @@ import Base from '../layouts/Base.astro';
             Decentralized Identity Foundation.
           </p>
         </div>
+
+        <div class="about__photo-wrap">
+          <img
+            src="/images/speaker.jpg"
+            alt="Christian Kameir"
+            class="about__photo"
+            width="619"
+            height="928"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+
       </div>
 
       <!-- ── Rule ────────────────────────────────────────── -->
@@ -280,7 +281,7 @@ import Base from '../layouts/Base.astro';
 /* ── Photo + Bio ─────────────────────────────────────────── */
 .about__body {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 1fr 280px;
   gap: var(--space-l);
   align-items: start;
   margin-bottom: var(--space-l);
@@ -455,4 +456,4 @@ import Base from '../layouts/Base.astro';
   }
 }
 </style>
-                                           
+                                         

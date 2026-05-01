@@ -52,7 +52,10 @@ a:hover { color: var(--accent-hover); }
 }
 
 .container--wide {
+  width: 100%;
   max-width: var(--max-w-wide);
+  margin-inline: auto;
+  padding-inline: var(--space-m);
 }
 
 main { flex: 1; padding-bottom: 4rem; }
@@ -417,5 +420,4 @@ main { flex: 1; padding-bottom: 4rem; }
 .site-footer__privacy:hover { color: var(--accent); }
 
 @media (max-width: 640px) {
-  .site-footer__copy { flex-direction: column; gap: 0.25rem; align-items: flex-start; }
-}
+  .site-footer__co
