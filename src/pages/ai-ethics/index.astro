@@ -27,12 +27,13 @@ import Base from '../../layouts/Base.astro';
           </div>
         </div>
         <div class="aie-hero__book">
-          <div class="aie-book-cover">
-            <p class="aie-book-cover__title">Ethics Safe AI Use<br>for Law Firms</p>
-            <p class="aie-book-cover__sub">A Litigation Risk Reduction Playbook<br>for Personal Injury Firms</p>
-            <p class="aie-book-cover__author">Christian Kameir</p>
-            <p class="aie-book-cover__pub">Decentralized Publishing LLC</p>
-          </div>
+          <img
+            src="/images/book-cover_ai.jpg"
+            alt="Ethics-Safe AI Use for Law Firms — A Practitioner's Guide to Op. 512 and Beyond, by Christian Kameir"
+            class="aie-book-cover-img"
+            width="420"
+            height="560"
+          />
         </div>
       </div>
     </section>
@@ -497,53 +498,17 @@ import Base from '../../layouts/Base.astro';
   flex-wrap: wrap;
 }
 
-/* ── Book cover (placeholder art) ────────────────────────── */
-.aie-book-cover {
-  background: var(--accent);
-  color: #fff;
-  padding: 2.5rem 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  min-height: 320px;
-  position: relative;
-}
-
-.aie-book-cover__title {
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  font-weight: 700;
-  line-height: 1.25;
-  margin-bottom: 0.85rem;
-}
-
-.aie-book-cover__sub {
-  font-family: var(--font-body);
-  font-size: 0.72rem;
-  line-height: 1.5;
-  color: rgba(255,255,255,0.75);
-  margin-bottom: auto;
-  padding-bottom: var(--space-m);
-}
-
-.aie-book-cover__author {
-  font-family: var(--font-ui);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  color: rgba(255,255,255,0.9);
-  margin-top: auto;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(255,255,255,0.2);
-}
-
-.aie-book-cover__pub {
-  font-family: var(--font-ui);
-  font-size: 0.62rem;
-  letter-spacing: 0.08em;
-  color: rgba(255,255,255,0.5);
-  text-transform: uppercase;
-  margin-top: 0.35rem;
+/* ── Book cover photo ─────────────────────────────────────── */
+.aie-book-cover-img {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  border-radius: 2px;
+  box-shadow:
+    0 4px 6px rgba(0,0,0,0.12),
+    0 12px 32px rgba(0,0,0,0.18),
+    0 24px 64px rgba(0,0,0,0.10);
 }
 
 /* ── Proof strip ──────────────────────────────────────────── */
@@ -1023,8 +988,7 @@ import Base from '../../layouts/Base.astro';
     gap: var(--space-l);
   }
 
-  .aie-book-cover {
-    min-height: 200px;
+  .aie-book-cover-img {
     max-width: 280px;
   }
 
