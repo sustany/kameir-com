@@ -117,6 +117,9 @@ jobs:
                       b'Content-Disposition: form-data; name="dir"\r\n\r\n' +
                       rem_dir.encode() + b"\r\n"
                       b"--" + boundary + b"\r\n"
+                      b'Content-Disposition: form-data; name="overwrite"\r\n\r\n'
+                      b"1\r\n"
+                      b"--" + boundary + b"\r\n"
                       b'Content-Disposition: form-data; name="file-1"; filename="' +
                       fp.name.encode() + b'"\r\n'
                       b"Content-Type: " + mime.encode() + b"\r\n\r\n" +
