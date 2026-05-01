@@ -8,7 +8,7 @@ import Base from '../layouts/Base.astro';
   personSchema={true}
 >
   <article class="about">
-    <div class="container">
+    <div class="container--wide">
 
       <!-- ── Header ──────────────────────────────────────── -->
       <header class="about__header">
@@ -21,11 +21,11 @@ import Base from '../layouts/Base.astro';
 
         <div class="about__photo-wrap">
           <img
-            src="/images/christian-kameir.jpg"
+            src="/images/speaker.jpg"
             alt="Christian Kameir"
             class="about__photo"
-            width="400"
-            height="500"
+            width="619"
+            height="928"
             loading="eager"
             fetchpriority="high"
           />
@@ -260,6 +260,7 @@ import Base from '../layouts/Base.astro';
   </article>
 </Base>
 
+
 <style>
 /* ── Header ──────────────────────────────────────────────── */
 .about__header {
@@ -279,7 +280,7 @@ import Base from '../layouts/Base.astro';
 /* ── Photo + Bio ─────────────────────────────────────────── */
 .about__body {
   display: grid;
-  grid-template-columns: 230px 1fr;
+  grid-template-columns: 280px 1fr;
   gap: var(--space-l);
   align-items: start;
   margin-bottom: var(--space-l);
@@ -361,7 +362,6 @@ import Base from '../layouts/Base.astro';
   line-height: 1.8;
   color: var(--text);
   margin-bottom: 0.75rem;
-  max-width: 680px;
 }
 
 .engagement__floor {
@@ -373,7 +373,6 @@ import Base from '../layouts/Base.astro';
 
 /* ── Failures ─────────────────────────────────────────────── */
 .prose--wide {
-  max-width: 680px;
   font-size: 1.05rem;
   line-height: 1.85;
   margin-bottom: var(--space-m);
@@ -449,3 +448,11 @@ import Base from '../layouts/Base.astro';
     grid-template-columns: 1fr;
     gap: 0.25rem;
   }
+
+  .failures {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+</style>
+                                           
