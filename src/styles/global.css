@@ -420,4 +420,5 @@ main { flex: 1; padding-bottom: 4rem; }
 .site-footer__privacy:hover { color: var(--accent); }
 
 @media (max-width: 640px) {
-  .site-footer__co
+  .site-footer__copy { flex-direction: column; gap: 0.25rem; align-items: flex-start; }
+}
