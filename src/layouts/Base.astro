@@ -32,6 +32,7 @@ const navLinks = [
   { href: '/advisory', label: 'Advisory' },
   { href: '/writing', label: 'Writing' },
   { href: '/speaking', label: 'Speaking' },
+  { href: '/hallucinations', label: 'AI Cases' },
   { href: '/contact', label: 'Contact' },
 ];
 
@@ -146,7 +147,17 @@ const personJsonLd = {
     <nav class="site-nav" aria-label="Main navigation">
       <div class="site-nav__inner">
         <a href="/" class="site-nav__home">KAMEIR</a>
-        <ul class="site-nav__links" role="list">
+        <button
+          class="site-nav__toggle"
+          aria-expanded="false"
+          aria-controls="nav-links"
+          aria-label="Open menu"
+        >
+          <span class="site-nav__toggle-bar"></span>
+          <span class="site-nav__toggle-bar"></span>
+          <span class="site-nav__toggle-bar"></span>
+        </button>
+        <ul class="site-nav__links" id="nav-links" role="list">
           {navLinks.map(({ href, label }) => (
             <li>
               <a
@@ -197,5 +208,26 @@ const personJsonLd = {
       </div>
     </div>
   </footer>
+  <script>
+    // Mobile nav toggle
+    const toggle = document.querySelector<HTMLButtonElement>('.site-nav__toggle');
+    const navLinks = document.getElementById('nav-links');
+    if (toggle && navLinks) {
+      toggle.addEventListener('click', () => {
+        const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!isOpen));
+        toggle.setAttribute('aria-label', isOpen ? 'Open menu' : 'Close menu');
+        navLinks.classList.toggle('is-open', !isOpen);
+      });
+      // Close menu when any nav link is tapped
+      navLinks.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          toggle.setAttribute('aria-expanded', 'false');
+          toggle.setAttribute('aria-label', 'Open menu');
+          navLinks.classList.remove('is-open');
+        });
+      });
+    }
+  </script>
 </body>
 </html>

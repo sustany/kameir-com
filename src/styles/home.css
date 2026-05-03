@@ -97,43 +97,23 @@
 }
 
 .home__cred-inner {
-  display: grid;
-  grid-template-columns: 1fr 1px 1fr 1px 1fr 1px 1fr;
-  gap: 0 2.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 1.5rem;
+  max-width: var(--max-w-wide);
   margin-inline: auto;
   padding-inline: var(--space-m);
-  align-items: center;
-}
-
-.home__cred-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.home__cred-stat {
-  font-family: var(--font-display);
-  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  color: var(--text);
-}
-
-.home__cred-desc {
   font-family: var(--font-ui);
-  font-size: 0.72rem;
-  font-weight: 400;
+  font-size: 0.8rem;
+  font-weight: 500;
   color: var(--text-muted);
-  line-height: 1.45;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.04em;
 }
 
-.home__cred-rule {
-  width: 1px;
-  height: 2.75rem;
-  background: var(--rule);
-  align-self: center;
+.home__cred-sep {
+  color: var(--border);
+  user-select: none;
 }
 
 /* ── §03 Three pillars ────────────────────────────────────────── */
@@ -597,9 +577,22 @@
     max-width: 220px;
   }
 
-  .home__cred-inner {
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-m) var(--space-s);
+  .home__writing-header {
+    flex-direction: column;
+    gap: 0.75rem;
   }
 
-  .home__cred-rule { display: 
+  .home__writing-link {
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .home__cred-sep { display: none; }
+  .home__cred-inner { gap: 0.4rem 1.25rem; }
+  .home__cta { flex-direction: column; align-items: flex-start; }
+  .home__cta .btn { text-align: center; }
+  .home__book-cta { flex-direction: column; }
+  .home__book-cta .btn { text-align: center; }
+}

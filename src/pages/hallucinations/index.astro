@@ -1,0 +1,415 @@
+---
+import Base from '../../layouts/Base.astro';
+import cases from '../../data/hallucinations.json';
+
+// Build filter option lists at compile time
+const states = [...new Set(cases.map(c => c.state).filter(Boolean))].sort();
+const parties = ['Lawyer', 'Pro Se Litigant', 'Judge', 'Expert', 'Prosecutor', 'Arbitrator'];
+const categories = ['Fabricated', 'False Quotes', 'Misrepresented', 'Outdated Advice'];
+
+const totalCases = cases.length;
+const lastDate = cases[0]?.date ?? '';
+
+// Format date for display
+function fmtDate(iso: string) {
+  if (!iso) return '';
+  const [y, m, d] = iso.split('-');
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${d ? d + ' ' : ''}${months[parseInt(m, 10) - 1] ?? ''} ${y}`;
+}
+
+function penaltyShort(p: string) {
+  if (!p) return '';
+  return p.replace(' USD', '').replace(' ILS', ' ₪').replace(' AUD', ' A$').replace(' CAD', ' C$').replace(' EUR', ' €').replace(' GBP', ' £');
+}
+---
+
+<Base
+  title="AI Hallucination Cases"
+  description={`A searchable database of ${totalCases} legal decisions worldwide where generative AI produced hallucinated content. Curated by Damien Charlotin.`}
+>
+  <div class="hc-page">
+    <!-- Header -->
+    <header class="hc-header container container--wide">
+      <p class="label">Resource</p>
+      <h1 class="hc-header__title">AI Hallucination Cases</h1>
+      <p class="hc-header__desc">
+        {totalCases.toLocaleString()} legal decisions from {states.length} jurisdictions where generative AI
+        produced hallucinated content — fake citations, invented quotes, and misrepresented authorities.
+        Curated by <a href="https://www.damiencharlotin.com/hallucinations/" target="_blank" rel="noopener">Damien Charlotin</a>.
+        Last updated {fmtDate(lastDate)}.
+      </p>
+    </header>
+
+    <!-- Filters -->
+    <div class="hc-filters container container--wide" id="filters">
+      <div class="hc-filters__row">
+        <div class="hc-filters__search">
+          <input
+            type="search"
+            id="hc-search"
+            placeholder="Search cases…"
+            autocomplete="off"
+            aria-label="Search cases"
+          />
+        </div>
+        <select id="hc-state" aria-label="Filter by jurisdiction">
+          <option value="">All jurisdictions</option>
+          {states.map(s => <option value={s}>{s}</option>)}
+        </select>
+        <select id="hc-party" aria-label="Filter by party">
+          <option value="">All parties</option>
+          {parties.map(p => <option value={p}>{p}</option>)}
+        </select>
+        <select id="hc-category" aria-label="Filter by category">
+          <option value="">All categories</option>
+          {categories.map(c => <option value={c}>{c}</option>)}
+        </select>
+        <button id="hc-reset" class="hc-filters__reset" type="button" aria-label="Clear filters">×</button>
+      </div>
+      <p class="hc-filters__count" id="hc-count" aria-live="polite">
+        Showing all {totalCases.toLocaleString()} cases
+      </p>
+    </div>
+
+    <!-- Table -->
+    <div class="hc-table-wrap container container--wide">
+      <table class="hc-table" id="hc-table">
+        <thead>
+          <tr>
+            <th class="hc-col-case">Case</th>
+            <th class="hc-col-court">Court</th>
+            <th class="hc-col-date">Date</th>
+            <th class="hc-col-party">Party</th>
+            <th class="hc-col-cat">Category</th>
+            <th class="hc-col-outcome">Outcome / Penalty</th>
+          </tr>
+        </thead>
+        <tbody>
+          {cases.map(c => {
+            const cats = c.categories.join('|');
+            const partyNorm = c.party; // keep raw for contains-check
+            const penDisplay = penaltyShort(c.monetaryPenalty);
+            const outcomeShort = c.outcome
+              ? c.outcome.split(';')[0].trim()
+              : (c.alleged ? 'Alleged' : '—');
+            return (
+              <tr
+                data-state={c.state}
+                data-party={partyNorm}
+                data-categories={cats}
+                data-name={c.name.toLowerCase()}
+              >
+                <td class="hc-col-case">
+                  <a href={`/hallucinations/${c.slug}`}>{c.name}</a>
+                </td>
+                <td class="hc-col-court">
+                  <span class="hc-court">{c.court}</span>
+                  <span class="hc-state">{c.state}</span>
+                </td>
+                <td class="hc-col-date">{fmtDate(c.date)}</td>
+                <td class="hc-col-party">
+                  <span class={`hc-party hc-party--${c.party.includes('Lawyer') ? 'lawyer' : c.party.includes('Pro Se') ? 'prose' : 'other'}`}>
+                    {c.party.includes('Lawyer') ? 'Lawyer' : c.party.includes('Pro Se') ? 'Pro Se' : c.party || '—'}
+                  </span>
+                </td>
+                <td class="hc-col-cat">
+                  {c.categories.map(cat => (
+                    <span class={`hc-tag hc-tag--${cat.toLowerCase().replace(' ', '-')}`}>{cat}</span>
+                  ))}
+                </td>
+                <td class="hc-col-outcome">
+                  {outcomeShort !== '—' && <span class="hc-outcome">{outcomeShort}</span>}
+                  {penDisplay && <span class="hc-penalty">{penDisplay}</span>}
+                  {!outcomeShort && !penDisplay && <span class="text-muted">—</span>}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Attribution -->
+    <footer class="hc-attribution container container--wide">
+      <p>
+        Data sourced from <a href="https://www.damiencharlotin.com/hallucinations/" target="_blank" rel="noopener">Damien Charlotin's AI Hallucination Cases Database</a>.
+        Individual case PDFs link to the original database. This page is a reference mirror; all curation credit belongs to Charlotin.
+      </p>
+    </footer>
+  </div>
+</Base>
+
+<style>
+/* ── Page layout ──────────────────────────────────────────── */
+.hc-page { padding-bottom: var(--space-xl); }
+
+.hc-header {
+  padding-top: 3.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.hc-header__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.hc-header__desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  max-width: 680px;
+  line-height: 1.7;
+}
+
+/* ── Filters ──────────────────────────────────────────────── */
+.hc-filters {
+  padding-block: 1.25rem;
+  border-bottom: 1px solid var(--rule);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.hc-filters__row {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.hc-filters__search { flex: 1; min-width: 180px; }
+
+#hc-search,
+.hc-filters select {
+  width: 100%;
+  height: 2.25rem;
+  padding: 0 0.75rem;
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--text);
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 2px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+#hc-search:focus,
+.hc-filters select:focus { border-color: var(--accent); }
+
+.hc-filters select { min-width: 150px; cursor: pointer; }
+
+.hc-filters__reset {
+  height: 2.25rem;
+  width: 2.25rem;
+  font-size: 1.1rem;
+  line-height: 1;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: 2px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+.hc-filters__reset:hover { border-color: var(--accent); color: var(--accent); }
+
+.hc-filters__count {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  letter-spacing: 0.04em;
+}
+
+/* ── Table ────────────────────────────────────────────────── */
+.hc-table-wrap {
+  overflow-x: auto;
+  margin-top: 0;
+}
+
+.hc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+}
+
+.hc-table thead th {
+  text-align: left;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0.75rem 0.75rem;
+  border-bottom: 2px solid var(--rule);
+  white-space: nowrap;
+  background: var(--bg);
+}
+
+.hc-table tbody tr {
+  border-bottom: 1px solid var(--rule);
+  transition: background 0.1s;
+}
+.hc-table tbody tr:hover { background: var(--bg-subtle); }
+.hc-table tbody tr.hc-hidden { display: none; }
+
+.hc-table td {
+  padding: 0.6rem 0.75rem;
+  vertical-align: top;
+  line-height: 1.45;
+}
+
+/* Column widths */
+.hc-col-case   { min-width: 240px; }
+.hc-col-court  { min-width: 160px; }
+.hc-col-date   { min-width: 95px; white-space: nowrap; color: var(--text-muted); }
+.hc-col-party  { min-width: 70px; }
+.hc-col-cat    { min-width: 120px; }
+.hc-col-outcome{ min-width: 130px; }
+
+.hc-col-case a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+.hc-col-case a:hover { text-decoration: underline; }
+
+.hc-court {
+  display: block;
+  color: var(--text);
+  font-size: 0.78rem;
+}
+.hc-state {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+}
+
+/* Party badges */
+.hc-party {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.45rem;
+  border-radius: 2px;
+}
+.hc-party--lawyer { background: #EEF2F9; color: #1B3A5C; }
+.hc-party--prose  { background: #F5F0E8; color: #6B5A2A; }
+.hc-party--other  { background: var(--bg-subtle); color: var(--text-muted); }
+
+/* Category tags */
+.hc-tag {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.4rem;
+  border-radius: 2px;
+  margin: 0.1rem 0.15rem 0.1rem 0;
+  white-space: nowrap;
+}
+.hc-tag--fabricated      { background: #FDE8E8; color: #8B1A1A; }
+.hc-tag--false-quotes    { background: #FEF3E2; color: #7A4500; }
+.hc-tag--misrepresented  { background: #E8F0E8; color: #2A5A2A; }
+.hc-tag--outdated-advice { background: #EDE8F5; color: #3A1A6B; }
+
+/* Outcome / penalty */
+.hc-outcome {
+  display: block;
+  color: var(--text);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+.hc-penalty {
+  display: block;
+  font-weight: 600;
+  color: var(--accent);
+  font-size: 0.78rem;
+  margin-top: 0.15rem;
+}
+
+/* Attribution */
+.hc-attribution {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .hc-col-court, .hc-col-cat { display: none; }
+  .hc-filters select:not(#hc-state) { display: none; }
+}
+</style>
+
+<script>
+(function () {
+  const searchEl  = document.getElementById('hc-search') as HTMLInputElement;
+  const stateEl   = document.getElementById('hc-state') as HTMLSelectElement;
+  const partyEl   = document.getElementById('hc-party') as HTMLSelectElement;
+  const catEl     = document.getElementById('hc-category') as HTMLSelectElement;
+  const resetBtn  = document.getElementById('hc-reset') as HTMLButtonElement;
+  const countEl   = document.getElementById('hc-count') as HTMLElement;
+  const rows      = Array.from(document.querySelectorAll<HTMLTableRowElement>('#hc-table tbody tr'));
+  const total     = rows.length;
+
+  function filter() {
+    const q     = searchEl.value.toLowerCase().trim();
+    const state = stateEl.value;
+    const party = partyEl.value;
+    const cat   = catEl.value;
+
+    let visible = 0;
+    for (const row of rows) {
+      const name  = row.dataset.name ?? '';
+      const rState = row.dataset.state ?? '';
+      const rParty = row.dataset.party ?? '';
+      const rCats  = row.dataset.categories ?? '';
+
+      const matchQ     = !q     || name.includes(q);
+      const matchState = !state || rState === state;
+      const matchParty = !party || rParty.includes(party);
+      const matchCat   = !cat   || rCats.includes(cat);
+
+      const show = matchQ && matchState && matchParty && matchCat;
+      row.classList.toggle('hc-hidden', !show);
+      if (show) visible++;
+    }
+
+    countEl.textContent = visible === total
+      ? `Showing all ${total.toLocaleString()} cases`
+      : `Showing ${visible.toLocaleString()} of ${total.toLocaleString()} cases`;
+  }
+
+  let timer: ReturnType<typeof setTimeout>;
+  searchEl.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(filter, 200); });
+  stateEl.addEventListener('change', filter);
+  partyEl.addEventListener('change', filter);
+  catEl.addEventListener('change', filter);
+
+  resetBtn.addEventListener('click', () => {
+    searchEl.value = '';
+    stateEl.value = '';
+    partyEl.value = '';
+    catEl.value = '';
+    filter();
+  });
+})();
+</script>

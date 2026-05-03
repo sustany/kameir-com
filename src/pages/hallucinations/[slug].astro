@@ -1,0 +1,465 @@
+---
+import Base from '../../layouts/Base.astro';
+import cases from '../../data/hallucinations.json';
+
+export async function getStaticPaths() {
+  return cases.map(c => ({
+    params: { slug: c.slug },
+    props: { c },
+  }));
+}
+
+const { c } = Astro.props;
+
+// Formatted date
+function fmtDate(iso: string) {
+  if (!iso) return '';
+  const [y, m, d] = iso.split('-');
+  const months = ['January','February','March','April','May','June',
+                  'July','August','September','October','November','December'];
+  return `${parseInt(d, 10)} ${months[parseInt(m, 10) - 1]} ${y}`;
+}
+
+// Generate a short description for meta
+const categoryList = c.categories.join(', ') || 'AI hallucination';
+const partyLabel   = c.party || 'Unknown party';
+const metaDesc = c.outcome
+  ? `${partyLabel} in ${c.court} (${c.state}) — ${categoryList}. Outcome: ${c.outcome.split(';')[0]}.`
+  : `${partyLabel} in ${c.court} (${c.state}) submitted ${categoryList.toLowerCase()} AI-generated content.`;
+
+// Group hallucination items by category
+const grouped: Record<string, typeof c.hallucinationItems> = {};
+for (const item of c.hallucinationItems) {
+  const key = item.category || 'Other';
+  if (!grouped[key]) grouped[key] = [];
+  grouped[key].push(item);
+}
+
+const categoryOrder = ['Fabricated', 'False Quotes', 'Misrepresented', 'Outdated Advice', 'Other'];
+const sortedGroups = categoryOrder
+  .filter(k => grouped[k]?.length)
+  .map(k => ({ name: k, items: grouped[k] }));
+
+// Any leftover categories not in order
+for (const k of Object.keys(grouped)) {
+  if (!categoryOrder.includes(k)) {
+    sortedGroups.push({ name: k, items: grouped[k] });
+  }
+}
+
+const hasPenalty = Boolean(c.monetaryPenalty);
+const dateStr    = fmtDate(c.date);
+---
+
+<Base
+  title={c.name}
+  description={metaDesc}
+  ogType="article"
+>
+  <div class="case-page">
+    <!-- Back link -->
+    <div class="case-back container container--wide">
+      <a href="/hallucinations" class="case-back__link">← All AI Cases</a>
+    </div>
+
+    <!-- Case header -->
+    <header class="case-header container container--wide">
+      <div class="case-header__meta-row">
+        <span class="label">{c.state}</span>
+        {c.alleged && <span class="case-badge case-badge--alleged">Alleged</span>}
+      </div>
+      <h1 class="case-header__title">{c.name}</h1>
+      <div class="case-header__sub">
+        <span class="case-header__court">{c.court}</span>
+        {dateStr && <span class="case-header__date">{dateStr}</span>}
+      </div>
+    </header>
+
+    <div class="case-body container container--wide">
+
+      <!-- Key facts strip -->
+      <dl class="case-facts">
+        <div class="case-fact">
+          <dt>Party</dt>
+          <dd>
+            <span class={`case-party case-party--${c.party.includes('Lawyer') ? 'lawyer' : c.party.includes('Pro Se') ? 'prose' : 'other'}`}>
+              {c.party || '—'}
+            </span>
+          </dd>
+        </div>
+        <div class="case-fact">
+          <dt>AI Tool</dt>
+          <dd>{c.aiTool === 'Implied' ? <em>Implied / unconfirmed</em> : c.aiTool === 'Unidentified' ? <em>Unidentified</em> : c.aiTool || <em>Not specified</em>}</dd>
+        </div>
+        {c.professionalSanction && (
+          <div class="case-fact">
+            <dt>Prof. Sanction</dt>
+            <dd><span class="case-badge case-badge--sanction">Disciplinary referral</span></dd>
+          </div>
+        )}
+      </dl>
+
+      <hr class="rule" />
+
+      <!-- Hallucination items -->
+      {sortedGroups.length > 0 && (
+        <section class="case-section">
+          <h2 class="case-section__heading">Hallucinated Content</h2>
+          {sortedGroups.map(group => (
+            <div class="case-group">
+              <h3 class="case-group__label">
+                <span class={`case-tag case-tag--${group.name.toLowerCase().replace(' ', '-')}`}>
+                  {group.name}
+                </span>
+              </h3>
+              <ol class="case-items">
+                {group.items.map(item => (
+                  <li class="case-item">
+                    {item.subcategory && (
+                      <span class="case-item__sub">{item.subcategory}</span>
+                    )}
+                    {item.description && (
+                      <p class="case-item__desc">{item.description}</p>
+                    )}
+                    {!item.subcategory && !item.description && (
+                      <p class="case-item__desc text-muted">No description available.</p>
+                    )}
+                  </li>
+                ))}
+              </ol>
+            </div>
+          ))}
+          {c.hallucinationItems.length === 0 && (
+            <p class="text-muted" style="font-size:0.9rem">No detail on hallucinated items recorded.</p>
+          )}
+        </section>
+      )}
+
+      <hr class="rule" />
+
+      <!-- Outcome -->
+      <section class="case-section">
+        <h2 class="case-section__heading">Outcome</h2>
+        {c.outcome
+          ? (
+            <div class="case-outcome">
+              {c.outcome.split(';').map(o => o.trim()).filter(Boolean).map(o => (
+                <span class="case-outcome__item">{o}</span>
+              ))}
+            </div>
+          )
+          : <p class="text-muted" style="font-size:0.9rem">No sanction or outcome recorded.</p>
+        }
+
+        {hasPenalty && (
+          <div class="case-penalty">
+            <span class="case-penalty__label">Monetary penalty</span>
+            <span class="case-penalty__amount">{c.monetaryPenalty}</span>
+          </div>
+        )}
+      </section>
+
+      <!-- Details block -->
+      {c.details && (
+        <>
+          <hr class="rule" />
+          <section class="case-section">
+            <h2 class="case-section__heading">Notes</h2>
+            <p class="case-details">{c.details}</p>
+          </section>
+        </>
+      )}
+
+      <hr class="rule" />
+
+      <!-- Source / attribution -->
+      <section class="case-section case-section--source">
+        {c.sourceUrl && (
+          <a href={c.sourceUrl} class="case-source-link" target="_blank" rel="noopener">
+            View source document →
+          </a>
+        )}
+        <p class="case-attribution">
+          Data from <a href="https://www.damiencharlotin.com/hallucinations/" target="_blank" rel="noopener">Damien Charlotin's AI Hallucination Cases Database</a>.
+          {c.pointer && ` Flagged by: ${c.pointer}.`}
+        </p>
+      </section>
+
+    </div><!-- /.case-body -->
+  </div><!-- /.case-page -->
+</Base>
+
+<style>
+/* ── Page structure ───────────────────────────────────── */
+.case-page { padding-bottom: var(--space-xl); }
+
+.case-back {
+  padding-top: 1.5rem;
+  padding-bottom: 0;
+}
+.case-back__link {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.case-back__link:hover { color: var(--accent); }
+
+/* ── Header ───────────────────────────────────────────── */
+.case-header {
+  padding-top: 1.75rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.case-header__meta-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.case-header__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.85rem;
+}
+
+.case-header__sub {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.case-header__court::after {
+  content: '·';
+  margin-left: 1rem;
+  color: var(--border);
+}
+
+/* ── Body container ───────────────────────────────────── */
+.case-body { padding-top: 0; }
+
+/* ── Facts strip ──────────────────────────────────────── */
+.case-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 3rem;
+  padding-block: 1.75rem;
+}
+
+.case-fact dt {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.3rem;
+}
+
+.case-fact dd {
+  font-family: var(--font-ui);
+  font-size: 0.88rem;
+  color: var(--text);
+}
+
+/* Party badges */
+.case-party {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+}
+.case-party--lawyer { background: #EEF2F9; color: #1B3A5C; }
+.case-party--prose  { background: #F5F0E8; color: #6B5A2A; }
+.case-party--other  { background: var(--bg-subtle); color: var(--text-muted); }
+
+/* Generic badges */
+.case-badge {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.5rem;
+  border-radius: 2px;
+}
+.case-badge--alleged  { background: #F5F0E8; color: #7A4500; }
+.case-badge--sanction { background: #FDE8E8; color: #8B1A1A; }
+
+/* ── Section ──────────────────────────────────────────── */
+.case-section { padding-block: 0.5rem 0; }
+
+.case-section__heading {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+}
+
+/* ── Hallucination groups ─────────────────────────────── */
+.case-group { margin-bottom: 1.75rem; }
+
+.case-group__label {
+  margin-bottom: 0.75rem;
+  font-weight: normal;
+  font-size: inherit;
+}
+
+/* Category tags */
+.case-tag {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.65rem;
+  border-radius: 2px;
+}
+.case-tag--fabricated      { background: #FDE8E8; color: #8B1A1A; }
+.case-tag--false-quotes    { background: #FEF3E2; color: #7A4500; }
+.case-tag--misrepresented  { background: #E8F0E8; color: #2A5A2A; }
+.case-tag--outdated-advice { background: #EDE8F5; color: #3A1A6B; }
+.case-tag--other           { background: var(--bg-subtle); color: var(--text-muted); }
+
+.case-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.case-item {
+  padding: 0.9rem 1.1rem;
+  background: var(--bg-subtle);
+  border-left: 3px solid var(--border);
+  border-radius: 0 2px 2px 0;
+}
+
+.case-item__sub {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.35rem;
+}
+
+.case-item__desc {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--text);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ── Outcome ──────────────────────────────────────────── */
+.case-outcome {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.case-outcome__item {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  padding: 0.3rem 0.75rem;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  color: var(--text);
+}
+
+.case-penalty {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: #EEF2F9;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 2px 2px 0;
+  margin-top: 0.5rem;
+}
+
+.case-penalty__label {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.case-penalty__amount {
+  font-family: var(--font-ui);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* ── Details / notes ──────────────────────────────────── */
+.case-details {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  font-style: italic;
+}
+
+/* ── Source & attribution ─────────────────────────────── */
+.case-section--source { padding-bottom: 0; }
+
+.case-source-link {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  text-decoration: none;
+  padding: 0.6rem 1.25rem;
+  border: 1.5px solid var(--accent);
+  border-radius: 2px;
+  transition: background 0.15s, color 0.15s;
+  margin-bottom: 1.25rem;
+}
+.case-source-link:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.case-attribution {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (max-width: 640px) {
+  .case-header__court::after { display: none; }
+  .case-facts { gap: 1.25rem; }
+  .case-penalty { flex-direction: column; gap: 0.25rem; }
+}
+</style>

@@ -64,6 +64,7 @@ main { flex: 1; padding-bottom: 4rem; }
 .site-nav {
   padding-block: 1.5rem;
   border-bottom: 1px solid var(--rule);
+  position: relative; /* anchor for mobile dropdown */
 }
 
 .site-nav__inner {
@@ -110,6 +111,84 @@ main { flex: 1; padding-bottom: 4rem; }
   color: var(--accent);
   border-bottom-color: var(--accent);
 }
+
+/* ── Nav hamburger (mobile) ──────────────────────────────────────── */
+.site-nav__toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  width: 2rem;
+  height: 2rem;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.site-nav__toggle-bar {
+  display: block;
+  width: 20px;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+/* Animate to × when open */
+.site-nav__toggle[aria-expanded="true"] .site-nav__toggle-bar:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+.site-nav__toggle[aria-expanded="true"] .site-nav__toggle-bar:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.site-nav__toggle[aria-expanded="true"] .site-nav__toggle-bar:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+@media (max-width: 768px) {
+  .site-nav__toggle {
+    display: flex;
+  }
+
+  /* Hide links by default; shown when .is-open toggled via JS */
+  .site-nav__links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+    flex-direction: column;
+    gap: 0;
+    padding-block: 0.5rem 1.25rem;
+    z-index: 50;
+  }
+
+  .site-nav__links.is-open {
+    display: flex;
+  }
+
+  .site-nav__links li {
+    width: 100%;
+  }
+
+  .site-nav__links a {
+    display: block;
+    padding: 0.7rem var(--space-m);
+    border-bottom: none;
+    font-size: 0.82rem;
+  }
+
+  .site-nav__links a[aria-current="page"] {
+    background: var(--bg-subtle);
+    border-bottom: none;
+  }
+}
+
 
 /* ── Footer ─────────────────────────────────────────────────────── */
 .site-footer {
@@ -249,7 +328,6 @@ main { flex: 1; padding-bottom: 4rem; }
 @media (max-width: 640px) {
   html { font-size: 17px; }
 
-  .site-nav__inner { gap: 1rem; }
 
   .site-footer__inner { flex-direction: column; gap: 0.75rem; align-items: flex-start; }
 }
