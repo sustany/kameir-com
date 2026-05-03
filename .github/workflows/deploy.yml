@@ -6,8 +6,9 @@ on:
   workflow_dispatch:
     inputs:
       force_full:
-        description: 'Force full deploy (ignore manifest diff)'
+        description: 'Force full deploy (ignore manifest)'
         required: false
+        type: string
         default: 'false'
 
 concurrency:
@@ -44,7 +45,8 @@ jobs:
           FORCE_FULL: ${{ github.event.inputs.force_full || 'false' }}
         run: |
           python3 - <<'PYEOF'
-          import os, urllib.request, urllib.parse, json, ssl, sys, mimetypes, uuid, time, threading, hashlib
+          import os, urllib.request, urllib.parse, json, ssl, sys
+          import mimetypes, uuid, time, threading, hashlib
           from pathlib import Path
           from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -55,10 +57,10 @@ jobs:
           FORCE_FULL = os.environ.get('FORCE_FULL', 'false').lower() == 'true'
 
           if not TOKEN:
-              print("ERROR: CPANEL_API_TOKEN secret is empty or not set", flush=True)
+              print("ERROR: CPANEL_API_TOKEN not set", flush=True)
               sys.exit(1)
 
-          print(f"Token length={len(TOKEN)}, host={HOST}, user={USER}", flush=True)
+          print(f"host={HOST} user={USER} force_full={FORCE_FULL}", flush=True)
 
           ctx = ssl.create_default_context()
           ctx.check_hostname = False
@@ -82,27 +84,25 @@ jobs:
                   return {"status": 0, "errors": [str(e)]}
 
           def mkdir_p(remote_path):
-              """Create a directory, ensuring parents exist first."""
               parts = remote_path.rsplit("/", 1)
               parent = parts[0] if len(parts) == 2 else ""
               name   = parts[-1]
               params = urllib.parse.urlencode({
                   "cpanel_jsonapi_version": "2",
-                  "cpanel_jsonapi_module": "Fileman",
-                  "cpanel_jsonapi_func": "createdir",
-                  "dir": parent,
+                  "cpanel_jsonapi_module":  "Fileman",
+                  "cpanel_jsonapi_func":    "createdir",
+                  "dir":        parent,
                   "newdirname": name,
               }).encode()
               req = urllib.request.Request(
                   f"https://{HOST}:2083/json-api/cpanel",
-                  data=params,
-                  headers=HEADERS,
+                  data=params, headers=HEADERS,
               )
               try:
                   with urllib.request.urlopen(req, context=ctx, timeout=30) as r:
                       res = json.load(r)
                   data = res.get("cpanelresult", {}).get("data", [{}])
-                  ok = data[0].get("result", 0) if data else 0
+                  ok     = data[0].get("result", 0) if data else 0
                   reason = data[0].get("reason", "") if data else ""
                   return ok or "exist" in reason.lower()
               except Exception as e:
@@ -120,94 +120,139 @@ jobs:
               if not is_binary:
                   for attempt in range(1, retries + 1):
                       res = uapi("Fileman/save_file_content", {
-                          "dir":          rem_dir,
-                          "file":         fp.name,
-                          "content":      content,
-                          "from_charset": "UTF-8",
-                          "to_charset":   "UTF-8",
+                          "dir": rem_dir, "file": fp.name,
+                          "content": content,
+                          "from_charset": "UTF-8", "to_charset": "UTF-8",
                       })
                       if res.get("status") == 1:
                           return True
                       if attempt < retries:
                           time.sleep(2 * attempt)
-                  log(f"  FAIL {fp.name} => {json.dumps(res)}")
-                  return False
-              else:
-                  for attempt in range(1, retries + 1):
-                      boundary = uuid.uuid4().hex.encode()
-                      mime = mimetypes.guess_type(fp.name)[0] or "application/octet-stream"
-                      body = (
-                          b"--" + boundary + b"\r\n"
-                          b'Content-Disposition: form-data; name="dir"\r\n\r\n' +
-                          rem_dir.encode() + b"\r\n"
-                          b"--" + boundary + b"\r\n"
-                          b'Content-Disposition: form-data; name="overwrite"\r\n\r\n'
-                          b"1\r\n"
-                          b"--" + boundary + b"\r\n"
-                          b'Content-Disposition: form-data; name="file-1"; filename="' +
-                          fp.name.encode() + b'"\r\n'
-                          b"Content-Type: " + mime.encode() + b"\r\n\r\n" +
-                          raw + b"\r\n"
-                          b"--" + boundary + b"--\r\n"
-                      )
-                      req = urllib.request.Request(
-                          f"https://{HOST}:2083/execute/Fileman/upload_files",
-                          data=body,
-                          headers={
-                              "Authorization": AUTH,
-                              "Content-Type": f"multipart/form-data; boundary={boundary.decode()}",
-                          },
-                          method="POST",
-                      )
-                      try:
-                          with urllib.request.urlopen(req, context=ctx, timeout=60) as r:
-                              res = json.load(r)
-                          if res.get("status") == 1:
-                              return True
-                          if attempt < retries:
-                              time.sleep(2 * attempt)
-                      except Exception as e:
-                          if attempt < retries:
-                              time.sleep(2 * attempt)
-                          else:
-                              log(f"  FAIL {fp.name} (binary): {e}")
-                              return False
-                  log(f"  FAIL {fp.name} (binary) => {json.dumps(res)}")
+                  log(f"  FAIL {fp.name} text: {json.dumps(res)}")
                   return False
 
-          def deploy_file(item):
+              for attempt in range(1, retries + 1):
+                  boundary = uuid.uuid4().hex.encode()
+                  mime = mimetypes.guess_type(fp.name)[0] or "application/octet-stream"
+                  body = (
+                      b"--" + boundary + b"\r\n"
+                      b'Content-Disposition: form-data; name="dir"\r\n\r\n' +
+                      rem_dir.encode() + b"\r\n--" + boundary + b"\r\n"
+                      b'Content-Disposition: form-data; name="overwrite"\r\n\r\n1\r\n'
+                      b"--" + boundary + b"\r\n"
+                      b'Content-Disposition: form-data; name="file-1"; filename="' +
+                      fp.name.encode() + b'"\r\n'
+                      b"Content-Type: " + mime.encode() + b"\r\n\r\n" +
+                      raw + b"\r\n--" + boundary + b"--\r\n"
+                  )
+                  req = urllib.request.Request(
+                      f"https://{HOST}:2083/execute/Fileman/upload_files",
+                      data=body,
+                      headers={"Authorization": AUTH,
+                               "Content-Type": f"multipart/form-data; boundary={boundary.decode()}"},
+                      method="POST",
+                  )
+                  try:
+                      with urllib.request.urlopen(req, context=ctx, timeout=60) as r:
+                          res = json.load(r)
+                      if res.get("status") == 1:
+                          return True
+                      if attempt < retries:
+                          time.sleep(2 * attempt)
+                  except Exception as e:
+                      if attempt < retries:
+                          time.sleep(2 * attempt)
+                      else:
+                          log(f"  FAIL {fp.name} binary: {e}")
+                          return False
+              log(f"  FAIL {fp.name} binary: {json.dumps(res)}")
+              return False
+
+          def deploy_item(item):
               fp, rem_dir = item
-              rel = fp.relative_to(dist)
               ok = upload_file(fp, rem_dir)
               if ok:
-                  log(f"  ok {rel}")
+                  log(f"  ok {fp.relative_to(dist)}")
               return ok
 
-          # ── Build manifest of current dist ──────────────────────────
+          # Build manifest
           dist      = Path("dist")
           all_files = sorted(f for f in dist.rglob("*") if f.is_file())
 
-          def sha256_short(fp):
+          def sha_short(fp):
               return hashlib.sha256(fp.read_bytes()).hexdigest()[:20]
 
-          new_manifest = {str(fp.relative_to(dist)): sha256_short(fp) for fp in all_files}
+          new_manifest = {str(fp.relative_to(dist)): sha_short(fp) for fp in all_files}
 
-          # ── Fetch deployed manifest (best-effort) ────────────────────
+          # Fetch deployed manifest
           old_manifest = {}
           if not FORCE_FULL:
               try:
                   mctx = ssl.create_default_context()
                   mctx.check_hostname = False
                   mctx.verify_mode    = ssl.CERT_NONE
-                  with urllib.request.urlopen("https://kameir.com/manifest.json",
-                                              context=mctx, timeout=10) as r:
+                  with urllib.request.urlopen(
+                      "https://kameir.com/manifest.json",
+                      context=mctx, timeout=10
+                  ) as r:
                       old_manifest = json.load(r)
-                  print(f"Fetched deployed manifest ({len(old_manifest)} entries)", flush=True)
+                  print(f"Manifest fetched: {len(old_manifest)} entries", flush=True)
               except Exception as e:
-                  print(f"No deployed manifest found ({e}), doing full deploy", flush=True)
+                  print(f"No manifest on server ({e}), full deploy", flush=True)
 
-          # Always upload manifest.json itself (exclude from diff, upload last)
-          MANIFEST_KEY = "manifest.json"
-          files_to_upload = [
+          MKEY = "manifest.json"
+          to_upload = [
               fp for fp in all_files
- 
+              if str(fp.relative_to(dist)) != MKEY
+              and new_manifest.get(str(fp.relative_to(dist)))
+                  != old_manifest.get(str(fp.relative_to(dist)))
+          ]
+          print(f"Changed: {len(to_upload)}/{len(all_files)} + manifest", flush=True)
+
+          # Ensure dirs (sequential, sorted by depth)
+          dirs_needed = sorted({
+              f"{DDIR}/{fp.relative_to(dist).parent}"
+              for fp in to_upload
+              if str(fp.relative_to(dist).parent) != "."
+          }, key=lambda d: d.count("/"))
+
+          if dirs_needed:
+              print(f"Creating {len(dirs_needed)} dirs...", flush=True)
+              for d in dirs_needed:
+                  mkdir_p(d)
+
+          # Upload (4 workers)
+          failures = 0
+          if to_upload:
+              work = [
+                  (fp,
+                   f"{DDIR}/{fp.relative_to(dist).parent}"
+                   if str(fp.relative_to(dist).parent) != "." else DDIR)
+                  for fp in to_upload
+              ]
+              with ThreadPoolExecutor(max_workers=4) as ex:
+                  futs = {ex.submit(deploy_item, item): item for item in work}
+                  for fut in as_completed(futs):
+                      if not fut.result():
+                          failures += 1
+
+          # Upload manifest last
+          mfp = dist / MKEY
+          mfp.write_text(json.dumps(new_manifest, separators=(',', ':')))
+          rem = f"{DDIR}"
+          if not upload_file(mfp, rem):
+              failures += 1
+          else:
+              log("  ok manifest.json")
+
+          if failures:
+              print(f"\n{failures} file(s) failed.", flush=True)
+              sys.exit(1)
+          print(f"\nDone: {len(to_upload)+1} files.", flush=True)
+          PYEOF
+
+      - name: Verify deployment
+        run: |
+          sleep 5
+          curl -sk https://kameir.com/ | grep -o 'Christian Kameir' | head -1 || echo "homepage MISSING"
+          curl -sk https://kameir.com/manifest.json | python3 -c "import sys,json; d=json.load(sys.stdin); print(f'manifest: {len(d)} entries')" || echo "manifest MISSING"
