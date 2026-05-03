@@ -209,7 +209,7 @@ const personJsonLd = {
     </div>
   </footer>
   <script>
-    // Mobile nav toggle
+    // ── Mobile nav toggle ─────────────────────────────────────────
     const toggle = document.querySelector<HTMLButtonElement>('.site-nav__toggle');
     const navLinks = document.getElementById('nav-links');
     if (toggle && navLinks) {
@@ -219,7 +219,6 @@ const personJsonLd = {
         toggle.setAttribute('aria-label', isOpen ? 'Open menu' : 'Close menu');
         navLinks.classList.toggle('is-open', !isOpen);
       });
-      // Close menu when any nav link is tapped
       navLinks.querySelectorAll('a').forEach(a => {
         a.addEventListener('click', () => {
           toggle.setAttribute('aria-expanded', 'false');
@@ -228,6 +227,50 @@ const personJsonLd = {
         });
       });
     }
+
+    // ── Sticky CTA: show after scrolling 40% of viewport ─────────
+    const stickyCta = document.getElementById('sticky-cta');
+    if (stickyCta) {
+      const threshold = window.innerHeight * 0.4;
+      const update = () => {
+        const show = window.scrollY > threshold;
+        stickyCta.classList.toggle('is-visible', show);
+        stickyCta.setAttribute('aria-hidden', String(!show));
+      };
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    }
+
+    // ── Scroll-reveal: fade-in sections ──────────────────────────
+    const fadeTargets = document.querySelectorAll<HTMLElement>(
+      '.home__pillar, .home__book-inner, .home__speaking-inner, ' +
+      '.home__close-inner, .home__writing-inner, ' +
+      '.hc-header, .hc-filters'
+    );
+    if (fadeTargets.length && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries) => entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-visible');
+            io.unobserve(e.target);
+          }
+        }),
+        { threshold: 0.08 }
+      );
+      fadeTargets.forEach(el => {
+        el.classList.add('fade-in');
+        io.observe(el);
+      });
+    }
   </script>
+  {/* Sticky CTA — hidden on contact & thanks pages */}
+  {Astro.url.pathname !== '/contact' && Astro.url.pathname !== '/thanks' && (
+    <div class="sticky-cta" id="sticky-cta" aria-hidden="true" role="complementary" aria-label="Schedule a call">
+      <a href="/contact" class="sticky-cta__link">
+        Schedule a call
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  )}
 </body>
 </html>

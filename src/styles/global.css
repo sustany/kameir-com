@@ -275,6 +275,12 @@ main { flex: 1; padding-bottom: 4rem; }
   border: 1.5px solid var(--accent);
 }
 .btn--outline:hover { background: var(--accent); color: #fff; }
+/* ── Button active/press feedback ─────────────────────────────── */
+.btn:active {
+  transform: scale(0.97);
+  transition: transform 0.08s ease, background 0.08s;
+}
+
 
 /* ── Form ─────────────────────────────────────────────────────────── */
 .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
@@ -328,6 +334,11 @@ main { flex: 1; padding-bottom: 4rem; }
 @media (max-width: 640px) {
   html { font-size: 17px; }
 
+  /* Larger primary button on mobile for visual dominance */
+  .btn--primary {
+    font-size: 0.9rem;
+    padding: 1rem 2.25rem;
+  }
 
   .site-footer__inner { flex-direction: column; gap: 0.75rem; align-items: flex-start; }
 }
@@ -388,7 +399,7 @@ main { flex: 1; padding-bottom: 4rem; }
 
 .writing__item-title {
   font-family: var(--font-display);
-  font-size: clamp(1.15rem, 2.5vw, 1.4rem);
+  font-size: clamp(1.25rem, 2.5vw, 1.4rem);
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.01em;
@@ -499,4 +510,56 @@ main { flex: 1; padding-bottom: 4rem; }
 
 @media (max-width: 640px) {
   .site-footer__copy { flex-direction: column; gap: 0.25rem; align-items: flex-start; }
+}
+
+/* ── Scroll-reveal animation ─────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .fade-in {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .fade-in.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Sticky CTA bar (mobile only) ────────────────────────────── */
+.sticky-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--accent);
+  padding: 0.9rem var(--space-m);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  box-shadow: 0 -2px 12px rgba(0,0,0,0.12);
+}
+
+.sticky-cta.is-visible {
+  transform: translateY(0);
+}
+
+.sticky-cta__link {
+  color: #fff;
+  text-decoration: none;
+  font-family: var(--font-ui);
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Only render on mobile — hidden on desktop */
+@media (min-width: 769px) {
+  .sticky-cta { display: none; }
 }

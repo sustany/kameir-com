@@ -30,7 +30,7 @@
 .home__tagline {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+  font-size: clamp(1.2rem, 2.5vw, 1.4rem);
   color: var(--text-muted);
   line-height: 1.5;
   max-width: 420px;
@@ -147,7 +147,7 @@
 
 .home__pillar-title {
   font-family: var(--font-display);
-  font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+  font-size: clamp(1.55rem, 2.5vw, 1.7rem);
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.02em;
@@ -242,7 +242,7 @@
 
 .home__book-title {
   font-family: var(--font-display);
-  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-size: clamp(1.55rem, 3vw, 2rem);
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.02em;
@@ -500,7 +500,7 @@
 
 .home__close-title {
   font-family: var(--font-display);
-  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-size: clamp(1.55rem, 3vw, 2rem);
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.02em;
@@ -607,6 +607,17 @@
   .home__writing-link {
     flex-direction: column;
     gap: 0.35rem;
+  }
+
+  /* Tighten section padding on mobile */
+  .home__pillars,
+  .home__speaking,
+  .home__close {
+    padding-block: var(--space-l);
+  }
+
+  .home__book {
+    padding-block: var(--space-l) var(--space-xl);
   }
 }
 
