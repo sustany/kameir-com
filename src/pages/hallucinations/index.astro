@@ -231,6 +231,7 @@ function penaltyShort(p: string) {
 /* ── Table ────────────────────────────────────────────────── */
 .hc-table-wrap {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   margin-top: 0;
 }
 
@@ -356,6 +357,9 @@ function penaltyShort(p: string) {
 @media (max-width: 640px) {
   .hc-col-court, .hc-col-cat { display: none; }
   .hc-filters select:not(#hc-state) { display: none; }
+  /* State select + reset fill the row once party/cat are hidden */
+  #hc-state { flex: 1; min-width: 0; }
+  .hc-filters__search { flex: 2; }
 }
 </style>
 
@@ -402,14 +406,4 @@ function penaltyShort(p: string) {
   searchEl.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(filter, 200); });
   stateEl.addEventListener('change', filter);
   partyEl.addEventListener('change', filter);
-  catEl.addEventListener('change', filter);
-
-  resetBtn.addEventListener('click', () => {
-    searchEl.value = '';
-    stateEl.value = '';
-    partyEl.value = '';
-    catEl.value = '';
-    filter();
-  });
-})();
-</script>
+  catEl.addEventListener('change', filter)
