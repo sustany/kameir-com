@@ -12,7 +12,7 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 45
 
     steps:
       - name: Checkout
@@ -38,8 +38,9 @@ jobs:
           DEPLOY_DIR: public_html/kameir.com
         run: |
           python3 - <<'PYEOF'
-          import os, urllib.request, urllib.parse, json, ssl, sys, mimetypes, uuid, time
+          import os, urllib.request, urllib.parse, json, ssl, sys, mimetypes, uuid, time, threading
           from pathlib import Path
+          from concurrent.futures import ThreadPoolExecutor, as_completed
 
           HOST  = os.environ['CPANEL_HOST']
           USER  = os.environ['CPANEL_USER']
@@ -59,6 +60,11 @@ jobs:
           AUTH    = f"cpanel {USER}:{TOKEN}"
           HEADERS = {"Authorization": AUTH, "Content-Type": "application/x-www-form-urlencoded"}
 
+          _lock = threading.Lock()
+          def log(msg):
+              with _lock:
+                  print(msg, flush=True)
+
           def uapi(endpoint, params):
               data = urllib.parse.urlencode(params).encode()
               req  = urllib.request.Request(f"{BASE}/{endpoint}", data=data, headers=HEADERS)
@@ -69,7 +75,6 @@ jobs:
                   return {"status": 0, "errors": [str(e)]}
 
           def mkdir_once(remote_path):
-              """Single mkdir attempt via API2. remote_path e.g. public_html/kameir.com/images"""
               parts = remote_path.rsplit("/", 1)
               parent = parts[0] if len(parts) == 2 else ""
               name   = parts[-1]
@@ -93,20 +98,17 @@ jobs:
                   reason = data[0].get("reason", "") if data else ""
                   if ok or "exist" in reason.lower():
                       return True
-                  print(f"  mkdir {remote_path!r} => {reason or json.dumps(res)}", flush=True)
+                  log(f"  mkdir {remote_path!r} => {reason or json.dumps(res)}")
                   return False
               except Exception as e:
-                  print(f"  mkdir {remote_path!r} => error: {e}", flush=True)
+                  log(f"  mkdir {remote_path!r} => error: {e}")
                   return False
 
           def trash_file(rem_dir, filename):
-              """Delete a file via cPanel Fileman/trash before re-uploading."""
               res = uapi("Fileman/trash", {"path": f"/{rem_dir}/{filename}"})
-              # Ignore errors — file may not exist yet
               return res.get("status") == 1
 
           def upload_binary(fp, rem_dir, retries=3):
-              # Pre-delete so cPanel never sees "already exists" and can't corrupt with overwrite
               trash_file(rem_dir, fp.name)
               for attempt in range(1, retries + 1):
                   boundary = uuid.uuid4().hex.encode()
@@ -141,49 +143,33 @@ jobs:
                       if res.get("status") == 1:
                           return res
                       if attempt < retries:
-                          print(f"  retry {attempt}/{retries}: {res.get('errors', res)}", flush=True)
+                          log(f"  retry {attempt}/{retries}: {res.get('errors', res)}")
                           time.sleep(3)
                   except Exception as e:
                       if attempt < retries:
-                          print(f"  retry {attempt}/{retries}: {e}", flush=True)
+                          log(f"  retry {attempt}/{retries}: {e}")
                           time.sleep(3)
                       else:
                           return {"status": 0, "errors": [str(e)]}
               return res
 
-          dist      = Path("dist")
-          all_files = [f for f in dist.rglob("*") if f.is_file()]
-          print(f"Deploying {len(all_files)} files to {DDIR}", flush=True)
-
-          # Collect unique subdirectories (one level under DDIR) and attempt mkdir once each
-          dirs_needed = set()
-          for fp in all_files:
-              rel = fp.relative_to(dist)
-              if str(rel.parent) != ".":
-                  dirs_needed.add(f"{DDIR}/{rel.parent}")
-
-          if dirs_needed:
-              print(f"Ensuring {len(dirs_needed)} subdirectorie(s):", flush=True)
-              for d in sorted(dirs_needed):
-                  mkdir_once(d)
-
-          failures = 0
-          for fp in sorted(all_files):
+          def deploy_file(fp):
               rel     = fp.relative_to(dist)
               rem_dir = f"{DDIR}/{rel.parent}" if str(rel.parent) != "." else DDIR
               raw = fp.read_bytes()
               try:
-                  content      = raw.decode("utf-8")
-                  is_binary    = False
+                  content   = raw.decode("utf-8")
+                  is_binary = False
               except UnicodeDecodeError:
                   is_binary = True
+
               if is_binary:
                   res = upload_binary(fp, rem_dir)
                   if res.get("status") == 1:
-                      print(f"  ok {rel} (binary)", flush=True)
-                  else:
-                      failures += 1
-                      print(f"  FAIL {rel} (binary) => {json.dumps(res)}", flush=True)
+                      log(f"  ok {rel} (binary)")
+                      return True
+                  log(f"  FAIL {rel} (binary) => {json.dumps(res)}")
+                  return False
               else:
                   res = uapi("Fileman/save_file_content", {
                       "dir":          rem_dir,
@@ -193,10 +179,35 @@ jobs:
                       "to_charset":   "UTF-8",
                   })
                   if res.get("status") == 1:
-                      print(f"  ok {rel}", flush=True)
-                  else:
+                      log(f"  ok {rel}")
+                      return True
+                  log(f"  FAIL {rel} => {json.dumps(res)}")
+                  return False
+
+          dist      = Path("dist")
+          all_files = [f for f in dist.rglob("*") if f.is_file()]
+          print(f"Deploying {len(all_files)} files to {DDIR}", flush=True)
+
+          # Ensure all subdirectories exist (parallel)
+          dirs_needed = set()
+          for fp in all_files:
+              rel = fp.relative_to(dist)
+              if str(rel.parent) != ".":
+                  dirs_needed.add(f"{DDIR}/{rel.parent}")
+
+          if dirs_needed:
+              print(f"Ensuring {len(dirs_needed)} subdirectories (parallel)...", flush=True)
+              with ThreadPoolExecutor(max_workers=8) as ex:
+                  list(ex.map(mkdir_once, sorted(dirs_needed)))
+
+          # Upload all files in parallel (8 workers)
+          print(f"Uploading {len(all_files)} files with 8 workers...", flush=True)
+          failures = 0
+          with ThreadPoolExecutor(max_workers=8) as ex:
+              futures = {ex.submit(deploy_file, fp): fp for fp in sorted(all_files)}
+              for fut in as_completed(futures):
+                  if not fut.result():
                       failures += 1
-                      print(f"  FAIL {rel} => {json.dumps(res)}", flush=True)
 
           if failures:
               print(f"\n{failures} file(s) failed.", flush=True)
@@ -207,4 +218,5 @@ jobs:
       - name: Verify deployment
         run: |
           sleep 5
- 
+          echo "=== homepage check ==="
+          curl -sk https://kameir.com/ | grep -o 'Christian Kameir'
