@@ -406,4 +406,14 @@ function penaltyShort(p: string) {
   searchEl.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(filter, 200); });
   stateEl.addEventListener('change', filter);
   partyEl.addEventListener('change', filter);
-  catEl.addEventListener('change', filter)
+  catEl.addEventListener('change', filter);
+
+  resetBtn.addEventListener('click', () => {
+    searchEl.value = '';
+    stateEl.value = '';
+    partyEl.value = '';
+    catEl.value = '';
+    filter();
+  });
+})();
+</script>
