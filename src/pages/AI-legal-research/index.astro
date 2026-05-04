@@ -26,7 +26,7 @@ function penaltyShort(p: string) {
 
 <Base
   title="AI Hallucination Cases"
-  description={`A searchable database of ${totalCases} legal decisions worldwide where generative AI produced hallucinated content. Curated by Damien Charlotin.`}
+  description={`A searchable database of ${totalCases} legal decisions worldwide where generative AI produced hallucinated content.`}
 >
   <div class="hc-page">
     <!-- Header -->
@@ -36,8 +36,6 @@ function penaltyShort(p: string) {
       <p class="hc-header__desc">
         {totalCases.toLocaleString()} legal decisions from {states.length} jurisdictions where generative AI
         produced hallucinated content — fake citations, invented quotes, and misrepresented authorities.
-        Curated by <a href="https://www.damiencharlotin.com/hallucinations/" target="_blank" rel="noopener">Damien Charlotin</a>.
-        Last updated {fmtDate(lastDate)}.
       </p>
     </header>
 
@@ -101,7 +99,7 @@ function penaltyShort(p: string) {
                 data-name={c.name.toLowerCase()}
               >
                 <td class="hc-col-case">
-                  <a href={`/hallucinations/${c.slug}`}>{c.name}</a>
+                  <a href={`/AI-legal-research/${c.slug}`}>{c.name}</a>
                 </td>
                 <td class="hc-col-court">
                   <span class="hc-court">{c.court}</span>
@@ -132,10 +130,6 @@ function penaltyShort(p: string) {
 
     <!-- Attribution -->
     <footer class="hc-attribution container container--wide">
-      <p>
-        Data sourced from <a href="https://www.damiencharlotin.com/hallucinations/" target="_blank" rel="noopener">Damien Charlotin's AI Hallucination Cases Database</a>.
-        Individual case PDFs link to the original database. This page is a reference mirror; all curation credit belongs to Charlotin.
-      </p>
     </footer>
   </div>
 </Base>

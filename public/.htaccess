@@ -28,6 +28,10 @@
   RewriteCond %{REQUEST_URI} ^/(.+)/$
   RewriteRule ^(.+)/$ /$1 [R=301,L]
 
+  # Redirect old /hallucinations URLs → /AI-legal-research
+  RewriteRule ^hallucinations/?$ /AI-legal-research [R=301,L]
+  RewriteRule ^hallucinations/(.+)$ /AI-legal-research/$1 [R=301,L]
+
   # Explicit rewrites for ai-ethics subpages (flat files, no subdirectory on server)
   RewriteRule ^ai-ethics/lead-magnet/?$ /ai-ethics-lead-magnet.html [L]
   RewriteRule ^ai-ethics/book-a-call/?$ /ai-ethics-book-a-call.html [L]
@@ -60,10 +64,4 @@ ErrorDocument 404 /404.html
   </FilesMatch>
 
   # HTML — no cache (always fresh)
-  <FilesMatch "\.html$">
-    ExpiresDefault "access plus 0 seconds"
-    Header set Cache-Control "no-cache, no-store, must-revalidate"
-  </FilesMatch>
-</IfModule>
-
-# ── Security headers ─
+ 
