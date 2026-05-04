@@ -49,6 +49,7 @@ jobs:
           import mimetypes, uuid, time, threading, hashlib
           from pathlib import Path
           from concurrent.futures import ThreadPoolExecutor, as_completed
+          from itertools import groupby
 
           HOST       = os.environ['CPANEL_HOST']
           USER       = os.environ['CPANEL_USER']
@@ -184,7 +185,7 @@ jobs:
 
           new_manifest = {str(fp.relative_to(dist)): sha_short(fp) for fp in all_files}
 
-          # Fetch deployed manifest
+          # Fetch deployed manifest (best-effort)
           old_manifest = {}
           if not FORCE_FULL:
               try:
@@ -196,7 +197,7 @@ jobs:
                       context=mctx, timeout=10
                   ) as r:
                       old_manifest = json.load(r)
-                  print(f"Manifest fetched: {len(old_manifest)} entries", flush=True)
+                  print(f"Manifest: {len(old_manifest)} deployed entries", flush=True)
               except Exception as e:
                   print(f"No manifest on server ({e}), full deploy", flush=True)
 
@@ -209,7 +210,7 @@ jobs:
           ]
           print(f"Changed: {len(to_upload)}/{len(all_files)} + manifest", flush=True)
 
-          # Ensure dirs (sequential, sorted by depth)
+          # Ensure dirs — parallel within each depth level (safe: same-depth dirs share parent)
           dirs_needed = sorted({
               f"{DDIR}/{fp.relative_to(dist).parent}"
               for fp in to_upload
@@ -217,11 +218,13 @@ jobs:
           }, key=lambda d: d.count("/"))
 
           if dirs_needed:
-              print(f"Creating {len(dirs_needed)} dirs...", flush=True)
-              for d in dirs_needed:
-                  mkdir_p(d)
+              print(f"Creating {len(dirs_needed)} dirs (parallel by depth)...", flush=True)
+              for depth, group in groupby(dirs_needed, key=lambda d: d.count("/")):
+                  batch = list(group)
+                  with ThreadPoolExecutor(max_workers=4) as ex:
+                      list(ex.map(mkdir_p, batch))
 
-          # Upload (4 workers)
+          # Upload changed files (4 workers)
           failures = 0
           if to_upload:
               work = [
@@ -230,6 +233,7 @@ jobs:
                    if str(fp.relative_to(dist).parent) != "." else DDIR)
                   for fp in to_upload
               ]
+              print(f"Uploading {len(work)} files (4 workers)...", flush=True)
               with ThreadPoolExecutor(max_workers=4) as ex:
                   futs = {ex.submit(deploy_item, item): item for item in work}
                   for fut in as_completed(futs):
@@ -239,8 +243,7 @@ jobs:
           # Upload manifest last
           mfp = dist / MKEY
           mfp.write_text(json.dumps(new_manifest, separators=(',', ':')))
-          rem = f"{DDIR}"
-          if not upload_file(mfp, rem):
+          if not upload_file(mfp, DDIR):
               failures += 1
           else:
               log("  ok manifest.json")
@@ -248,7 +251,7 @@ jobs:
           if failures:
               print(f"\n{failures} file(s) failed.", flush=True)
               sys.exit(1)
-          print(f"\nDone: {len(to_upload)+1} files.", flush=True)
+          print(f"\nDone: {len(to_upload)+1} files uploaded.", flush=True)
           PYEOF
 
       - name: Verify deployment
