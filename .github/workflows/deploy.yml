@@ -18,7 +18,7 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 30
 
     steps:
       - name: Checkout
@@ -46,10 +46,8 @@ jobs:
         run: |
           python3 - <<'PYEOF'
           import os, urllib.request, urllib.parse, json, ssl, sys
-          import mimetypes, uuid, time, threading, hashlib
+          import mimetypes, uuid, time, hashlib, zipfile
           from pathlib import Path
-          from concurrent.futures import ThreadPoolExecutor, as_completed
-          from itertools import groupby
 
           HOST       = os.environ['CPANEL_HOST']
           USER       = os.environ['CPANEL_USER']
@@ -70,80 +68,28 @@ jobs:
           AUTH    = f"cpanel {USER}:{TOKEN}"
           HEADERS = {"Authorization": AUTH, "Content-Type": "application/x-www-form-urlencoded"}
 
-          _lock = threading.Lock()
-          def log(msg):
-              with _lock:
-                  print(msg, flush=True)
-
           def uapi(endpoint, params):
               data = urllib.parse.urlencode(params).encode()
               req  = urllib.request.Request(f"{BASE}/{endpoint}", data=data, headers=HEADERS)
               try:
-                  with urllib.request.urlopen(req, context=ctx, timeout=30) as r:
+                  with urllib.request.urlopen(req, context=ctx, timeout=60) as r:
                       return json.load(r)
               except Exception as e:
                   return {"status": 0, "errors": [str(e)]}
 
-          def mkdir_p(remote_path):
-              parts = remote_path.rsplit("/", 1)
-              parent = parts[0] if len(parts) == 2 else ""
-              name   = parts[-1]
-              params = urllib.parse.urlencode({
-                  "cpanel_jsonapi_version": "2",
-                  "cpanel_jsonapi_module":  "Fileman",
-                  "cpanel_jsonapi_func":    "createdir",
-                  "dir":        parent,
-                  "newdirname": name,
-              }).encode()
-              req = urllib.request.Request(
-                  f"https://{HOST}:2083/json-api/cpanel",
-                  data=params, headers=HEADERS,
-              )
-              try:
-                  with urllib.request.urlopen(req, context=ctx, timeout=30) as r:
-                      res = json.load(r)
-                  data = res.get("cpanelresult", {}).get("data", [{}])
-                  ok     = data[0].get("result", 0) if data else 0
-                  reason = data[0].get("reason", "") if data else ""
-                  return ok or "exist" in reason.lower()
-              except Exception as e:
-                  log(f"  mkdir error {remote_path!r}: {e}")
-                  return False
-
-          def upload_file(fp, rem_dir, retries=3):
-              raw = fp.read_bytes()
-              try:
-                  content   = raw.decode("utf-8")
-                  is_binary = False
-              except UnicodeDecodeError:
-                  is_binary = True
-
-              if not is_binary:
-                  for attempt in range(1, retries + 1):
-                      res = uapi("Fileman/save_file_content", {
-                          "dir": rem_dir, "file": fp.name,
-                          "content": content,
-                          "from_charset": "UTF-8", "to_charset": "UTF-8",
-                      })
-                      if res.get("status") == 1:
-                          return True
-                      if attempt < retries:
-                          time.sleep(2 * attempt)
-                  log(f"  FAIL {fp.name} text: {json.dumps(res)}")
-                  return False
-
+          def upload_zip(zip_path, rem_dir, retries=3):
+              # Upload a ZIP file via cPanel multipart upload
               for attempt in range(1, retries + 1):
                   boundary = uuid.uuid4().hex.encode()
-                  mime = mimetypes.guess_type(fp.name)[0] or "application/octet-stream"
+                  raw = zip_path.read_bytes()
                   body = (
                       b"--" + boundary + b"\r\n"
                       b'Content-Disposition: form-data; name="dir"\r\n\r\n' +
                       rem_dir.encode() + b"\r\n--" + boundary + b"\r\n"
                       b'Content-Disposition: form-data; name="overwrite"\r\n\r\n1\r\n'
                       b"--" + boundary + b"\r\n"
-                      b'Content-Disposition: form-data; name="file-1"; filename="' +
-                      fp.name.encode() + b'"\r\n'
-                      b"Content-Type: " + mime.encode() + b"\r\n\r\n" +
+                      b'Content-Disposition: form-data; name="file-1"; filename="deploy.zip"\r\n'
+                      b"Content-Type: application/zip\r\n\r\n" +
                       raw + b"\r\n--" + boundary + b"--\r\n"
                   )
                   req = urllib.request.Request(
@@ -154,29 +100,34 @@ jobs:
                       method="POST",
                   )
                   try:
-                      with urllib.request.urlopen(req, context=ctx, timeout=60) as r:
+                      with urllib.request.urlopen(req, context=ctx, timeout=300) as r:
                           res = json.load(r)
                       if res.get("status") == 1:
                           return True
-                      if attempt < retries:
-                          time.sleep(2 * attempt)
+                      print(f"  upload attempt {attempt} failed: {res.get('errors', res)}", flush=True)
                   except Exception as e:
-                      if attempt < retries:
-                          time.sleep(2 * attempt)
-                      else:
-                          log(f"  FAIL {fp.name} binary: {e}")
-                          return False
-              log(f"  FAIL {fp.name} binary: {json.dumps(res)}")
+                      print(f"  upload attempt {attempt} error: {e}", flush=True)
+                  if attempt < retries:
+                      time.sleep(5)
               return False
 
-          def deploy_item(item):
-              fp, rem_dir = item
-              ok = upload_file(fp, rem_dir)
-              if ok:
-                  log(f"  ok {fp.relative_to(dist)}")
-              return ok
+          def upload_text(fp, rem_dir, retries=3):
+              # Upload a single text file
+              content = fp.read_text(encoding="utf-8")
+              for attempt in range(1, retries + 1):
+                  res = uapi("Fileman/save_file_content", {
+                      "dir": rem_dir, "file": fp.name,
+                      "content": content,
+                      "from_charset": "UTF-8", "to_charset": "UTF-8",
+                  })
+                  if res.get("status") == 1:
+                      return True
+                  if attempt < retries:
+                      time.sleep(2 * attempt)
+              print(f"  FAIL {fp.name}: {json.dumps(res)}", flush=True)
+              return False
 
-          # Build manifest
+          # Build manifest of current dist
           dist      = Path("dist")
           all_files = sorted(f for f in dist.rglob("*") if f.is_file())
 
@@ -186,6 +137,7 @@ jobs:
           new_manifest = {str(fp.relative_to(dist)): sha_short(fp) for fp in all_files}
 
           # Fetch deployed manifest (best-effort)
+          MKEY = "manifest.json"
           old_manifest = {}
           if not FORCE_FULL:
               try:
@@ -201,61 +153,62 @@ jobs:
               except Exception as e:
                   print(f"No manifest on server ({e}), full deploy", flush=True)
 
-          MKEY = "manifest.json"
-          to_upload = [
+          # Determine which files changed
+          to_deploy = [
               fp for fp in all_files
               if str(fp.relative_to(dist)) != MKEY
               and new_manifest.get(str(fp.relative_to(dist)))
                   != old_manifest.get(str(fp.relative_to(dist)))
           ]
-          print(f"Changed: {len(to_upload)}/{len(all_files)} + manifest", flush=True)
+          print(f"Changed: {len(to_deploy)}/{len(all_files)} files", flush=True)
 
-          # Ensure dirs — parallel within each depth level (safe: same-depth dirs share parent)
-          dirs_needed = sorted({
-              f"{DDIR}/{fp.relative_to(dist).parent}"
-              for fp in to_upload
-              if str(fp.relative_to(dist).parent) != "."
-          }, key=lambda d: d.count("/"))
-
-          if dirs_needed:
-              print(f"Creating {len(dirs_needed)} dirs (parallel by depth)...", flush=True)
-              for depth, group in groupby(dirs_needed, key=lambda d: d.count("/")):
-                  batch = list(group)
-                  with ThreadPoolExecutor(max_workers=4) as ex:
-                      list(ex.map(mkdir_p, batch))
-
-          # Upload changed files (4 workers)
           failures = 0
-          if to_upload:
-              work = [
-                  (fp,
-                   f"{DDIR}/{fp.relative_to(dist).parent}"
-                   if str(fp.relative_to(dist).parent) != "." else DDIR)
-                  for fp in to_upload
-              ]
-              print(f"Uploading {len(work)} files (4 workers)...", flush=True)
-              with ThreadPoolExecutor(max_workers=4) as ex:
-                  futs = {ex.submit(deploy_item, item): item for item in work}
-                  for fut in as_completed(futs):
-                      if not fut.result():
-                          failures += 1
 
-          # Upload manifest last
+          if to_deploy:
+              # Pack changed files into a single ZIP
+              zip_path = Path("/tmp/deploy.zip")
+              with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as zf:
+                  for fp in to_deploy:
+                      zf.write(fp, str(fp.relative_to(dist)))
+              zip_mb = zip_path.stat().st_size / 1_048_576
+              print(f"ZIP: {zip_mb:.1f} MB ({len(to_deploy)} files)", flush=True)
+
+              # Upload ZIP
+              print("Uploading ZIP...", flush=True)
+              if upload_zip(zip_path, DDIR):
+                  print("ZIP uploaded — extracting server-side...", flush=True)
+                  res = uapi("Fileman/extract_file_archive", {
+                      "dir":  DDIR,
+                      "file": "deploy.zip",
+                  })
+                  if res.get("status") == 1:
+                      print("Extracted OK", flush=True)
+                      uapi("Fileman/trash", {"path": f"/{DDIR}/deploy.zip"})
+                  else:
+                      print(f"Extract FAILED: {json.dumps(res)}", flush=True)
+                      failures += 1
+              else:
+                  print("ZIP upload FAILED after retries", flush=True)
+                  failures += 1
+
+          # Upload manifest last (only present once deploy succeeds)
           mfp = dist / MKEY
-          mfp.write_text(json.dumps(new_manifest, separators=(',', ':')))
-          if not upload_file(mfp, DDIR):
-              failures += 1
+          mfp.write_text(json.dumps(new_manifest, separators=(",", ":")))
+          if upload_text(mfp, DDIR):
+              print("manifest.json OK", flush=True)
           else:
-              log("  ok manifest.json")
+              failures += 1
 
           if failures:
-              print(f"\n{failures} file(s) failed.", flush=True)
+              print(f"\n{failures} step(s) failed.", flush=True)
               sys.exit(1)
-          print(f"\nDone: {len(to_upload)+1} files uploaded.", flush=True)
+          print(f"\nDone: {len(to_deploy)} files deployed via ZIP + extract.", flush=True)
           PYEOF
 
       - name: Verify deployment
         run: |
-          sleep 5
-          curl -sk https://kameir.com/ | grep -o 'Christian Kameir' | head -1 || echo "homepage MISSING"
-          curl -sk https://kameir.com/manifest.json | python3 -c "import sys,json; d=json.load(sys.stdin); print(f'manifest: {len(d)} entries')" || echo "manifest MISSING"
+          sleep 10
+          echo "=== homepage ==="
+          curl -sk --max-time 15 https://kameir.com/ | grep -o 'Christian Kameir' | head -1 || echo "MISSING"
+          echo "=== manifest ==="
+          curl -sk --max-time 15 https://kameir.com/manifest.json | python3 -c "import sys,json; d=json.load(sys.stdin); print(f'OK: {len(d)} entries')" || echo "MISSING"
