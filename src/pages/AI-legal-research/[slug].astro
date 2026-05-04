@@ -179,10 +179,9 @@ const dateStr    = fmtDate(c.date);
             View source document →
           </a>
         )}
-        <p class="case-attribution">
-          Data from <a href="https://www.damiencharlotin.com/hallucinations/" target="_blank" rel="noopener">Damien Charlotin's AI Hallucination Cases Database</a>.
-          {c.pointer && ` Flagged by: ${c.pointer}.`}
-        </p>
+        {c.pointer && (
+          <p class="case-attribution">Flagged by: {c.pointer}.</p>
+        )}
       </section>
 
     </div><!-- /.case-body -->
@@ -463,3 +462,4 @@ const dateStr    = fmtDate(c.date);
   .case-penalty { flex-direction: column; gap: 0.25rem; }
 }
 </style>
+                                                                                                                                                                       
