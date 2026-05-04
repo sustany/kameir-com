@@ -14,3 +14,4 @@ export default defineConfig({
   vite: {
     cacheDir: '/tmp/vite-build-kameir',
   },
+});
