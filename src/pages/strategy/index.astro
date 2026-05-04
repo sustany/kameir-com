@@ -1,0 +1,231 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base
+  title="Strategy"
+  description="Strategy — independent advisory helping capital-intensive companies from German-speaking countries enter the US market, capture federal and state incentives, and connect with private capital."
+>
+  <article class="advisory">
+
+    <!-- ── Hero ──────────────────────────────────────────── -->
+    <section class="advisory__hero">
+      <div class="advisory__hero-inner container--wide">
+
+        <div class="advisory__hero-text">
+          <p class="label advisory__location">Newport Beach, California</p>
+          <h1 class="advisory__name">Christian<br>Kameir</h1>
+          <p class="advisory__tagline">Reality does not have an advertising budget.</p>
+
+          <div class="advisory__bio prose">
+            <p>
+              Independent advisory based in Newport Beach, California, with an operational
+              footprint in New Mexico. The practice helps capital-intensive companies —
+              primarily industrials, energy developers, and advanced manufacturers from
+              German-speaking countries — enter the United States market, capture the
+              federal, state, and county incentives available to them, and connect with
+              the private capital sources that complete the stack.
+            </p>
+            <p>
+              Bilingual German&thinsp;/&thinsp;English. Operates what it advises on rather
+              than consulting from the sidelines. Does not accept referral fees from US
+              states, counties, or site-selection intermediaries. Engagements are retained,
+              paid, and scoped — not hourly.
+            </p>
+            <p>
+              The active roster is deliberately small. At any given time the practice
+              represents no more than a handful of clients, because the depth of involvement
+              each engagement demands cannot be scaled by adding accounts. When the roster
+              is full, new inquiries are declined or deferred.
+            </p>
+          </div>
+
+          <div class="advisory__cta">
+            <a href="/about" class="btn btn--primary">About Christian</a>
+            <a href="/contact" class="btn btn--outline">Request a call</a>
+          </div>
+        </div>
+
+        <div class="advisory__hero-photo">
+          <img
+            src="/images/christian-kameir.jpg"
+            alt="Christian Kameir"
+            width="460"
+            height="575"
+            class="advisory__photo"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Rule ─────────────────────────────────────────── -->
+    <div class="container"><hr class="rule" /></div>
+
+    <!-- ── Anchors ───────────────────────────────────────── -->
+    <section class="advisory__anchors">
+      <div class="container">
+        <p class="label">Practice anchors</p>
+        <dl class="anchors__dl">
+          <div class="anchors__item">
+            <dt>Engagement floor</dt>
+            <dd>$18,000&thinsp;/&thinsp;month ($22,000 for US-entry onshoring)</dd>
+          </div>
+          <div class="anchors__item">
+            <dt>Minimums</dt>
+            <dd>Six months on capital and onshoring engagements. Twelve months on fractional advisory.</dd>
+          </div>
+          <div class="anchors__item">
+            <dt>Terms</dt>
+            <dd>Net-15. First month on signature.</dd>
+          </div>
+          <div class="anchors__item">
+            <dt>What Kameir does not do</dt>
+            <dd>Referral fees from US states. Contingent-only structures. Grant ghost-writing of record.</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+  </article>
+</Base>
+
+<style>
+/* ── Hero ─────────────────────────────────────────────────── */
+.advisory__hero {
+  padding-top: 5rem;
+  padding-bottom: var(--space-xl);
+  padding-inline: var(--space-m);
+}
+
+.advisory__hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 5rem;
+  align-items: center;
+  margin-inline: auto;
+}
+
+.advisory__location {
+  margin-bottom: 1.25rem;
+}
+
+.advisory__name {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 7vw, 5rem);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+}
+
+.advisory__tagline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+  color: var(--text-muted);
+  line-height: 1.5;
+  max-width: 420px;
+  margin-bottom: var(--space-m);
+  padding-bottom: var(--space-m);
+  border-bottom: 1px solid var(--rule);
+}
+
+.advisory__bio {
+  font-size: 0.98rem;
+  line-height: 1.8;
+  color: var(--text);
+  max-width: 460px;
+  margin-bottom: var(--space-l);
+}
+
+.advisory__cta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ── Photo ─────────────────────────────────────────────────── */
+.advisory__hero-photo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.advisory__photo {
+  width: 100%;
+  max-width: 380px;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 1px;
+  display: block;
+  filter: grayscale(12%);
+}
+
+/* ── Anchors ───────────────────────────────────────────────── */
+.advisory__anchors {
+  padding-bottom: var(--space-xl);
+}
+
+.advisory__anchors .label {
+  margin-bottom: 1.5rem;
+}
+
+.anchors__dl {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.anchors__item {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.anchors__item dt {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.anchors__item dd {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .advisory__hero-inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-l);
+  }
+
+  .advisory__hero-photo {
+    order: -1;
+    justify-content: flex-start;
+  }
+
+  .advisory__photo {
+    max-width: 220px;
+    aspect-ratio: 4/5;
+  }
+
+  .advisory__hero {
+    padding-top: 3rem;
+    padding-bottom: var(--space-l);
+  }
+}
+
+@media (max-width: 480px) {
+  .advisory__cta { flex-direction: column; }
+  .advisory__cta .btn { text-align: center; }
+  .anchors__item { grid-template-columns: 1fr; gap: 0.2rem; }
+}
+</style>

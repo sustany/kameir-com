@@ -12,6 +12,5 @@ export default defineConfig({
     inlineStylesheets: 'always', // inline CSS → no _astro/ subdirectory needed
   },
   vite: {
-    cacheDir: '/tmp/vite-cache-build2',
+    cacheDir: '/tmp/vite-build-kameir',
   },
-});

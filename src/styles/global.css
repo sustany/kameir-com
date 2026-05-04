@@ -77,8 +77,8 @@ main { flex: 1; padding-bottom: 4rem; }
 }
 
 .site-nav__home {
-  font-family: var(--font-ui);
-  font-size: 0.8rem;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: calc(0.8rem + 2px);
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
