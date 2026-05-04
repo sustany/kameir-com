@@ -177,27 +177,29 @@ jobs:
               print("Uploading ZIP...", flush=True)
               if upload_zip(zip_path, DDIR):
                   print("ZIP uploaded — extracting server-side...", flush=True)
-                  res = uapi("Fileman/extract_file_archive", {
+                  res = uapi("Fileman/extract_archive", {
                       "dir":  DDIR,
                       "file": "deploy.zip",
                   })
                   if res.get("status") == 1:
                       print("Extracted OK", flush=True)
-                      uapi("Fileman/trash", {"path": f"/{DDIR}/deploy.zip"})
                   else:
                       print(f"Extract FAILED: {json.dumps(res)}", flush=True)
                       failures += 1
+                  # Always clean up the ZIP regardless of extract outcome
+                  uapi("Fileman/trash", {"path": f"/{DDIR}/deploy.zip"})
               else:
                   print("ZIP upload FAILED after retries", flush=True)
                   failures += 1
 
-          # Upload manifest last (only present once deploy succeeds)
-          mfp = dist / MKEY
-          mfp.write_text(json.dumps(new_manifest, separators=(",", ":")))
-          if upload_text(mfp, DDIR):
-              print("manifest.json OK", flush=True)
-          else:
-              failures += 1
+          # Upload manifest last — only if deploy succeeded
+          if not failures:
+              mfp = dist / MKEY
+              mfp.write_text(json.dumps(new_manifest, separators=(",", ":")))
+              if upload_text(mfp, DDIR):
+                  print("manifest.json OK", flush=True)
+              else:
+                  failures += 1
 
           if failures:
               print(f"\n{failures} step(s) failed.", flush=True)
