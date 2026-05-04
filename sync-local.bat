@@ -2,15 +2,9 @@
 setlocal
 set REPO=C:\Users\ChrisKameir\Claude\Vault\Kameir.com\Kameir.com\site
 
-echo === Removing stale lock files ===
-if exist "%REPO%\.git\HEAD.lock" del "%REPO%\.git\HEAD.lock"
-if exist "%REPO%\.git\index.lock" del "%REPO%\.git\index.lock"
-
-echo === Pulling latest from GitHub ===
-git -C "%REPO%" fetch origin
-git -C "%REPO%" reset --hard origin/main
-
-echo.
-echo === Done — local copy is now synced with GitHub ===
-git -C "%REPO%" log --oneline -3
-pause
+echo === [1/4] Clearing stale lock files ===
+if exist "%REPO%\.git\HEAD.lock"        del /f /q "%REPO%\.git\HEAD.lock"
+if exist "%REPO%\.git\index.lock"       del /f /q "%REPO%\.git\index.lock"
+if exist "%REPO%\.git\MERGE_HEAD"       del /f /q "%REPO%\.git\MERGE_HEAD"
+if exist "%REPO%\.git\MERGE_MSG"        del /f /q "%REPO%\.git\MERGE_MSG"
+if exist "%REPO%\.git\MERGE_MODE"   
