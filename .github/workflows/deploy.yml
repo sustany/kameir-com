@@ -46,7 +46,7 @@ jobs:
         run: |
           python3 - <<'PYEOF'
           import os, urllib.request, urllib.parse, json, ssl, sys
-          import mimetypes, uuid, time, hashlib, zipfile
+          import uuid, time, hashlib, zipfile, random, string
           from pathlib import Path
 
           HOST       = os.environ['CPANEL_HOST']
@@ -127,6 +127,21 @@ jobs:
               print(f"  FAIL {fp.name}: {json.dumps(res)}", flush=True)
               return False
 
+          def upload_text_str(filename, content, rem_dir, retries=3):
+              # Upload a text string as a file
+              for attempt in range(1, retries + 1):
+                  res = uapi("Fileman/save_file_content", {
+                      "dir": rem_dir, "file": filename,
+                      "content": content,
+                      "from_charset": "UTF-8", "to_charset": "UTF-8",
+                  })
+                  if res.get("status") == 1:
+                      return True
+                  if attempt < retries:
+                      time.sleep(2 * attempt)
+              print(f"  FAIL {filename}: {json.dumps(res)}", flush=True)
+              return False
+
           # Build manifest of current dist
           dist      = Path("dist")
           all_files = sorted(f for f in dist.rglob("*") if f.is_file())
@@ -175,22 +190,69 @@ jobs:
 
               # Upload ZIP
               print("Uploading ZIP...", flush=True)
-              if upload_zip(zip_path, DDIR):
-                  print("ZIP uploaded — extracting server-side...", flush=True)
-                  res = uapi("Fileman/extract_archive", {
-                      "dir":  DDIR,
-                      "file": "deploy.zip",
-                  })
-                  if res.get("status") == 1:
-                      print("Extracted OK", flush=True)
-                  else:
-                      print(f"Extract FAILED: {json.dumps(res)}", flush=True)
-                      failures += 1
-                  # Always clean up the ZIP regardless of extract outcome
-                  uapi("Fileman/trash", {"path": f"/{DDIR}/deploy.zip"})
-              else:
+              if not upload_zip(zip_path, DDIR):
                   print("ZIP upload FAILED after retries", flush=True)
                   failures += 1
+              else:
+                  print("ZIP uploaded — running PHP extractor...", flush=True)
+
+                  # Generate a hard-to-guess extractor filename
+                  token = ''.join(random.choices('abcdef0123456789', k=12))
+                  EXTRACTOR = f"_extract_{token}.php"
+
+                  # PHP script: extracts deploy.zip then self-deletes
+                  php = (
+                      "<?php "
+                      "$d=__DIR__;"
+                      "$z=new ZipArchive;"
+                      "$r=$z->open($d.'/deploy.zip');"
+                      "if($r===true){"
+                      "$z->extractTo($d);"
+                      "$z->close();"
+                      "unlink($d.'/deploy.zip');"
+                      "unlink(__FILE__);"
+                      "echo 'OK';"
+                      "}else{"
+                      "http_response_code(500);"
+                      "echo 'FAIL:'.$r;"
+                      "}"
+                      "?>"
+                  )
+
+                  # Upload the PHP extractor
+                  if not upload_text_str(EXTRACTOR, php, DDIR):
+                      print("PHP extractor upload FAILED", flush=True)
+                      failures += 1
+                      # Clean up ZIP since we can't extract
+                      uapi("Fileman/trash", {"path": f"/{DDIR}/deploy.zip"})
+                  else:
+                      # Invoke the PHP extractor via HTTPS
+                      php_url = f"https://kameir.com/{EXTRACTOR}"
+                      print(f"Invoking {php_url} ...", flush=True)
+                      extracted = False
+                      for attempt in range(1, 4):
+                          try:
+                              pctx = ssl.create_default_context()
+                              pctx.check_hostname = False
+                              pctx.verify_mode = ssl.CERT_NONE
+                              with urllib.request.urlopen(php_url, context=pctx, timeout=300) as r:
+                                  body = r.read().decode().strip()
+                              print(f"  PHP response: {body[:100]}", flush=True)
+                              if body == 'OK':
+                                  print("Extracted OK via PHP", flush=True)
+                                  extracted = True
+                                  break
+                              else:
+                                  print(f"  PHP attempt {attempt} returned: {body[:200]}", flush=True)
+                          except Exception as e:
+                              print(f"  PHP attempt {attempt} error: {e}", flush=True)
+                          if attempt < 3:
+                              time.sleep(5)
+                      if not extracted:
+                          failures += 1
+                          # Clean up
+                          uapi("Fileman/trash", {"path": f"/{DDIR}/deploy.zip"})
+                          uapi("Fileman/trash", {"path": f"/{DDIR}/{EXTRACTOR}"})
 
           # Upload manifest last — only if deploy succeeded
           if not failures:
@@ -204,7 +266,7 @@ jobs:
           if failures:
               print(f"\n{failures} step(s) failed.", flush=True)
               sys.exit(1)
-          print(f"\nDone: {len(to_deploy)} files deployed via ZIP + extract.", flush=True)
+          print(f"\nDone: {len(to_deploy)} files deployed via ZIP + PHP extract.", flush=True)
           PYEOF
 
       - name: Verify deployment
