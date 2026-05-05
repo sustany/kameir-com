@@ -1,0 +1,8 @@
+{
+  "description": "Edit this file and push to trigger the bulk-upload GitHub Actions workflow. Managed by Claude Cowork.",
+  "last_triggered": "2026-05-05T22:10",
+  "scope": "all",
+  "resume": true,
+  "batch_size": 100,
+  "note": "auto-triggered by scheduled task kameir-pdf-batch-trigger"
+}
