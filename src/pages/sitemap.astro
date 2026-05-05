@@ -1,0 +1,167 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const writingPosts = (await getCollection('writing'))
+  .filter(p => !p.data.draft)
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+
+const sections = [
+  {
+    heading: 'Main',
+    pages: [
+      { label: 'Home',      href: '/',         desc: 'Overview and recent writing' },
+      { label: 'About',     href: '/about',    desc: 'Background, focus areas, and credentials' },
+      { label: 'Strategy',  href: '/strategy', desc: 'Strategic advisory services' },
+      { label: 'Advisory',  href: '/advisory', desc: 'Advisory and board engagement' },
+      { label: 'Speaking',  href: '/speaking', desc: 'Speaking engagements and topics' },
+      { label: 'Contact',   href: '/contact',  desc: 'Schedule a call or send a note' },
+    ],
+  },
+  {
+    heading: 'Writing',
+    pages: [
+      { label: 'Writing', href: '/writing', desc: 'Essays and short takes on capital, technology, and law' },
+      ...writingPosts.map(p => ({
+        label: p.data.title,
+        href: `/writing/${p.slug}`,
+        desc: p.data.description ?? '',
+      })),
+    ],
+  },
+  {
+    heading: 'AI Legal Research',
+    pages: [
+      { label: 'AI Legal Research',                              href: '/AI-legal-research',                                                      desc: 'Tracking AI hallucination cases in federal and state courts' },
+      { label: 'How AI Got a Lawyer Sanctioned in Federal Court', href: '/AI-legal-research/How-AI-Got-Lawyer-Sanctioned-in-Federal-Court',       desc: 'Chaney v. Transdev Services Inc. (C.D. Cal. 2026)' },
+      { label: 'Court Orders by State',                          href: '/AI-legal-research/orders',                                               desc: 'AI-related court orders indexed by US state' },
+    ],
+  },
+  {
+    heading: 'AI Ethics',
+    pages: [
+      { label: 'AI Ethics', href: '/ai-ethics', desc: 'Frameworks and resources for responsible AI adoption' },
+    ],
+  },
+  {
+    heading: 'Legal',
+    pages: [
+      { label: 'Privacy Policy', href: '/privacy', desc: 'How this site handles data' },
+    ],
+  },
+];
+---
+
+<Base
+  title="Sitemap"
+  description="A full index of all pages on kameir.com."
+>
+  <div class="sitemap-page">
+    <header class="sitemap-page__header">
+      <h1>Sitemap</h1>
+      <p>All public pages on <a href="/">kameir.com</a>. The machine-readable version is at <a href="/sitemap-index.xml"><code>/sitemap-index.xml</code></a>.</p>
+    </header>
+
+    {sections.map(section => (
+      <section class="sitemap-section">
+        <h2>{section.heading}</h2>
+        <ul class="sitemap-list">
+          {section.pages.map(page => (
+            <li class="sitemap-list__item">
+              <a href={page.href}>{page.label}</a>
+              {page.desc && <span class="sitemap-list__desc">{page.desc}</span>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</Base>
+
+<style>
+  .sitemap-page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 6rem;
+  }
+
+  .sitemap-page__header {
+    margin-bottom: 3rem;
+    border-bottom: 1px solid var(--color-border, #e5e5e5);
+    padding-bottom: 2rem;
+  }
+
+  .sitemap-page__header h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.75rem;
+  }
+
+  .sitemap-page__header p {
+    margin: 0;
+    color: var(--color-muted, #666);
+    font-size: 0.95rem;
+  }
+
+  .sitemap-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .sitemap-section h2 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-muted, #888);
+    margin: 0 0 0.75rem;
+  }
+
+  .sitemap-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--color-border, #e5e5e5);
+  }
+
+  .sitemap-list__item {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--color-border, #e5e5e5);
+    font-size: 0.95rem;
+  }
+
+  .sitemap-list__item a {
+    flex-shrink: 0;
+    font-weight: 500;
+    color: var(--color-text, #111);
+    text-decoration: none;
+  }
+
+  .sitemap-list__item a:hover {
+    text-decoration: underline;
+  }
+
+  .sitemap-list__desc {
+    color: var(--color-muted, #888);
+    font-size: 0.875rem;
+    line-clamp: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  @media (max-width: 600px) {
+    .sitemap-list__item {
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .sitemap-list__desc {
+      white-space: normal;
+      overflow: visible;
+    }
+  }
+</style>
