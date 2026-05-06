@@ -1,0 +1,160 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Generative AI Use — Mandatory Training | Sample Module"
+  description="Preview Module 2 of the Generative AI Use Mandatory Training CLE course: AI Risk &amp; Candor. Developed by Christian Kameir."
+>
+  <article class="cle-sample">
+    <div class="container">
+
+      <!-- ── Header ──────────────────────────────────────── -->
+      <header class="cle-sample__header">
+        <p class="label">CLE Course Sample</p>
+        <h1 class="cle-sample__title">Generative AI Use<br>Mandatory Training</h1>
+        <p class="cle-sample__intro">
+          A practical CLE course built for attorneys navigating the professional
+          responsibility implications of generative AI in legal practice.
+          The module below is a sample from the full course.
+        </p>
+      </header>
+
+      <hr class="rule" />
+
+      <!-- ── Video ───────────────────────────────────────── -->
+      <section class="cle-sample__section">
+        <p class="cle-sample__section-label">Module 2 — Sample</p>
+        <h2 class="cle-sample__module-title">AI Risk &amp; Candor</h2>
+        <div class="cle-sample__embed-wrapper">
+          <iframe
+            src="https://app.heygen.com/embeds/4b71cf8f970a4cdf98eef24505fa1fdb"
+            title="Module 2 - AI Risk Candor"
+            frameborder="0"
+            allow="encrypted-media; fullscreen;"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </section>
+
+      <hr class="rule" />
+
+      <!-- ── About the course ────────────────────────────── -->
+      <section class="cle-sample__section cle-sample__about">
+        <p class="cle-sample__section-label">About the course</p>
+        <p class="cle-sample__body">
+          <em>Generative AI Use — Mandatory Training</em> is a structured CLE program
+          covering the professional responsibility rules that apply when attorneys use
+          AI tools in client matters. The course addresses competence, confidentiality,
+          supervision, candor to the tribunal, and billing ethics — grounded in the
+          ABA Model Rules and current state bar guidance.
+        </p>
+        <p class="cle-sample__body">
+          Developed by Christian Kameir, whose practice sits at the intersection of
+          technology law, venture finance, and AI policy.
+        </p>
+      </section>
+
+      <hr class="rule" />
+
+      <!-- ── CTA ─────────────────────────────────────────── -->
+      <section class="cle-sample__cta">
+        <p class="cle-sample__cta-text">
+          Interested in licensing the full course for your firm or bar association,
+          or have questions about the curriculum?
+        </p>
+        <a href="/contact" class="btn btn--primary">Get in touch</a>
+      </section>
+
+    </div>
+  </article>
+</Base>
+
+<style>
+/* ── Header ──────────────────────────────────────────────── */
+.cle-sample__header {
+  padding-top: 4rem;
+  padding-bottom: var(--space-l);
+}
+
+.cle-sample__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-top: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.cle-sample__intro {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  max-width: 560px;
+  line-height: 1.75;
+}
+
+/* ── Sections ─────────────────────────────────────────────── */
+.cle-sample__section {
+  margin-bottom: var(--space-l);
+  padding-block: var(--space-m);
+}
+
+.cle-sample__section-label {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.cle-sample__module-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 1.75rem;
+}
+
+/* ── Embed ────────────────────────────────────────────────── */
+.cle-sample__embed-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  aspect-ratio: 16 / 9;
+  background: var(--surface, #f4f4f4);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.cle-sample__embed-wrapper iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ── About ────────────────────────────────────────────────── */
+.cle-sample__body {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--text);
+  max-width: 640px;
+  margin-bottom: 1rem;
+}
+
+/* ── CTA ──────────────────────────────────────────────────── */
+.cle-sample__cta {
+  padding-bottom: var(--space-xl);
+}
+
+.cle-sample__cta-text {
+  font-size: 1rem;
+  color: var(--text-muted);
+  max-width: 520px;
+  line-height: 1.75;
+  margin-bottom: var(--space-m);
+}
+</style>
