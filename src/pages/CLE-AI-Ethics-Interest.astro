@@ -1,0 +1,224 @@
+---
+import Base from '../layouts/Base.astro';
+
+const FORMSPREE_ID = 'xjgjawba';
+const WEB3FORMS_KEY = 'bc729c5a-7f38-4e21-9ed8-42afb924c951';
+---
+
+<Base
+  title="CLE Course Inquiry — Generative AI Use Mandatory Training"
+  description="Inquire about licensing the Generative AI Use Mandatory Training CLE course for your firm, organization, or bar association."
+>
+  <article class="cle-contact">
+    <div class="container--wide">
+
+      <header class="cle-contact__header">
+        <p class="label">CLE Course Inquiry</p>
+        <h1 class="cle-contact__title">Generative AI Use Mandatory Training</h1>
+        <p class="cle-contact__intro">
+          Interested in licensing the course for your firm, organization, or bar association?
+          Use the form below — include your jurisdiction, intended audience size, and
+          how you plan to deploy the curriculum.
+        </p>
+      </header>
+
+      <!-- ── Form ────────────────────────────────────────────── -->
+      <form id="cle-form" class="cle-contact__form" novalidate>
+
+        <input type="text" name="_gotcha" style="display:none" aria-hidden="true" />
+        <input type="hidden" name="_subject" value="CLE Course Inquiry — Generative AI Use Mandatory Training" />
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input
+              id="name"
+              type="text"
+              name="name"
+              placeholder="Your name"
+              required
+              autocomplete="name"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              placeholder="your@email.com"
+              required
+              autocomplete="email"
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="organization">Firm / organization</label>
+            <input
+              id="organization"
+              type="text"
+              name="organization"
+              placeholder="Firm or organization name"
+              autocomplete="organization"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="jurisdiction">
+              Jurisdiction(s)
+              <span class="form-hint">State bar(s) or region where CLE credits are needed</span>
+            </label>
+            <input
+              id="jurisdiction"
+              type="text"
+              name="jurisdiction"
+              placeholder="e.g. California, New York, Texas"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="message">
+            How do you intend to use the course?
+            <span class="form-hint">Include audience size, deployment format (live, on-demand, LMS), and any accreditation requirements.</span>
+          </label>
+          <textarea
+            id="message"
+            name="message"
+            placeholder="e.g. Internal mandatory training for 40 attorneys across three offices. Need on-demand access and a certificate of completion for state bar reporting."
+            required
+            rows="6"
+          ></textarea>
+        </div>
+
+        <button type="submit" id="submit-btn" class="btn btn--primary cle-contact__submit">
+          Send inquiry
+        </button>
+
+      </form>
+
+      <script define:vars={{ FORMSPREE_ID, WEB3FORMS_KEY }}>
+        const form = document.getElementById('cle-form');
+        const btn  = document.getElementById('submit-btn');
+
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          if (!form.checkValidity()) { form.reportValidity(); return; }
+
+          btn.disabled = true;
+          btn.textContent = 'Sending…';
+
+          const data = new FormData(form);
+          const name         = data.get('name')         || '';
+          const email        = data.get('email')        || '';
+          const organization = data.get('organization') || '';
+          const jurisdiction = data.get('jurisdiction') || '';
+          const message      = data.get('message')      || '';
+
+          try {
+            const fsRes = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+              method: 'POST',
+              body: data,
+              headers: { Accept: 'application/json' },
+            });
+
+            if (!fsRes.ok) {
+              const fsData = await fsRes.json().catch(() => ({}));
+              const msg = fsData?.errors?.map(e => e.message).join(', ') || 'Submission failed. Please try again.';
+              alert(msg);
+              btn.disabled = false;
+              btn.textContent = 'Send inquiry';
+              return;
+            }
+
+            if (WEB3FORMS_KEY && WEB3FORMS_KEY !== 'REPLACE_WITH_WEB3FORMS_KEY') {
+              await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                body: JSON.stringify({
+                  access_key: WEB3FORMS_KEY,
+                  subject: 'Your CLE course inquiry — received',
+                  from_name: 'Decentralized Publishing LLC',
+                  name,
+                  email,
+                  organization,
+                  jurisdiction,
+                  message,
+                }),
+              }).catch(() => {});
+            }
+
+            window.location.href = '/thanks';
+
+          } catch {
+            alert('Network error. Please try again.');
+            btn.disabled = false;
+            btn.textContent = 'Send inquiry';
+          }
+        });
+      </script>
+
+    </div>
+  </article>
+</Base>
+
+<style>
+.cle-contact__header {
+  padding-top: 4rem;
+  padding-bottom: 1.5rem;
+}
+
+.cle-contact__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-top: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.cle-contact__intro {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+}
+
+/* ── Form layout ──────────────────────────────────────────── */
+.cle-contact__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-bottom: 4rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.form-hint {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.cle-contact__submit {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
