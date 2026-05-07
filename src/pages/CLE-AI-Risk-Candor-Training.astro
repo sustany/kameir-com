@@ -1,0 +1,146 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="CLE Module 2: AI Risk &amp; Candor | Generative AI Use Training"
+  description="CLE training module covering AI risk and the duty of candor to the tribunal when using generative AI in legal practice. Developed by Christian Kameir."
+>
+  <article class="cle-sample">
+    <div class="container--wide">
+
+      <!-- ── Header ──────────────────────────────────────── -->
+      <header class="cle-sample__header">
+        <p class="label">CLE Course — Module 2</p>
+        <h1 class="cle-sample__title">AI Risk &amp; Candor</h1>
+        <p class="cle-sample__intro">
+          How generative AI fails — and what those failure modes mean for
+          an attorney's duty of candor to the tribunal. Part of the
+          <em>Generative AI Use Mandatory Training</em> CLE course.
+        </p>
+      </header>
+
+      <!-- ── Video ───────────────────────────────────────── -->
+      <section class="cle-sample__video">
+        <div class="cle-sample__embed-wrapper">
+          <iframe
+            src="https://app.heygen.com/embeds/4b71cf8f970a4cdf98eef24505fa1fdb"
+            title="Module 2 - AI Risk &amp; Candor"
+            frameborder="0"
+            allow="encrypted-media; fullscreen;"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </section>
+
+      <hr class="rule" />
+
+      <!-- ── About ───────────────────────────────────────── -->
+      <section class="cle-sample__section">
+        <p class="cle-sample__section-label">About this module</p>
+        <p class="cle-sample__body">
+          This module catalogs the seven most consequential AI failure modes attorneys
+          encounter in practice — from hallucination and prompt injection to context-window
+          truncation and overconfidence signaling — and maps each directly to Model Rules
+          3.1 and 3.3. Attorneys leave with a concrete checklist for pre-filing AI output
+          review.
+        </p>
+        <p class="cle-sample__body">
+          Developed by Christian Kameir, whose practice spans technology law, venture
+          finance, and AI policy.
+        </p>
+      </section>
+
+      <hr class="rule" />
+
+      <!-- ── CTA ─────────────────────────────────────────── -->
+      <section class="cle-sample__cta">
+        <p class="cle-sample__cta-text">
+          Interested in licensing the full course for your firm or bar association?
+        </p>
+        <a href="/contact" class="btn btn--primary">Get in touch</a>
+      </section>
+
+    </div>
+  </article>
+</Base>
+
+<style>
+.cle-sample__header {
+  padding-top: 4rem;
+  padding-bottom: 1.5rem;
+}
+
+.cle-sample__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-top: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.cle-sample__intro {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  max-width: 560px;
+  line-height: 1.75;
+}
+
+.cle-sample__video {
+  margin-bottom: var(--space-l);
+}
+
+.cle-sample__embed-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--surface, #f4f4f4);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.cle-sample__embed-wrapper iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.cle-sample__section {
+  margin-bottom: var(--space-l);
+  padding-block: var(--space-m);
+}
+
+.cle-sample__section-label {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.cle-sample__body {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--text);
+  max-width: 640px;
+  margin-bottom: 1rem;
+}
+
+.cle-sample__cta {
+  padding-bottom: var(--space-xl);
+}
+
+.cle-sample__cta-text {
+  font-size: 1rem;
+  color: var(--text-muted);
+  max-width: 520px;
+  line-height: 1.75;
+  margin-bottom: var(--space-m);
+}
+</style>
