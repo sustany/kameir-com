@@ -1,6 +1,6 @@
 {
   "description": "Edit this file and push to trigger the bulk-upload GitHub Actions workflow. Managed by Claude Cowork.",
-  "last_triggered": "2026-05-07T22:10",
+  "last_triggered": "2026-05-08T01:11",
   "scope": "all",
   "resume": true,
   "batch_size": 100,
