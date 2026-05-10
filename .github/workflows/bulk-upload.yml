@@ -1,0 +1,78 @@
+name: Bulk PDF Upload (Parallel)
+
+# Triggered by Claude Cowork pushing scripts/bulk_upload_trigger.json.
+# Discover phase scans the live server to build the missing list (no progress.json
+# needed). Upload phase fans out to 10 parallel runners — each gets its own IP
+# so each gets its own damiencharlotin.com rate-limit budget.
+
+on:
+  push:
+    paths:
+      - 'scripts/bulk_upload_trigger.json'
+  workflow_dispatch:
+    inputs:
+      shards:
+        description: 'Number of parallel shards (default 10)'
+        required: false
+        default: '10'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bulk-upload
+  cancel-in-progress: false
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      missing_count: ${{ steps.scan.outputs.missing_count }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: scan
+        run: |
+          python3 scripts/discover_missing.py | tee discover.log
+          COUNT=$(python3 -c "import json; print(len(json.load(open('missing.json'))))")
+          echo "missing_count=$COUNT" >> $GITHUB_OUTPUT
+          echo "Missing: $COUNT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: missing-list
+          path: missing.json
+          retention-days: 1
+
+  upload:
+    needs: discover
+    if: needs.discover.outputs.missing_count != '0'
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: missing-list
+      - name: Run shard ${{ matrix.shard }}
+        env:
+          CPANEL_HOST:  "15.204.206.156"
+          CPANEL_USER:  "greendat"
+          CPANEL_TOKEN: ${{ secrets.CPANEL_API_TOKEN }}
+          DEPLOY_DIR:   "public_html/kameir.com"
+          SHARD_INDEX:  ${{ matrix.shard }}
+          SHARD_TOTAL:  10
+        run: python3 scripts/parallel_upload.py
+
+  verify:
+    needs: upload
+    if: always() && needs.discover.outputs.missing_count != '0'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Re-scan after uploads
+        run: |
+          python3 scripts/discover_missing.py
