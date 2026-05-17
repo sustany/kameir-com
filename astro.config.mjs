@@ -9,7 +9,6 @@ export default defineConfig({
       filter: (page) => ![
         'https://kameir.com/thanks',
         'https://kameir.com/ai-ethics-book-a-call',
-        'https://kameir.com/ai-ethics-lead-magnet',
         'https://kameir.com/ai-ethics-template',
       ].includes(page),
     }),
