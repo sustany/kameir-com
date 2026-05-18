@@ -39,6 +39,18 @@ function penaltyShort(p: string) {
       </p>
     </header>
 
+
+    <!-- CLE callout -->
+    <div class="hc-cle-banner container container--wide">
+      <div class="hc-cle-banner__inner">
+        <div class="hc-cle-banner__text">
+          <p class="hc-cle-banner__eyebrow">6-Hour CLE Course</p>
+          <p class="hc-cle-banner__msg">Every case in this database is covered in <strong>Ethics-Safe AI Use for Law Firms</strong> — the only CLE course built directly from the sanctions record.</p>
+        </div>
+        <a href="/AI-Ethics-CLE-Course-Sample" class="hc-cle-banner__cta">Preview free module →</a>
+      </div>
+    </div>
+
     <!-- Filters -->
     <div class="hc-filters container container--wide" id="filters">
       <div class="hc-filters__row">
@@ -355,6 +367,66 @@ function penaltyShort(p: string) {
   #hc-state { flex: 1; min-width: 0; }
   .hc-filters__search { flex: 2; }
 }
+
+/* ── CLE callout banner ───────────────────────────────────── */
+.hc-cle-banner {
+  padding-block: 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.hc-cle-banner__inner {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.hc-cle-banner__eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.25rem;
+}
+
+.hc-cle-banner__msg {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.hc-cle-banner__msg strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.hc-cle-banner__cta {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  white-space: nowrap;
+  border: 1.5px solid var(--accent);
+  border-radius: 2px;
+  padding: 0.4rem 0.85rem;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+.hc-cle-banner__cta:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+@media (max-width: 640px) {
+  .hc-cle-banner__inner { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+}
+
 </style>
 
 <script>
