@@ -156,5 +156,66 @@ const fmt = new Intl.DateTimeFormat('en-US', {
       </div>
     </section>
 
-    <!-- ── §05 Speaking signal ────────────────────────────────── -->
-    
+    <!-- ── §05 CLE course spotlight ─────────────────────────────── -->
+    <section class="home__cle">
+      <div class="container--wide home__cle-inner">
+        <div class="home__cle-text">
+          <p class="label">CLE Training</p>
+          <h2 class="home__cle-title">Courts are sanctioning AI errors. Train before it's your firm's turn.</h2>
+          <p class="home__cle-body">
+            The <strong>Generative AI Use Mandatory Training</strong> is a 6-hour CLE course covering the seven Model Rules courts have already invoked, the five hallucination categories that produce sanctions, and the verification protocols that prevent them. Designed for law firms and bar associations. Licensed per attorney.
+          </p>
+          <div class="home__cle-facts">
+            <span>6 CLE hours</span>
+            <span class="home__cred-sep" aria-hidden="true">·</span>
+            <span>6 modules</span>
+            <span class="home__cred-sep" aria-hidden="true">·</span>
+            <span>Online</span>
+            <span class="home__cred-sep" aria-hidden="true">·</span>
+            <span>Per-attorney licensing</span>
+          </div>
+          <a href="/AI-Ethics-CLE-Course-Sample" class="btn btn--primary">Preview the free module →</a>
+        </div>
+      </div>
+    </section>
+
+  </article>
+</Base>
+
+<style>
+  .home__cle {
+    padding: var(--space-3xl, 4rem) 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .home__cle-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+  }
+
+  .home__cle-title {
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    line-height: 1.25;
+    max-width: 26ch;
+    margin: 0.5rem 0 1rem;
+  }
+
+  .home__cle-body {
+    max-width: 64ch;
+    color: var(--text-muted);
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+    font-size: var(--text-base);
+  }
+
+  .home__cle-facts {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0.5rem;
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+  }
+</style>
