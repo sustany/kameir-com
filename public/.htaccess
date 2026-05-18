@@ -7,8 +7,8 @@ RewriteRule ^smart-contracts(/.*)?$ /writing [R=301,L]
 RewriteRule ^what-is-google(/.*)?$ /writing [R=301,L]
 RewriteRule ^money(/.*)?$ /writing [R=301,L]
 
-# ── Serve clean URLs (/about → /about.html) ──────────────────
+# ── Serve clean URLs (/about → /about.html, /writing → /writing.html)
+# Note: omit !-d so flat .html files take priority over same-named dirs
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.html -f
 RewriteRule ^(.+)$ $1.html [L]
