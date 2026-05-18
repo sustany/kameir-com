@@ -56,6 +56,15 @@ const dateStr    = fmtDate(c.date);
   description={metaDesc}
   ogType="article"
 >
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kameir.com" },
+      { "@type": "ListItem", "position": 2, "name": "AI Hallucination Cases", "item": "https://kameir.com/AI-legal-research" },
+      { "@type": "ListItem", "position": 3, "name": c.name, "item": `https://kameir.com/AI-legal-research/${c.slug}` }
+    ]
+  })} />
   <div class="case-page">
     <!-- Back link -->
     <div class="case-back container container--wide">
@@ -480,4 +489,3 @@ const dateStr    = fmtDate(c.date);
   margin-bottom: 1.25rem;
 }
 </style>
-                                                                                                                                                                       
