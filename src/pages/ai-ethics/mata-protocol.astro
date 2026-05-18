@@ -3,10 +3,14 @@ import Base from '../../layouts/Base.astro';
 ---
 
 <Base
-  title="The Mata Protocol — A Six-Step AI Citation Verification Checklist for Law Firms"
-  description="The Mata Protocol is a six-step citation verification procedure every attorney must run before filing any AI-assisted document. Here is what each step requires and how to build it into your firm's workflow."
+  title="The Mata Protocol: AI Citation Verification Checklist"
+  description="Six steps every attorney must complete before filing AI-assisted documents. What each step requires and how to build the protocol into your firm's workflow."
   noIndex={false}
 >
+  <Fragment slot="head">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"HowTo","name":"The Mata Protocol: Six-Step AI Citation Verification","description":"A six-step citation verification procedure every attorney must run before filing any AI-assisted document.","url":"https://kameir.com/ai-ethics/mata-protocol","step":[{"@type":"HowToStep","position":1,"name":"Identify","text":"Flag every citation, quotation, and legal proposition in the document as AI-generated. Treat the entire document as suspect until verified."},{"@type":"HowToStep","position":2,"name":"Database Check","text":"Search the exact citation in Westlaw or Lexis. Confirm the case exists and the citation is accurate."},{"@type":"HowToStep","position":3,"name":"Read the Source","text":"Pull the actual opinion and confirm the case stands for the proposition the document attributes to it."},{"@type":"HowToStep","position":4,"name":"Currency Check","text":"Run the citation through KeyCite or Shepard's. Confirm it has not been overruled, reversed, limited, or distinguished."},{"@type":"HowToStep","position":5,"name":"Quotation Accuracy","text":"If the document contains a direct quotation, locate the exact language in the opinion and confirm it matches word for word."},{"@type":"HowToStep","position":6,"name":"Sign-Off","text":"The reviewing attorney signs the verification checklist before the document is filed or sent. The signed checklist is retained in the client file."}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"AI Ethics","item":"https://kameir.com/ai-ethics"},{"@type":"ListItem","position":2,"name":"The Mata Protocol","item":"https://kameir.com/ai-ethics/mata-protocol"}]}</script>
+  </Fragment>
   <article class="mata">
 
     <!-- ── Hero ─────────────────────────────────────────────── -->
