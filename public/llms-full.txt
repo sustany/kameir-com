@@ -1,0 +1,105 @@
+# Christian Kameir — Full Content Index
+
+> This file provides full text of key pages on kameir.com for AI indexing per the llmstxt.org standard.
+
+---
+
+## About Christian Kameir
+
+URL: https://kameir.com/about
+
+Independent advisory based in Newport Beach, California, with an operational footprint in New Mexico. The practice helps capital-intensive companies — primarily industrials, energy developers, and advanced manufacturers from German-speaking countries — enter the United States market, capture the federal, state, and county incentives available to them, and connect with the private capital sources that complete the stack.
+
+Bilingual German/English. Thirty years at the intersection of capital, technology, and industrial operations — founding companies, backing them, and building the transatlantic relationships that make the work possible.
+
+Earlier credentials include founding and exiting Colizer Inc. (San Diego, 2009), three rounds of venture financing, and investment and board positions across the United States, United Kingdom, and Germany through M&P Capital. Guest lecturer at Harvard on fintech and central bank digital currencies. Contributor to Forbes and HackerNoon. Chairs the Banking & Finance Special Interest Group at the Decentralized Identity Foundation.
+
+### Engagement Structures
+
+**US-Entry Advisory** — End-to-end support for companies from German-speaking countries establishing US operations: site selection, state and local incentive negotiation, US entity formation pathway, regulatory navigation, and integration with the federal capital stack. Six-month minimum, retained. $22,000/month.
+
+**Capital Stack Assembly** — Identification, qualification, and capture across two tracks. Public side: IRA tax credits, DOE loan programs, USDA REAP, DOD industrial base programs, state revolving funds, and county-level incentive packages. Private side: venture capital, family offices, and strategic investors with active US industrial mandates.
+
+**Transaction Advisory** — Structuring, diligence support, and counterparty introduction for specific capital events: equity raises, asset acquisitions, and joint ventures requiring a bilingual transatlantic perspective.
+
+---
+
+## AI Hallucination in Legal Proceedings — Research Database
+
+URL: https://kameir.com/AI-legal-research
+
+A research database of over 1,300 documented AI hallucination incidents from real court proceedings across US federal and state jurisdictions. Cases include instances where generative AI produced hallucinated content — fake citations, invented quotes, and misrepresented legal authorities — submitted to courts by attorneys.
+
+This is the only publicly available dataset of its kind. Each case entry includes the jurisdiction, court level, nature of the AI failure, and the legal consequence (sanctions, dismissal, reprimand, or no consequence). The database is updated as new cases are reported.
+
+**Suggested citation:** Kameir, Christian. *AI Hallucination Cases in Legal Proceedings*. Decentralized Publishing LLC. https://kameir.com/AI-legal-research (accessed [date]).
+
+The database underpins the CLE course *Ethics-Safe AI Use for Law Firms*, the only continuing legal education course built directly from the sanctions record.
+
+---
+
+## Ethics-Safe AI Use for Law Firms
+
+URL: https://kameir.com/ai-ethics
+
+A practical guide for attorneys navigating AI risk under ABA Formal Opinion 512, the seven Model Rules implicated by generative AI use, and the post-Mata v. Avianca sanctions record.
+
+### The Mata Protocol
+
+The Mata Protocol is a five-step verification procedure for AI-generated legal research, derived from the sanctions record in Mata v. Avianca (SDNY 2023). It requires: (1) independent verification of every citation, (2) retrieval of the actual document, (3) confirmation of quoted language, (4) review of subsequent history, and (5) disclosure to supervising attorney.
+
+### The Five Artifacts Test
+
+Before submitting any AI-assisted work product, five artifacts must exist in the file: (1) the original AI prompt, (2) the unedited AI output, (3) the verification log, (4) the supervising attorney sign-off, and (5) the disclosure language used with the client or court.
+
+### Hallucination Taxonomy
+
+Five categories of AI hallucination in legal practice: (1) Citation fabrication — cases and statutes that do not exist; (2) Quote fabrication — language attributed to real cases that does not appear in the actual opinion; (3) Holding misrepresentation — accurate citations with inaccurate descriptions of what the court held; (4) Procedural fabrication — invented procedural history; (5) Authority misrepresentation — real cases cited for propositions they do not support.
+
+### The Seven Model Rules
+
+ABA Formal Opinion 512 identifies seven Model Rules most implicated by generative AI use: Rule 1.1 (Competence), Rule 1.3 (Diligence), Rule 1.4 (Communication), Rule 1.6 (Confidentiality), Rule 3.3 (Candor Toward the Tribunal), Rule 5.1 (Supervisory Responsibilities), Rule 5.3 (Responsibilities Regarding Nonlawyer Assistance).
+
+---
+
+## AI Ethics CLE Course for Attorneys
+
+URL: https://kameir.com/AI-Ethics-CLE-Course-Sample
+
+A 6-hour continuing legal education course covering AI competence, candor, confidentiality, and billing ethics under the ABA Model Rules. Built directly from the sanctions record — every module is grounded in actual court decisions and bar opinions, not hypotheticals.
+
+**Course structure:** Module 1 — Competence and the duty to understand AI tools; Module 2 — Candor to the tribunal and hallucination risk; Module 3 — Confidentiality and data security when using AI platforms; Module 4 — Billing ethics and AI efficiency gains; Module 5 — Supervision obligations for AI-assisted work; Module 6 — Practical protocols (the Mata Protocol, the Five Artifacts Test, disclosure templates).
+
+Available for firm licensing and bar association CLE programs. Developed by Decentralized Publishing LLC.
+
+---
+
+## Speaking & Keynotes
+
+URL: https://kameir.com/speaking
+
+Christian Kameir speaks on the future of money, blockchain investing, decentralized finance, AI and legal ethics, CBDC development, and digital identity. Thirty years across capital markets, technology, and law — including active roles in CBDC development, decentralized identity infrastructure, and venture investing across three continents.
+
+**Topic areas:**
+
+*The State of Blockchain* — Signal-over-noise overview of where blockchain technology stands and where it is going, from the perspective of an active venture investor evaluating hundreds of projects annually.
+
+*Investing into Decentralized Finance* — Applying sound technology investor principles to the DeFi space: what makes a project actually investable.
+
+*The Future of Money* — Central banks of all developed nations are actively researching or building new currency technologies. Practitioner-level overview of where money is going, drawing on direct participation in CBDC development.
+
+*AI and Legal Ethics* — The liability exposure attorneys face from generative AI use, the regulatory framework (Op. 512, state bar guidance, federal standing orders), and the practical protocols that eliminate the risk.
+
+Fees from $1,950. Available for keynotes, conference sessions, and expert panels.
+
+---
+
+## Contact
+
+URL: https://kameir.com/contact
+
+The practice runs a capped roster. Engagements are retained and require a live US site decision, capital application, or transaction in front of the client. Request a call at https://kameir.com/contact. Bring the situation, not a general inquiry.
+
+---
+
+*Published by Decentralized Publishing LLC, Newport Beach, California. Updated May 2026.*

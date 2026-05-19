@@ -1,0 +1,35 @@
+# Christian Kameir
+
+> Independent advisor, author, and speaker at the intersection of capital markets, AI, and technology. Based in Newport Beach, California.
+
+Christian Kameir is an independent advisor helping capital-intensive companies from German-speaking countries enter the US market, a keynote speaker on AI, blockchain, and the future of money, and the author of *Ethics-Safe AI Use for Law Firms* (Decentralized Publishing LLC). Guest lecturer at Harvard on fintech and CBDCs. Contributor to Forbes and HackerNoon. Chairs the Banking & Finance Special Interest Group at the Decentralized Identity Foundation.
+
+## Advisory & Strategy
+
+- [Advisory](https://kameir.com/advisory): End-to-end US market entry advisory for German industrials, energy developers, and advanced manufacturers. Site selection, incentive negotiation, entity formation, capital stack assembly. $22,000/month, six-month minimum.
+- [Strategy](https://kameir.com/strategy): US market entry strategy consulting for capital-intensive German companies — federal incentives, private capital, and go-to-market.
+- [About](https://kameir.com/about): Practice structure, engagement terms, credentials, and background.
+- [Contact](https://kameir.com/contact): Request a strategy or advisory call. Capped roster.
+
+## AI Ethics & Legal Research
+
+- [AI Hallucination in Legal Proceedings](https://kameir.com/AI-legal-research): Research database of 1,300+ documented AI hallucination incidents from real court proceedings — fake citations, invented quotes, and misrepresented authorities. The only public dataset of its kind.
+- [AI Ethics CLE Course](https://kameir.com/AI-Ethics-CLE-Course-Sample): 6-hour CLE course on AI competence, candor, confidentiality, and billing ethics under ABA Formal Opinion 512 and the Model Rules. Preview free; license for firms and bar associations.
+- [Ethics-Safe AI Use for Law Firms](https://kameir.com/ai-ethics): Practical guide for attorneys navigating AI risk. Covers Op. 512, the Mata Protocol, hallucination taxonomy, and the Five Artifacts test. Free download.
+
+## Speaking
+
+- [Speaking & Keynotes](https://kameir.com/speaking): Topics include the future of money, blockchain investing, decentralized finance, AI and legal ethics, CBDC development, and digital identity. Keynotes, conference sessions, and expert panels. Fees from $1,950.
+
+## Writing
+
+- [Writing & Essays](https://kameir.com/writing): Essays on capital, technology, and AI. Published in Forbes, HackerNoon, and here.
+
+## Downloads
+
+- [Ethics-Safe AI Use for Law Firms (PDF)](https://kameir.com/downloads/Ethics-Safe-AI-Use-for-Law-Firms.pdf): Full eBook — practical AI ethics guide for attorneys.
+- [47-Point PI Firm AI Audit Checklist (PDF)](https://kameir.com/downloads/47-Point-PI-Firm-AI-Audit-Checklist.pdf): Operational checklist for personal injury firms using generative AI.
+
+## Optional
+
+- [llms-full.txt](https://kameir.com/llms-full.txt): Full text of key pages for AI indexing.
