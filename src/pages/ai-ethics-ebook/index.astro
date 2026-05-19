@@ -201,6 +201,54 @@ const breadcrumbSchema = {
       </div>
     </section>
 
+
+    <!-- ── Free chapter opt-in ──────────────────────────────────────── -->
+    <section class="ebook-optin" id="free-chapter">
+      <div class="ebook-optin__inner">
+        <div class="ebook-optin__text">
+          <p class="label">Free chapter</p>
+          <h2 class="ebook-optin__h">Not ready to buy? Start with Chapter 1 free.</h2>
+          <p class="ebook-optin__sub">The Sanctions Record — the full five-category hallucination taxonomy with annotated case examples. No purchase required.</p>
+        </div>
+        <form class="ebook-optin__form" id="ebookOptInForm" action="https://formspree.io/f/xjgjawba" method="POST">
+          <input type="hidden" name="source" value="ebook-free-chapter" />
+          <div class="ebook-optin__fields">
+            <input type="text" name="name" placeholder="Your name" required autocomplete="name" />
+            <input type="email" name="email" placeholder="Work email" required autocomplete="email" />
+          </div>
+          <button type="submit" class="btn btn--primary">Send me Chapter 1 →</button>
+          <p class="ebook-optin__note" id="ebookOptInNote" style="display:none;"></p>
+        </form>
+      </div>
+    </section>
+    <script>
+      (function() {
+        var form = document.getElementById('ebookOptInForm');
+        if (!form) return;
+        form.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          var btn = form.querySelector('button[type="submit"]');
+          btn.textContent = 'Sending…'; btn.disabled = true;
+          try {
+            var res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+            if (res.ok) {
+              form.innerHTML = '<p style="font-size:1rem;font-weight:600;color:var(--accent);">✓ Chapter 1 is on its way — check your inbox.</p>';
+            } else {
+              btn.textContent = 'Send me Chapter 1 →'; btn.disabled = false;
+              var note = document.getElementById('ebookOptInNote');
+              note.textContent = 'Something went wrong. Try again or email chris@sustany.co.';
+              note.style.display = 'block';
+            }
+          } catch(err) {
+            btn.textContent = 'Send me Chapter 1 →'; btn.disabled = false;
+            var note = document.getElementById('ebookOptInNote');
+            note.textContent = 'Network error. Please try again.';
+            note.style.display = 'block';
+          }
+        });
+      })();
+    </script>
+
     <!-- CTA block -->
     <section class="ebook-cta-block">
       <div class="ebook-cta-block__inner">
@@ -341,5 +389,17 @@ const breadcrumbSchema = {
       .ebook-cover__img { max-width: 240px; }
       .ebook-author__inner { grid-template-columns: 1fr; }
     }
-  </style>
+  
+/* Lead magnet opt-in */
+.ebook-optin { background: var(--bg-subtle); padding: var(--space-xl) 0; }
+.ebook-optin__inner { max-width: 900px; margin: 0 auto; padding: 0 var(--space-md); display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+.ebook-optin__h { font-family: var(--font-display); font-size: 1.4rem; margin: 0.25rem 0 0.5rem; }
+.ebook-optin__sub { color: var(--text-muted); font-size: 0.95rem; margin: 0; }
+.ebook-optin__form { display: flex; flex-direction: column; gap: 0.75rem; }
+.ebook-optin__fields { display: flex; flex-direction: column; gap: 0.5rem; }
+.ebook-optin__fields input { padding: 0.65rem 0.9rem; border: 1px solid var(--border); border-radius: 3px; font-size: 0.95rem; background: var(--bg-base); color: var(--text); width: 100%; box-sizing: border-box; }
+.ebook-optin__note { font-size: 0.85rem; color: var(--text-muted); margin: 0; }
+@media (max-width: 700px) { .ebook-optin__inner { grid-template-columns: 1fr; } }
+
+</style>
 </Base>
