@@ -9,6 +9,7 @@ export interface Props {
   publishedAt?: Date;
   noIndex?: boolean;
   personSchema?: boolean;
+  preloadImage?: string;
 }
 
 const {
@@ -19,6 +20,7 @@ const {
   publishedAt,
   noIndex = false,
   personSchema = false,
+  preloadImage,
 } = Astro.props;
 
 // Strip .html from canonical URLs (clean URLs served via .htaccess rewrite)
@@ -89,6 +91,9 @@ const personJsonLd = {
   }
 
   <link rel="canonical" href={canonicalURL} />
+  {preloadImage && (
+    <link rel="preload" as="image" type="image/webp" href={preloadImage} fetchpriority="high" />
+  )}
 
   <!-- Open Graph -->
   <meta property="og:type" content={ogType} />

@@ -28,6 +28,58 @@ function penaltyShort(p: string) {
   title="AI Hallucination in Legal Proceedings"
   description={`${totalCases}+ documented AI hallucination cases from real court proceedings across ${states.length} jurisdictions — a research database for attorneys, scholars, and legal AI policy.`}
 >
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "AI Hallucination Cases in Legal Proceedings",
+  "description": "A research dataset of 1,356 documented AI hallucination incidents from real court proceedings across 34 jurisdictions. Includes cases where generative AI produced fabricated citations, invented quotes, and misrepresented legal authorities. Each entry includes court, date, party, AI tool used, hallucination type, outcome, and monetary or professional sanctions.",
+  "url": "https://kameir.com/AI-legal-research",
+  "distribution": [
+    {
+      "@type": "DataDownload",
+      "encodingFormat": "application/json",
+      "contentUrl": "https://kameir.com/downloads/cases.json"
+    }
+  ],
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "creator": {
+    "@type": "Person",
+    "name": "Christian Kameir",
+    "url": "https://kameir.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Decentralized Publishing LLC",
+    "url": "https://kameir.com"
+  },
+  "dateModified": "2026-05-19",
+  "keywords": [
+    "AI hallucination",
+    "legal AI",
+    "generative AI",
+    "court cases",
+    "AI ethics",
+    "attorney sanctions",
+    "fabricated citations",
+    "ABA Model Rules",
+    "legal technology"
+  ],
+  "measurementTechnique": "Manual review of court orders, sanctions decisions, and published opinions",
+  "variableMeasured": [
+    "AI tool used",
+    "hallucination type",
+    "court jurisdiction",
+    "party responsible",
+    "outcome",
+    "monetary penalty",
+    "professional sanction"
+  ],
+  "temporalCoverage": "2023-04-14/2026-04-28",
+  "spatialCoverage": {
+    "@type": "Place",
+    "name": "United States and international jurisdictions"
+  }
+})} />
   <div class="hc-page">
     <!-- Header -->
     <header class="hc-header container container--wide">
