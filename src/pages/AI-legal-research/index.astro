@@ -26,8 +26,7 @@ function penaltyShort(p: string) {
 
 <Base
   title="AI Hallucination in Legal Proceedings"
-  description="Over 1,300 documented AI hallucination cases from real court proceedings — a research database for attorneys, scholars, and legal AI policy."
-  description={`A searchable database of ${totalCases} legal decisions worldwide where generative AI produced hallucinated content.`}
+  description={`${totalCases}+ documented AI hallucination cases from real court proceedings across ${states.length} jurisdictions — a research database for attorneys, scholars, and legal AI policy.`}
 >
   <div class="hc-page">
     <!-- Header -->
@@ -49,6 +48,26 @@ function penaltyShort(p: string) {
           <p class="hc-cle-banner__msg">Every case in this database is covered in <strong>Ethics-Safe AI Use for Law Firms</strong> — the only CLE course built directly from the sanctions record.</p>
         </div>
         <a href="/AI-Ethics-CLE-Course-Sample" class="hc-cle-banner__cta">Preview free module →</a>
+      </div>
+    </div>
+
+    <!-- Dataset download + citation -->
+    <div class="hc-dataset container container--wide">
+      <div class="hc-dataset__inner">
+        <div class="hc-dataset__text">
+          <p class="hc-dataset__label">Research Dataset</p>
+          <p class="hc-dataset__desc">
+            The full database is available as structured JSON for researchers,
+            scholars, and legal technologists. Licensed CC BY 4.0 — free to use with attribution.
+          </p>
+          <p class="hc-dataset__cite">
+            <strong>Cite as:</strong> Kameir, Christian. <em>AI Hallucination Cases in Legal Proceedings</em>.
+            Decentralized Publishing LLC. https://kameir.com/AI-legal-research
+          </p>
+        </div>
+        <a href="/downloads/cases.json" class="hc-dataset__dl btn btn--outline" download>
+          Download dataset (JSON)
+        </a>
       </div>
     </div>
 
@@ -428,6 +447,48 @@ function penaltyShort(p: string) {
   .hc-cle-banner__inner { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
 }
 
+
+/* ── Dataset download block ──────────────────────────────────────── */
+.hc-dataset {
+  margin: 0 0 1.5rem;
+}
+.hc-dataset__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  background: var(--bg-subtle, #f8f8f6);
+  border: 1px solid var(--border, #e4e4e0);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+}
+.hc-dataset__label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin: 0 0 0.35rem;
+}
+.hc-dataset__desc {
+  font-size: 0.875rem;
+  color: var(--text);
+  margin: 0 0 0.5rem;
+  max-width: 55ch;
+}
+.hc-dataset__cite {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+.hc-dataset__dl {
+  flex-shrink: 0;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .hc-dataset__inner { flex-direction: column; align-items: flex-start; }
+}
 </style>
 
 <script>
