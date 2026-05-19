@@ -19,6 +19,45 @@ const fmt = new Intl.DateTimeFormat('en-US', {
   description="Advisor, author, and speaker. Helping German-speaking companies enter the US market, speaking on AI, and publishing practical AI ethics guides."
   personSchema={true}
 >
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Decentralized Publishing LLC",
+  "url": "https://kameir.com",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "https://kameir.com/images/og-default.jpg"
+  },
+  "founder": {
+    "@type": "Person",
+    "name": "Christian Kameir",
+    "url": "https://kameir.com"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Newport Beach",
+    "addressRegion": "CA",
+    "addressCountry": "US"
+  },
+  "sameAs": [
+    "https://www.linkedin.com/in/kameir/",
+    "https://x.com/kameir",
+    "https://hackernoon.com/u/kameir",
+    "https://www.forbes.com/councils/forbesfinancecouncil/people/christiankameir1/"
+  ]
+})} />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Christian Kameir",
+  "url": "https://kameir.com",
+  "description": "Advisor, author, and speaker. Helping German-speaking companies enter the US market, speaking on AI, and publishing practical AI ethics guides.",
+  "publisher": {
+    "@type": "Person",
+    "name": "Christian Kameir",
+    "url": "https://kameir.com"
+  }
+})} />
   <article class="home">
 
     <!-- ── §01 Hero ──────────────────────────────────────────── -->

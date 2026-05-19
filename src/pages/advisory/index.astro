@@ -6,6 +6,23 @@ import Base from '../../layouts/Base.astro';
   title="US Market Entry for German Companies"
   description="Independent advisory helping German companies establish US operations, capture federal incentives, and connect with private capital."
 >
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "US Market Entry Advisory for German Companies",
+  "description": "Independent advisory helping German companies establish US operations, capture federal incentives, and connect with private capital.",
+  "provider": {
+    "@type": "Person",
+    "name": "Christian Kameir",
+    "url": "https://kameir.com"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "United States"
+  },
+  "serviceType": "Business Advisory",
+  "url": "https://kameir.com/advisory"
+})} />
   <article class="advisory">
 
     <!-- ── Hero ──────────────────────────────────────────── -->

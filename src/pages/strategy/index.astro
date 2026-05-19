@@ -6,6 +6,23 @@ import Base from '../../layouts/Base.astro';
   title="US Market Strategy for German Companies"
   description="Independent advisory for capital-intensive German companies entering the US market — federal incentives, private capital, and go-to-market strategy."
 >
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "US Market Entry Strategy for German Companies",
+  "description": "Independent advisory for capital-intensive German companies entering the US market \u2014 federal incentives, private capital, and go-to-market strategy.",
+  "provider": {
+    "@type": "Person",
+    "name": "Christian Kameir",
+    "url": "https://kameir.com"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "United States"
+  },
+  "serviceType": "Business Strategy Consulting",
+  "url": "https://kameir.com/strategy"
+})} />
   <article class="advisory">
 
     <!-- ── Hero ──────────────────────────────────────────── -->

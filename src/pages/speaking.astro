@@ -6,6 +6,25 @@ import Base from '../layouts/Base.astro';
   title="Speaking Engagements & Keynotes"
   description="Christian Kameir speaks on the future of money, blockchain, decentralized finance, and digital identity. Keynotes and expert panels. Fees from $1,950."
 >
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Keynote Speaking & Expert Panels",
+  "description": "Christian Kameir speaks on the future of money, blockchain, decentralized finance, and digital identity. Keynotes, conference sessions, and expert panels.",
+  "provider": {
+    "@type": "Person",
+    "name": "Christian Kameir",
+    "url": "https://kameir.com"
+  },
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "USD",
+    "price": "1950"
+  },
+  "areaServed": "Worldwide",
+  "serviceType": "Keynote Speaking",
+  "url": "https://kameir.com/speaking"
+})} />
   <article class="speaking">
     <div class="container">
 
