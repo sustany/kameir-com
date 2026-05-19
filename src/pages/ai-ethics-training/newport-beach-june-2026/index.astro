@@ -77,7 +77,7 @@ const breadcrumbSchema = {
     <!-- Early-bird urgency banner -->
     <div class="nb-urgency-bar">
       <span class="nb-urgency-bar__icon">⏰</span>
-      <strong>Early-bird pricing ends May 29</strong> — register now to lock in $399
+      <strong>Early-bird $399 ends in <span id="nb-bar-cd"></span></strong> — price rises to $499 on May 30
     </div>
 
     <!-- Hero -->
@@ -89,6 +89,14 @@ const breadcrumbSchema = {
         <p class="nb-hero__lead">
           A full-day intensive on AI risk, professional responsibility, and practical compliance — led by the attorney who documented 1,356 AI hallucination cases from real court proceedings.
         </p>
+
+        <!-- ── Countdown strip ── -->
+        <div class="nb-countdown-strip" id="nb-countdown-strip">
+          <div class="nb-cd-box"><span class="nb-cd-n" id="nb-cd-d">–</span><span class="nb-cd-l">days</span></div>
+          <div class="nb-cd-box"><span class="nb-cd-n" id="nb-cd-h">–</span><span class="nb-cd-l">hrs</span></div>
+          <div class="nb-cd-box"><span class="nb-cd-n" id="nb-cd-m">–</span><span class="nb-cd-l">mins</span></div>
+          <span class="nb-cd-label" id="nb-cd-label">left at $399 · price rises May 30</span>
+        </div>
 
         <div class="nb-hero__cta">
           <div class="nb-price-block">
@@ -229,8 +237,8 @@ const breadcrumbSchema = {
               <span class="nb-register__price-amount">$399</span>
               <span class="nb-register__price-label">Early-bird — through May 29</span>
             </div>
-            <div class="nb-urgency-countdown">
-              Price increases after May 29 — 10 days remaining
+            <div class="nb-urgency-countdown" id="nb-reg-cd">
+              Price increases after May 29 — <span id="nb-reg-days"></span> remaining
             </div>
             <a href={lsEventCheckout} class="btn btn--primary btn--xl" rel="noopener">
               Register Now →
@@ -657,5 +665,124 @@ const breadcrumbSchema = {
       .nb-fallback__inner { flex-direction: column; text-align: center; }
       .nb-agenda__list li { grid-template-columns: 2rem 1fr; }
     }
+
+    /* ── Countdown strip ───────────────────────────────────────── */
+    .nb-countdown-strip {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .nb-cd-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--nb-warn-bg);
+      border: 1px solid var(--nb-warn-border);
+      border-radius: 6px;
+      padding: 0.5rem 0.85rem;
+      min-width: 56px;
+    }
+    .nb-cd-n {
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--nb-warn);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+    .nb-cd-l {
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--nb-warn);
+      margin-top: 2px;
+    }
+    .nb-cd-label {
+      font-size: 0.85rem;
+      color: var(--nb-warn);
+      font-weight: 600;
+    }
+    .nb-cd-label--neutral {
+      color: var(--nb-muted);
+      font-weight: 400;
+    }
+    .nb-cd-box--neutral {
+      background: var(--nb-bg-alt, #f5f5f5);
+      border-color: var(--nb-border);
+    }
+    .nb-cd-box--neutral .nb-cd-n,
+    .nb-cd-box--neutral .nb-cd-l { color: var(--nb-muted); }
+
   </style>
 </Base>
+
+<script>
+(function() {
+  var EARLY_BIRD = new Date('2026-05-29T23:59:00-07:00');
+  var EVENT_DATE = new Date('2026-06-27T09:00:00-07:00');
+
+  function pad(n) { return String(Math.floor(n)).padStart(2, '0'); }
+
+  function tick() {
+    var now = new Date();
+    var diff = EARLY_BIRD - now;
+    var isExpired = diff <= 0;
+
+    // Bar countdown
+    var barEl = document.getElementById('nb-bar-cd');
+    // Strip boxes
+    var dEl = document.getElementById('nb-cd-d');
+    var hEl = document.getElementById('nb-cd-h');
+    var mEl = document.getElementById('nb-cd-m');
+    var lblEl = document.getElementById('nb-cd-label');
+    // Registration card countdown
+    var regEl = document.getElementById('nb-reg-days');
+    var regCard = document.getElementById('nb-reg-cd');
+
+    if (!isExpired) {
+      var days = Math.floor(diff / 86400000);
+      var hours = Math.floor((diff % 86400000) / 3600000);
+      var mins = Math.floor((diff % 3600000) / 60000);
+
+      if (barEl) {
+        barEl.textContent = days > 0
+          ? days + 'd ' + pad(hours) + 'h ' + pad(mins) + 'm'
+          : pad(hours) + 'h ' + pad(mins) + 'm';
+      }
+      if (dEl) dEl.textContent = days;
+      if (hEl) hEl.textContent = pad(hours);
+      if (mEl) mEl.textContent = pad(mins);
+      if (lblEl) lblEl.textContent = 'left at $399 · price rises May 30';
+      if (regEl) {
+        regEl.textContent = days > 0
+          ? days + ' day' + (days === 1 ? '' : 's')
+          : pad(hours) + 'h ' + pad(mins) + 'm';
+      }
+    } else {
+      // Post-deadline: switch to event countdown in neutral style
+      var evDiff = Math.max(0, EVENT_DATE - now);
+      var evDays = Math.floor(evDiff / 86400000);
+
+      if (barEl) barEl.textContent = '';
+
+      // Neutralise strip boxes
+      var boxes = document.querySelectorAll('.nb-cd-box');
+      boxes.forEach(function(b) { b.classList.add('nb-cd-box--neutral'); });
+
+      if (dEl) dEl.textContent = evDays;
+      if (hEl) hEl.textContent = pad(Math.floor((evDiff % 86400000) / 3600000));
+      if (mEl) mEl.textContent = pad(Math.floor((evDiff % 3600000) / 60000));
+      if (lblEl) {
+        lblEl.textContent = 'until the event · June 27, Newport Beach';
+        lblEl.classList.add('nb-cd-label--neutral');
+      }
+      if (regCard) regCard.style.display = 'none';
+    }
+  }
+
+  tick();
+  setInterval(tick, 30000);
+})();
+</script>

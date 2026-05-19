@@ -151,16 +151,38 @@ const personJsonLd = {
   <!-- ── Newport Beach urgency banner ─────────────────────── -->
   <div class="nb-site-banner" id="nb-site-banner" role="banner" aria-label="Event announcement">
     <span class="nb-site-banner__text">
-      <strong>Live AI Ethics Training — Newport Beach, June 27</strong>
-      &thinsp;·&thinsp; Early-bird $399 ends May 29
+      <strong>Newport Beach, June 27</strong>
+      &thinsp;·&thinsp; $399 early-bird ends in <span id="nb-global-cd" style="font-variant-numeric:tabular-nums;font-weight:700;"></span>
     </span>
     <a href="/ai-ethics-training/newport-beach-june-2026" class="nb-site-banner__cta">Register →</a>
     <button class="nb-site-banner__close" aria-label="Dismiss" onclick="this.closest('#nb-site-banner').style.display='none';sessionStorage.setItem('nb-banner-dismissed','1')">✕</button>
   </div>
   <script>
-    if (sessionStorage.getItem('nb-banner-dismissed')) {
-      document.getElementById('nb-site-banner').style.display = 'none';
-    }
+    (function() {
+      if (sessionStorage.getItem('nb-banner-dismissed')) {
+        document.getElementById('nb-site-banner').style.display = 'none';
+        return;
+      }
+      var DEADLINE = new Date('2026-05-29T23:59:00-07:00');
+      function pad(n) { return String(Math.floor(n)).padStart(2,'0'); }
+      function tickBanner() {
+        var el = document.getElementById('nb-global-cd');
+        if (!el) return;
+        var diff = DEADLINE - new Date();
+        if (diff <= 0) {
+          // Early bird expired — update banner to just show event date
+          var textEl = el.closest('.nb-site-banner__text');
+          if (textEl) textEl.innerHTML = '<strong>Live AI Ethics Training</strong>&thinsp;&middot;&thinsp;Newport Beach, June 27';
+          return;
+        }
+        var d = Math.floor(diff / 86400000);
+        var h = Math.floor((diff % 86400000) / 3600000);
+        var m = Math.floor((diff % 3600000) / 60000);
+        el.textContent = d > 0 ? d + 'd ' + pad(h) + 'h ' + pad(m) + 'm' : pad(h) + 'h ' + pad(m) + 'm';
+      }
+      tickBanner();
+      setInterval(tickBanner, 30000);
+    })();
   </script>
 
   <header>
