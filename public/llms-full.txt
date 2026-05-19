@@ -74,6 +74,42 @@ Available for firm licensing and bar association CLE programs. Developed by Dece
 
 ---
 
+## AI Ethics Training Products
+
+**Online Training — /ai-ethics-training/**
+Self-paced AI ethics training for attorneys. Covers:
+- ABA Formal Opinion 512 and its specific workflow requirements
+- The seven Model Rules implicated by AI failures: 1.1 (competence), 5.1/5.3 (supervision), 3.3 (candor), 1.6 (confidentiality), 1.5 (fees), 7.1 (advertising), 5.5 (unauthorized practice)
+- Five-category hallucination taxonomy: citation fabrication, quote fabrication, statute misrepresentation, procedural fiction, party misattribution
+- The Mata Protocol: step-by-step verification for AI-generated legal research
+- The Five Artifacts test: documentation requirements for demonstrating reasonable AI oversight
+- Firm-level AI use policy template
+Pricing: Individual $49 · Firm license (10 attorneys) $199 · 25-attorney license $349
+
+**Live Event — Newport Beach, June 27, 2026 — /ai-ethics-training/newport-beach-june-2026/**
+Full-day in-person AI ethics intensive. Small group. Early-bird $399 through May 29, 2026.
+Location: Newport Beach, CA (exact venue sent after registration).
+
+**eBook — Ethics-Safe AI Use for Law Firms — /ai-ethics-ebook/**
+PDF + EPUB. Same framework as online training. $49. Decentralized Publishing LLC.
+
+## US Market Entry for German Companies
+
+**German Companies US Market Entry — /advisory/german-companies-us-market-entry/**
+Full scope: market assessment, site selection, IRA incentive capture, corporate structuring, capital sourcing. Bilingual German/English. $18,000–22,000/month retainer.
+
+**US Site Selection for German Manufacturers — /advisory/us-site-selection-german-manufacturers/**
+No referral fees from states or counties. Evaluates: workforce (actual commute shed), infrastructure (power, water, rail, port), incentive NPV with clawback provisions modeled, permitting timelines, federal/state incentive layering, political risk. Five-step process: requirement mapping → long-list → parallel negotiation → independent verification → written comparative analysis (English and German).
+
+**IRA Incentives for German Companies — /advisory/ira-incentives-german-companies/**
+- §48/48E Investment Tax Credit: 6–30% on clean energy facility capex; +10pp domestic content bonus
+- §45X Advanced Manufacturing Production Credit: per-unit for solar, wind, battery, inverter, critical minerals
+- §45V Clean Hydrogen Credit: $0.60–$3.00/kg based on lifecycle emissions
+- §45Q Carbon Capture Credit: per-tonne, 12-year term from placed-in-service
+- DOE Title 17 & ATVM Loan Programs: low-cost capital for qualifying projects
+- Credit Transferability: sell credits to third parties for cash
+Key point: structuring decisions affecting IRA eligibility must be made before ground is broken.
+
 ## Speaking & Keynotes
 
 URL: https://kameir.com/speaking
