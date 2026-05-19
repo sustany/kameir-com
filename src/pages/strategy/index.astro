@@ -64,15 +64,18 @@ import Base from '../../layouts/Base.astro';
         </div>
 
         <div class="advisory__hero-photo">
-          <img
-            src="/images/christian-kameir.jpg"
-            alt="Christian Kameir"
-            width="460"
-            height="575"
-            class="advisory__photo"
-            loading="eager"
-            fetchpriority="high"
-          />
+          <picture>
+            <source srcset="/images/christian-kameir.webp" type="image/webp" />
+            <img
+              src="/images/christian-kameir.jpg"
+              alt="Christian Kameir"
+              width="460"
+              height="575"
+              class="advisory__photo"
+              loading="eager"
+              fetchpriority="high"
+            />
+          </picture>
         </div>
 
       </div>

@@ -27,13 +27,16 @@ import Base from '../../layouts/Base.astro';
           </div>
         </div>
         <div class="aie-hero__book">
-          <img
-            src="/images/book-cover_ai.jpg"
-            alt="Ethics-Safe AI Use for Law Firms — A Practitioner's Guide to Op. 512 and Beyond, by Christian Kameir"
-            class="aie-book-cover-img"
-            width="420"
-            height="560"
-          />
+          <picture>
+            <source srcset="/images/book-cover_ai.webp" type="image/webp" />
+            <img
+              src="/images/book-cover_ai.jpg"
+              alt="Ethics-Safe AI Use for Law Firms — A Practitioner's Guide to Op. 512 and Beyond, by Christian Kameir"
+              class="aie-book-cover-img"
+              width="420"
+              height="560"
+            />
+          </picture>
         </div>
       </div>
     </section>
