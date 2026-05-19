@@ -1,0 +1,661 @@
+---
+import Base from '../../../layouts/Base.astro';
+
+const lsEventCheckout = "https://kameir.lemonsqueezy.com/checkout/buy/0c0905a2-e308-4e15-8c3c-e8d59d66b8a7";
+const lsOnlineIndividual = "https://kameir.lemonsqueezy.com/checkout/buy/d48ff7aa-63b0-4499-9d02-56bf965d2347";
+
+const earlyBirdDeadline = "May 29, 2026";
+const earlyBirdPrice = 399;
+const eventDate = "June 27, 2026";
+
+// Event JSON-LD schema
+const eventSchema = {
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "Live AI Ethics Training for Attorneys — Newport Beach",
+  "description": "A full-day intensive AI ethics training for attorneys, in-person in Newport Beach, CA. Led by Christian Kameir — Forbes contributor, Harvard lecturer, and author of Ethics-Safe AI Use for Law Firms.",
+  "startDate": "2026-06-27T09:00:00-07:00",
+  "endDate": "2026-06-27T17:00:00-07:00",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "location": {
+    "@type": "Place",
+    "name": "Newport Beach, CA",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Newport Beach",
+      "addressRegion": "CA",
+      "addressCountry": "US"
+    }
+  },
+  "organizer": {
+    "@type": "Person",
+    "name": "Christian Kameir",
+    "url": "https://kameir.com/about"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "399",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock",
+    "validFrom": "2026-05-01",
+    "validThrough": "2026-05-29",
+    "url": lsEventCheckout,
+    "description": "Early-bird rate — ends May 29"
+  },
+  "performer": {
+    "@type": "Person",
+    "name": "Christian Kameir",
+    "jobTitle": "AI Ethics Educator & Investor",
+    "url": "https://kameir.com"
+  }
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://kameir.com" },
+    { "@type": "ListItem", "position": 2, "name": "AI Ethics Training", "item": "https://kameir.com/ai-ethics-training" },
+    { "@type": "ListItem", "position": 3, "name": "Newport Beach — June 27", "item": "https://kameir.com/ai-ethics-training/newport-beach-june-2026" }
+  ]
+};
+---
+
+<Base
+  title="Live AI Ethics Training — Newport Beach, June 27 | Christian Kameir"
+  description="One-day in-person AI ethics intensive for attorneys in Newport Beach, CA. June 27, 2026. Early-bird registration $399 through May 29. Led by Forbes contributor and Harvard lecturer Christian Kameir."
+  canonicalUrl="https://kameir.com/ai-ethics-training/newport-beach-june-2026"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(eventSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  </Fragment>
+
+  <main class="nb-event">
+
+    <!-- Early-bird urgency banner -->
+    <div class="nb-urgency-bar">
+      <span class="nb-urgency-bar__icon">⏰</span>
+      <strong>Early-bird pricing ends May 29</strong> — register now to lock in $399
+    </div>
+
+    <!-- Hero -->
+    <section class="nb-hero">
+      <div class="nb-hero__inner">
+        <div class="nb-hero__badge">In-Person · Newport Beach, CA</div>
+        <h1 class="nb-hero__h1">Live AI Ethics Training<br>for Attorneys</h1>
+        <p class="nb-hero__date">June 27, 2026</p>
+        <p class="nb-hero__lead">
+          A full-day intensive on AI risk, professional responsibility, and practical compliance — led by the attorney who documented 1,356 AI hallucination cases from real court proceedings.
+        </p>
+
+        <div class="nb-hero__cta">
+          <div class="nb-price-block">
+            <span class="nb-price-block__label">Early-bird rate</span>
+            <span class="nb-price-block__price">$399</span>
+            <span class="nb-price-block__deadline">through May 29 — then price increases</span>
+          </div>
+          <a href={lsEventCheckout} class="btn btn--primary btn--lg" rel="noopener">
+            Reserve My Seat →
+          </a>
+          <p class="nb-hero__cta-note">Venue details sent by email after registration · Limited seats</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why this is different from a webinar -->
+    <section class="nb-section nb-why">
+      <div class="nb-section__inner">
+        <h2>Why Attorneys Are Flying In for This</h2>
+        <p>
+          Most AI ethics training is generic and checkbox-driven. This day is built entirely around the legal profession — your ethical obligations, your malpractice exposure, and the specific ways AI tools fail in legal practice.
+        </p>
+        <div class="nb-why__grid">
+          <div class="nb-why__item">
+            <div class="nb-why__icon">⚖️</div>
+            <h3>Built for Attorneys</h3>
+            <p>Every example, case study, and framework comes from actual court proceedings. No generic "AI risks" lecture — just what matters for your practice.</p>
+          </div>
+          <div class="nb-why__item">
+            <div class="nb-why__icon">📋</div>
+            <h3>The Seven Model Rules That Bite</h3>
+            <p>Competence, supervision, candor, confidentiality, and more — mapped precisely to AI failure modes documented in real cases.</p>
+          </div>
+          <div class="nb-why__item">
+            <div class="nb-why__icon">🛡️</div>
+            <h3>A Framework You Can Use Tomorrow</h3>
+            <p>The Mata Protocol, the Five Artifacts test, the hallucination taxonomy — tools your firm can implement immediately to reduce exposure.</p>
+          </div>
+          <div class="nb-why__item">
+            <div class="nb-why__icon">🤝</div>
+            <h3>Small Group, Real Conversation</h3>
+            <p>Limited seating means you get time to discuss your firm's specific situation — not a 200-person webinar where you're muted.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What You'll Cover -->
+    <section class="nb-section nb-agenda">
+      <div class="nb-section__inner">
+        <h2>What the Day Covers</h2>
+        <p class="nb-agenda__intro">This is a practitioner-level intensive — not a survey course. You'll leave with specific frameworks and a concrete compliance checklist.</p>
+        <ol class="nb-agenda__list">
+          <li>
+            <strong>The AI Hallucination Problem in Legal Practice</strong>
+            <span>How often AI fabricates citations, cases, and statutes — and why even experienced attorneys miss it. Data from 1,356 documented cases.</span>
+          </li>
+          <li>
+            <strong>Professional Responsibility Under Model Rules</strong>
+            <span>Which rules are implicated when AI fails — competence (1.1), supervision (5.1/5.3), candor (3.3), confidentiality (1.6) — and where courts have already sanctioned attorneys.</span>
+          </li>
+          <li>
+            <strong>The Mata Protocol for Verification</strong>
+            <span>A step-by-step process for verifying AI-generated legal research before it reaches a filing or client document.</span>
+          </li>
+          <li>
+            <strong>The Five Artifacts Test</strong>
+            <span>What your firm must maintain to demonstrate reasonable AI oversight — the documentation trail that protects you in disciplinary proceedings.</span>
+          </li>
+          <li>
+            <strong>Hallucination Taxonomy & Detection</strong>
+            <span>The five categories of AI failures in legal contexts — and the detection techniques that catch each one before they become bar complaints.</span>
+          </li>
+          <li>
+            <strong>Firm-Level Compliance Policy</strong>
+            <span>How to draft an AI use policy that satisfies your state bar, protects clients, and is actually followed — not just filed away.</span>
+          </li>
+          <li>
+            <strong>Live Q&A on Your Firm's Situation</strong>
+            <span>Bring your specific questions, current AI tools, and edge cases. This is the conversation you can't have in a webinar.</span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Trainer bio -->
+    <section class="nb-section nb-trainer">
+      <div class="nb-section__inner nb-trainer__inner">
+        <div class="nb-trainer__photo">
+          <picture>
+            <source srcset="/images/christian-kameir.webp" type="image/webp" />
+            <img src="/images/christian-kameir.jpg" alt="Christian Kameir" width="200" height="200" loading="lazy" />
+          </picture>
+        </div>
+        <div class="nb-trainer__bio">
+          <h2>Your Trainer</h2>
+          <h3>Christian Kameir</h3>
+          <p class="nb-trainer__credentials">
+            Forbes contributor · Harvard Extension School lecturer · Chair, Decentralized Identity Foundation
+          </p>
+          <p>
+            Christian documented 1,356 AI hallucination cases from real court proceedings — the largest public dataset of AI failures in legal practice. He is the author of <em>Ethics-Safe AI Use for Law Firms</em> and has briefed bar associations, law firms, and legal technology companies on AI compliance.
+          </p>
+          <p>
+            He has practiced at the intersection of law and technology since the 1990s and brings a practitioner's perspective that academic instructors can't offer.
+          </p>
+          <div class="nb-trainer__links">
+            <a href="/about">Full bio →</a>
+            <a href="/AI-legal-research">View the case database →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Registration / Pricing -->
+    <section class="nb-section nb-register" id="register">
+      <div class="nb-section__inner">
+        <h2>Reserve Your Seat</h2>
+
+        <div class="nb-register__card">
+          <div class="nb-register__event-info">
+            <div class="nb-register__detail">
+              <span class="nb-register__detail-label">Date</span>
+              <span class="nb-register__detail-value">June 27, 2026</span>
+            </div>
+            <div class="nb-register__detail">
+              <span class="nb-register__detail-label">Location</span>
+              <span class="nb-register__detail-value">Newport Beach, CA<br><small>Exact venue sent by email after registration</small></span>
+            </div>
+            <div class="nb-register__detail">
+              <span class="nb-register__detail-label">Format</span>
+              <span class="nb-register__detail-value">Full-day in-person intensive · Small group</span>
+            </div>
+          </div>
+
+          <div class="nb-register__pricing">
+            <div class="nb-register__price-display">
+              <span class="nb-register__price-amount">$399</span>
+              <span class="nb-register__price-label">Early-bird — through May 29</span>
+            </div>
+            <div class="nb-urgency-countdown">
+              Price increases after May 29 — 10 days remaining
+            </div>
+            <a href={lsEventCheckout} class="btn btn--primary btn--xl" rel="noopener">
+              Register Now →
+            </a>
+            <p class="nb-register__guarantee">
+              Full refund available up to 14 days before the event
+            </p>
+          </div>
+        </div>
+
+        <div class="nb-register__group">
+          <h3>Bringing Your Team?</h3>
+          <p>Contact us for group pricing when registering 3 or more attorneys from the same firm.</p>
+          <a href="/contact" class="btn btn--outline">Contact for Group Rates</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="nb-section nb-faq">
+      <div class="nb-section__inner">
+        <h2>Frequently Asked Questions</h2>
+        <div class="nb-faq__list">
+          <details class="nb-faq__item">
+            <summary>Is CLE credit available?</summary>
+            <p>We are exploring CLE accreditation for this event. Details will be confirmed before the event date and communicated to registered attendees.</p>
+          </details>
+          <details class="nb-faq__item">
+            <summary>What's the exact venue?</summary>
+            <p>The venue is in Newport Beach, CA. Exact address and logistics are sent by email immediately after registration.</p>
+          </details>
+          <details class="nb-faq__item">
+            <summary>What happens if the event is cancelled?</summary>
+            <p>If we cancel the event, you receive a full refund within 5 business days. You can also choose to transfer your registration to a future event.</p>
+          </details>
+          <details class="nb-faq__item">
+            <summary>What's your refund policy?</summary>
+            <p>Full refunds are available up to 14 days before the event (June 13). After that, registrations can be transferred to another attendee or held as credit toward a future event.</p>
+          </details>
+          <details class="nb-faq__item">
+            <summary>Is this appropriate for general counsel or in-house attorneys?</summary>
+            <p>Yes. The frameworks apply across practice contexts — firm attorneys, in-house counsel, and compliance officers all find the material directly applicable to their AI governance questions.</p>
+          </details>
+          <details class="nb-faq__item">
+            <summary>What if I can't attend in person?</summary>
+            <p>The online self-paced training covers the same core framework and is available immediately. See the link below.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Online fallback CTA -->
+    <section class="nb-section nb-fallback">
+      <div class="nb-section__inner nb-fallback__inner">
+        <div class="nb-fallback__text">
+          <h2>Can't Make It to Newport Beach?</h2>
+          <p>The online self-paced training covers the same AI ethics framework — and you can start tonight. Individual access is $49; firm license for up to 10 attorneys is $199.</p>
+        </div>
+        <div class="nb-fallback__cta">
+          <a href="/ai-ethics-training" class="btn btn--outline btn--lg">
+            Get Online Training Instead →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <style>
+    /* ── Design tokens (mirror site globals) ── */
+    :root {
+      --nb-accent: #1B3A5C;
+      --nb-accent-light: #2a5580;
+      --nb-gold: #C8892A;
+      --nb-warn: #b45309;
+      --nb-warn-bg: #fffbeb;
+      --nb-warn-border: #f59e0b;
+      --nb-surface: #f8f9fa;
+      --nb-border: #e2e8f0;
+      --nb-text: #1a202c;
+      --nb-muted: #64748b;
+      --nb-radius: 8px;
+      --nb-radius-lg: 12px;
+      --nb-max: 860px;
+    }
+
+    /* ── Urgency bar ── */
+    .nb-urgency-bar {
+      background: var(--nb-warn-bg);
+      border-bottom: 2px solid var(--nb-warn-border);
+      color: var(--nb-warn);
+      text-align: center;
+      padding: 0.75rem 1rem;
+      font-size: 0.95rem;
+    }
+    .nb-urgency-bar__icon { margin-right: 0.35rem; }
+
+    /* ── Hero ── */
+    .nb-hero {
+      background: var(--nb-accent);
+      color: #fff;
+      padding: 4rem 1.5rem 3.5rem;
+      text-align: center;
+    }
+    .nb-hero__inner { max-width: var(--nb-max); margin: 0 auto; }
+    .nb-hero__badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 100px;
+      padding: 0.3rem 1rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+    .nb-hero__h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin: 0 0 0.5rem;
+      color: #fff;
+    }
+    .nb-hero__date {
+      font-size: 1.15rem;
+      opacity: 0.85;
+      margin: 0 0 1.25rem;
+      letter-spacing: 0.02em;
+    }
+    .nb-hero__lead {
+      font-size: 1.1rem;
+      line-height: 1.65;
+      opacity: 0.9;
+      max-width: 640px;
+      margin: 0 auto 2.5rem;
+    }
+    .nb-hero__cta { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
+    .nb-price-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+    }
+    .nb-price-block__label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.75;
+    }
+    .nb-price-block__price {
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1;
+      color: #fff;
+    }
+    .nb-price-block__deadline {
+      font-size: 0.85rem;
+      opacity: 0.8;
+      color: #fcd34d;
+    }
+    .nb-hero__cta-note {
+      font-size: 0.8rem;
+      opacity: 0.65;
+      margin: 0;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.75rem;
+      border-radius: var(--nb-radius);
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.18s, transform 0.12s;
+    }
+    .btn--primary {
+      background: var(--nb-gold);
+      color: #fff;
+    }
+    .btn--primary:hover { background: #a97220; transform: translateY(-1px); }
+    .btn--outline {
+      border: 2px solid currentColor;
+      color: var(--nb-accent);
+      background: transparent;
+    }
+    .btn--outline:hover { background: var(--nb-accent); color: #fff; }
+    .btn--lg { padding: 0.875rem 2rem; font-size: 1.05rem; }
+    .btn--xl { padding: 1rem 2.5rem; font-size: 1.1rem; width: 100%; text-align: center; }
+
+    /* ── Sections ── */
+    .nb-section { padding: 4rem 1.5rem; }
+    .nb-section:nth-child(even) { background: var(--nb-surface); }
+    .nb-section__inner { max-width: var(--nb-max); margin: 0 auto; }
+    .nb-section h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.25rem);
+      color: var(--nb-accent);
+      margin: 0 0 1.25rem;
+    }
+    .nb-section p { font-size: 1.05rem; line-height: 1.7; color: var(--nb-text); }
+
+    /* ── Why grid ── */
+    .nb-why__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .nb-why__item {
+      background: #fff;
+      border: 1px solid var(--nb-border);
+      border-radius: var(--nb-radius-lg);
+      padding: 1.5rem;
+    }
+    .nb-why__icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
+    .nb-why__item h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.1rem;
+      color: var(--nb-accent);
+      margin: 0 0 0.5rem;
+    }
+    .nb-why__item p { font-size: 0.95rem; margin: 0; color: var(--nb-muted); line-height: 1.6; }
+
+    /* ── Agenda ── */
+    .nb-agenda__intro { margin-bottom: 1.75rem; }
+    .nb-agenda__list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      counter-reset: agenda;
+    }
+    .nb-agenda__list li {
+      counter-increment: agenda;
+      display: grid;
+      grid-template-columns: 2.5rem 1fr;
+      gap: 0.5rem 1rem;
+      align-items: start;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--nb-border);
+    }
+    .nb-agenda__list li:last-child { border-bottom: none; }
+    .nb-agenda__list li::before {
+      content: counter(agenda);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--nb-accent);
+      background: rgba(27,58,92,0.08);
+      border-radius: 50%;
+      width: 2.25rem;
+      height: 2.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+    .nb-agenda__list li strong {
+      display: block;
+      font-size: 1rem;
+      color: var(--nb-text);
+      margin-bottom: 0.25rem;
+    }
+    .nb-agenda__list li span {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--nb-muted);
+      line-height: 1.55;
+    }
+
+    /* ── Trainer ── */
+    .nb-trainer__inner {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+    .nb-trainer__photo img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: var(--nb-radius-lg);
+      border: 3px solid var(--nb-border);
+    }
+    .nb-trainer__bio h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.5rem;
+      color: var(--nb-accent);
+      margin: 0 0 0.25rem;
+    }
+    .nb-trainer__credentials {
+      font-size: 0.85rem;
+      color: var(--nb-muted);
+      margin-bottom: 1rem;
+    }
+    .nb-trainer__links { display: flex; gap: 1.25rem; margin-top: 1rem; }
+    .nb-trainer__links a {
+      color: var(--nb-accent);
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .nb-trainer__links a:hover { text-decoration: underline; }
+
+    /* ── Registration card ── */
+    .nb-register__card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      background: #fff;
+      border: 2px solid var(--nb-accent);
+      border-radius: var(--nb-radius-lg);
+      padding: 2rem;
+      margin-bottom: 2.5rem;
+    }
+    .nb-register__event-info { display: flex; flex-direction: column; gap: 1.25rem; }
+    .nb-register__detail { display: flex; flex-direction: column; gap: 0.2rem; }
+    .nb-register__detail-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--nb-muted);
+    }
+    .nb-register__detail-value {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--nb-text);
+      line-height: 1.4;
+    }
+    .nb-register__detail-value small {
+      display: block;
+      font-weight: 400;
+      font-size: 0.85rem;
+      color: var(--nb-muted);
+    }
+    .nb-register__pricing {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.75rem;
+    }
+    .nb-register__price-display { display: flex; flex-direction: column; align-items: center; gap: 0.1rem; }
+    .nb-register__price-amount {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--nb-accent);
+      line-height: 1;
+    }
+    .nb-register__price-label { font-size: 0.85rem; color: var(--nb-muted); }
+    .nb-urgency-countdown {
+      background: var(--nb-warn-bg);
+      border: 1px solid var(--nb-warn-border);
+      color: var(--nb-warn);
+      border-radius: 6px;
+      padding: 0.4rem 0.75rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .nb-register__guarantee { font-size: 0.8rem; color: var(--nb-muted); margin: 0; }
+    .nb-register__group {
+      border-top: 1px solid var(--nb-border);
+      padding-top: 2rem;
+      text-align: center;
+    }
+    .nb-register__group h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.25rem;
+      color: var(--nb-accent);
+      margin-bottom: 0.5rem;
+    }
+    .nb-register__group p { margin-bottom: 1rem; }
+
+    /* ── FAQ ── */
+    .nb-faq__list { display: flex; flex-direction: column; gap: 0; }
+    .nb-faq__item {
+      border-bottom: 1px solid var(--nb-border);
+      padding: 0;
+    }
+    .nb-faq__item summary {
+      cursor: pointer;
+      padding: 1.1rem 0;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--nb-text);
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nb-faq__item summary::after { content: '+'; font-size: 1.25rem; color: var(--nb-accent); }
+    .nb-faq__item[open] summary::after { content: '−'; }
+    .nb-faq__item p { padding: 0 0 1rem; margin: 0; font-size: 0.95rem; color: var(--nb-muted); line-height: 1.65; }
+
+    /* ── Online fallback ── */
+    .nb-fallback { background: var(--nb-accent); }
+    .nb-fallback .nb-section__inner { max-width: var(--nb-max); }
+    .nb-fallback__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+    .nb-fallback h2 {
+      color: #fff;
+      margin-bottom: 0.75rem;
+    }
+    .nb-fallback p { color: rgba(255,255,255,0.85); margin: 0; }
+    .nb-fallback .btn--outline {
+      border-color: rgba(255,255,255,0.6);
+      color: #fff;
+      white-space: nowrap;
+    }
+    .nb-fallback .btn--outline:hover { background: rgba(255,255,255,0.15); }
+
+    /* ── Responsive ── */
+    @media (max-width: 700px) {
+      .nb-trainer__inner { grid-template-columns: 1fr; }
+      .nb-trainer__photo { text-align: center; }
+      .nb-trainer__photo img { width: 150px; height: 150px; }
+      .nb-register__card { grid-template-columns: 1fr; }
+      .nb-fallback__inner { flex-direction: column; text-align: center; }
+      .nb-agenda__list li { grid-template-columns: 2rem 1fr; }
+    }
+  </style>
+</Base>
