@@ -148,21 +148,6 @@ const personJsonLd = {
 </head>
 
 <body>
-  <!-- ── Newport Beach urgency banner ─────────────────────── -->
-  <div class="nb-site-banner" id="nb-site-banner" role="banner" aria-label="Event announcement">
-    <span class="nb-site-banner__text">
-      <strong>Live AI Ethics Training — Newport Beach, June 27</strong>
-      &thinsp;·&thinsp; Early-bird $399 ends May 29
-    </span>
-    <a href="/ai-ethics-training/newport-beach-june-2026" class="nb-site-banner__cta">Register →</a>
-    <button class="nb-site-banner__close" aria-label="Dismiss" onclick="this.closest('#nb-site-banner').style.display='none';sessionStorage.setItem('nb-banner-dismissed','1')">✕</button>
-  </div>
-  <script>
-    if (sessionStorage.getItem('nb-banner-dismissed')) {
-      document.getElementById('nb-site-banner').style.display = 'none';
-    }
-  </script>
-
   <header>
     <nav class="site-nav" aria-label="Main navigation">
       <div class="site-nav__inner">
