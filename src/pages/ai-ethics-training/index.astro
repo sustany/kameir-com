@@ -1,0 +1,521 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const lsIndividual = "https://kameir.lemonsqueezy.com/checkout/buy/d48ff7aa-63b0-4499-9d02-56bf965d2347";
+const lsFirm10    = "https://kameir.lemonsqueezy.com/checkout/buy/c14c90b5-e6fd-4aef-aaef-e5a37cb3c7d1";
+const lsFirm25    = "https://kameir.lemonsqueezy.com/checkout/buy/dbfe350b-89ad-4272-a038-d2eb8cec4d82";
+
+const courseSchema = {
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "AI Ethics Training for Attorneys",
+  "description": "A practical AI ethics training for law firms — protocols, disclosure language, and a 47-point audit checklist built on ABA Formal Opinion 512 and the post-Mata v. Avianca sanctions record.",
+  "provider": {
+    "@type": "Person",
+    "name": "Christian Kameir",
+    "url": "https://kameir.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Decentralized Publishing LLC"
+  },
+  "courseMode": ["online", "onDemand"],
+  "educationalLevel": "Professional",
+  "teaches": [
+    "ABA Formal Opinion 512 compliance",
+    "AI hallucination risk management",
+    "Citation verification protocols",
+    "PHI and HIPAA compliance for AI tools",
+    "AI disclosure language for federal court filings",
+    "Law firm AI governance policy"
+  ],
+  "offers": [
+    { "@type": "Offer", "name": "Single User", "price": "49", "priceCurrency": "USD", "url": lsIndividual },
+    { "@type": "Offer", "name": "Firm License (10 attorneys)", "price": "199", "priceCurrency": "USD", "url": lsFirm10 },
+    { "@type": "Offer", "name": "Firm License (25 attorneys)", "price": "499", "priceCurrency": "USD", "url": lsFirm25 }
+  ]
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What do I receive after purchase?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Instant access to the AI Ethics Training Protocol — PDF and EPUB format, downloadable immediately. Includes the full playbook, clause library, 47-point AI audit checklist, and 12-month updates." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this qualify for CLE credit?",
+      "acceptedAnswer": { "@type": "Answer", "text": "This is a practice management training protocol, not an accredited CLE course. Some bar associations grant self-study credit — check with your state bar. For a 6-hour accredited CLE course, see the AI Ethics CLE Course." }
+    },
+    {
+      "@type": "Question",
+      "name": "How many attorneys does the firm license cover?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The $199 firm license covers up to 10 attorneys and all staff. The $499 license covers up to 25 attorneys. For firms larger than 25, contact for enterprise pricing." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this cover my state's rules?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Chapters 1–8 cover ABA Model Rules, ABA Formal Opinion 512, and federal court requirements — which apply in every jurisdiction. California-specific sections provide a model even if your state rules differ." }
+    },
+    {
+      "@type": "Question",
+      "name": "What if the rules change after I buy?",
+      "acceptedAnswer": { "@type": "Answer", "text": "12-month updates are included. When a new sanctions order drops or a new federal standing order issues, the relevant section is updated and sent to all buyers at no additional charge." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a refund policy?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes — 30-day refund, no questions asked. Contact via the site and a full refund is issued." }
+    }
+  ]
+};
+---
+
+<Base
+  title="AI Ethics Training for Attorneys"
+  description="The AI ethics training protocol for law firms — built on ABA Formal Opinion 512 and the post-Mata v. Avianca sanctions record. $49 individual, $199 firm license."
+  preloadImage="/images/christian-kameir.webp"
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(courseSchema)} />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(faqSchema)} />
+
+  <div class="aet-page">
+
+    <!-- ── Hero ──────────────────────────────────────────────────── -->
+    <section class="aet-hero">
+      <div class="container">
+        <p class="label">AI Ethics Training · Law Firms</p>
+        <h1 class="aet-hero__h1">
+          AI Ethics Training for Attorneys
+        </h1>
+        <p class="aet-hero__sub">
+          Built on ABA Formal Opinion 512. Grounded in the post-<em>Mata&nbsp;v.&nbsp;Avianca</em> sanctions record.
+          Written for PI firms, not hypotheticals.
+        </p>
+
+        <!-- Credibility strip -->
+        <p class="aet-cred">
+          Christian Kameir&nbsp;·&nbsp;Forbes contributor&nbsp;·&nbsp;Harvard lecturer&nbsp;·&nbsp;30 years in capital markets &amp; law&nbsp;·&nbsp;1,356 AI cases documented
+        </p>
+
+        <!-- Primary CTAs -->
+        <div class="aet-hero__ctas">
+          <a href={lsFirm10} class="btn btn--primary aet-btn-main">
+            Get the Firm License — $199
+          </a>
+          <a href={lsIndividual} class="btn btn--outline">
+            Individual access — $49
+          </a>
+        </div>
+        <p class="aet-hero__access">
+          Instant access after purchase &nbsp;·&nbsp; PDF + EPUB &nbsp;·&nbsp; 30-day refund
+        </p>
+      </div>
+    </section>
+
+    <!-- ── Problem ───────────────────────────────────────────────── -->
+    <section class="aet-section aet-problem">
+      <div class="container">
+        <h2 class="aet-section__h2">One AI error. One sanctions order. One lost contingency fee.</h2>
+        <div class="aet-prose">
+          <p>
+            Your associates are using ChatGPT on demand letters. Your paralegals are running
+            medical records through free AI tools. Your intake chatbot is answering legal
+            questions you haven't reviewed.
+          </p>
+          <p>
+            None of them have a written protocol. None of them know what to disclose to a
+            court. And your malpractice carrier is about to ask you — in writing — what your
+            AI policy is.
+          </p>
+          <p>
+            <em>Mata&nbsp;v.&nbsp;Avianca</em> made it national news. The Second Circuit repeated
+            it in <em>Park&nbsp;v.&nbsp;Kim</em>. The Northern District of California has a standing
+            order requiring AI disclosure. ABA Formal Opinion 512 (July 2024) tells every attorney
+            in the country exactly what they're expected to do.
+          </p>
+          <p>
+            What none of those documents tell you is what to do Monday morning at a firm with
+            six attorneys, 400 active files, and three paralegals who all have ChatGPT on their
+            phones. That is what this training is for.
+          </p>
+        </div>
+
+        <div class="aet-chain">
+          {["AI error", "Sanctions order", "Fee forfeiture", "Malpractice claim", "Carrier non-renewal", "Bar discipline"].map((step, i) => (
+            <div class="aet-chain__step">
+              <span class="aet-chain__num">{i + 1}</span>
+              <span>{step}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Who it's for ──────────────────────────────────────────── -->
+    <section class="aet-section aet-for">
+      <div class="container">
+        <h2 class="aet-section__h2">Who this training is for</h2>
+        <p class="aet-for__intro">
+          Written for personal injury firm owners and managing partners at $1M–$20M firms.
+          Not solos. Not AmLaw 100. Not general practice.
+        </p>
+        <div class="aet-cols">
+          <div class="aet-col aet-col--yes">
+            <p class="aet-col__head">This is for your firm if</p>
+            <ul>
+              <li>2–10 attorneys, all or mostly contingency fee</li>
+              <li>50–500 active files at any time</li>
+              <li>Staff using AI tools — with or without your knowledge</li>
+              <li>No written AI policy in place</li>
+              <li>Malpractice carrier renewal coming up</li>
+              <li>At least one associate drafting pleadings faster than seems humanly possible</li>
+            </ul>
+          </div>
+          <div class="aet-col aet-col--no">
+            <p class="aet-col__head">This is not</p>
+            <ul>
+              <li>A prompt-engineering guide</li>
+              <li>A legal tech vendor brochure</li>
+              <li>A broad-audience CLE deck written for solos or BigLaw</li>
+              <li>An academic paper on legal ethics</li>
+            </ul>
+            <p class="aet-col__note">
+              It is an operating manual — written for a firm owner who bills contingency
+              and cannot absorb a single AI-driven sanction, malpractice claim,
+              or bar advertising violation.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── What's inside ─────────────────────────────────────────── -->
+    <section class="aet-section aet-modules">
+      <div class="container">
+        <h2 class="aet-section__h2">What the training covers</h2>
+        <div class="aet-module-grid">
+          {[
+            { n:"01", t:"The Sanctions Record", d:"What Mata, Park v. Kim, and the growing federal docket of AI sanctions orders mean for a PI firm. What courts are actually requiring. What the sanctions cost — in dollars, fees, and reputation." },
+            { n:"02", t:"ABA Formal Opinion 512", d:"The Opinion broken into 12 specific obligations. Which apply on day one. Which require a written policy. Which require client disclosure. Which expose a supervising partner to personal liability." },
+            { n:"03", t:"The Intake Workflow", d:"Where AI enters your intake process. Where it creates unauthorized practice of law exposure. What to allow, what to prohibit, and what your intake protocol must say in writing." },
+            { n:"04", t:"Demand Letters", d:"The highest-volume AI use case in a PI firm. The pre-send review checklist that catches hallucinated medical facts, wrong statute of limitations calculations, and unverified treatment costs." },
+            { n:"05", t:"Pleadings & Discovery", d:"Citation verification protocols. FRCP 11 pre-signature requirements. AI disclosure language for N.D. Cal. and C.D. Cal. filings. The discovery certification problem when AI drafts responses." },
+            { n:"06", t:"Medical Records & PHI", d:"HIPAA, CMIA, and the BAA requirement most firms don't know about. Why the free tier of any AI tool is off-limits for medical record work. The PHI handling policy and vendor checklist." },
+            { n:"07", t:"Client Communication", d:"Where AI-drafted client letters create confidentiality exposure. The staff training requirement ABA Op. 512 implies. What prompt hygiene means in practice." },
+            { n:"08", t:"Advertising & Intake Marketing", d:"CA Rule 7.1 and B&P § 6157 applied to AI-generated ad copy, intake chatbots, and landing pages. Why AI-written testimonials are a bar complaint waiting to happen." },
+            { n:"09", t:"The Audit Scoring System", d:"Red/Yellow/Green scoring across six practice areas. Print it. Run it with your ops manager. Know exactly where your exposure is before your carrier asks." },
+            { n:"10", t:"Building Your AI Governance Policy", d:"The written policy document that Op. 512 implies and carriers are beginning to require. Structure, required clauses, and the staff acknowledgment process." },
+          ].map(m => (
+            <div class="aet-module">
+              <span class="aet-module__n">{m.n}</span>
+              <div>
+                <p class="aet-module__t">{m.t}</p>
+                <p class="aet-module__d">{m.d}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── What you receive ──────────────────────────────────────── -->
+    <section class="aet-section aet-delivers">
+      <div class="container">
+        <h2 class="aet-section__h2">What you receive — instantly</h2>
+        <div class="aet-deliver-grid">
+          {[
+            { t:"The Training Protocol", d:"Ethics Safe AI Use for Law Firms — PDF + EPUB, downloadable immediately after purchase." },
+            { t:"The Clause Library", d:"Ready-to-use disclosure language for federal court filings, client engagement letters, staff AI-use policies, and vendor agreements." },
+            { t:"47-Point AI Audit Checklist", d:"Red/Yellow/Green scoring across six practice areas. Run it with your ops manager this week." },
+            { t:"12-Month Updates", d:"When new sanctions orders drop or new federal standing orders issue, your copy is updated — at no additional charge — for 12 months from purchase." },
+          ].map(d => (
+            <div class="aet-deliver">
+              <p class="aet-deliver__t">{d.t}</p>
+              <p class="aet-deliver__d">{d.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Proof from the record ──────────────────────────────────── -->
+    <section class="aet-section aet-proof">
+      <div class="container">
+        <h2 class="aet-section__h2">Built from 1,356 real cases</h2>
+        <p class="aet-proof__sub">
+          Every protocol in this training is grounded in what courts have actually sanctioned.
+          Not hypotheticals. Not vendor marketing. The sanctions record.
+        </p>
+        <div class="aet-case-refs">
+          <a href="/AI-legal-research/mata-protocol-ai-sanctions-sdny" class="aet-case-ref">
+            <span class="aet-case-ref__court">S.D.N.Y.</span>
+            <span class="aet-case-ref__name">Mata v. Avianca — $5,000 sanctions, fabricated citations</span>
+          </a>
+          <a href="/AI-legal-research" class="aet-case-ref">
+            <span class="aet-case-ref__court">2nd Cir.</span>
+            <span class="aet-case-ref__name">Park v. Kim — Second Circuit repeats the Mata warning</span>
+          </a>
+          <a href="/AI-legal-research" class="aet-case-ref">
+            <span class="aet-case-ref__court">Database</span>
+            <span class="aet-case-ref__name">1,356 cases across 34 jurisdictions — browse the full record →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Pricing ───────────────────────────────────────────────── -->
+    <section class="aet-section aet-pricing" id="pricing">
+      <div class="container">
+        <h2 class="aet-section__h2">Pricing</h2>
+
+        <div class="aet-price-grid">
+          <!-- Individual -->
+          <div class="aet-price-card">
+            <p class="aet-price-card__name">Single User</p>
+            <p class="aet-price-card__price">$49</p>
+            <p class="aet-price-card__desc">One attorney or one staff member. Full protocol + clause library + checklist + 12-month updates.</p>
+            <a href={lsIndividual} class="btn btn--outline aet-price-card__btn">Get Individual Access</a>
+          </div>
+
+          <!-- Firm 10 — highlighted -->
+          <div class="aet-price-card aet-price-card--featured">
+            <p class="aet-price-card__tag">Most common for PI firms</p>
+            <p class="aet-price-card__name">Firm License — Up to 10 Attorneys</p>
+            <p class="aet-price-card__price">$199</p>
+            <p class="aet-price-card__desc">Full firm access. Share with every attorney, paralegal, and case manager. One purchase, full team coverage.</p>
+            <a href={lsFirm10} class="btn btn--primary aet-price-card__btn">Get the Firm License</a>
+            <p class="aet-price-card__access">Instant access &nbsp;·&nbsp; PDF + EPUB &nbsp;·&nbsp; 30-day refund</p>
+          </div>
+
+          <!-- Firm 25 -->
+          <div class="aet-price-card">
+            <p class="aet-price-card__name">Firm License — Up to 25 Attorneys</p>
+            <p class="aet-price-card__price">$499</p>
+            <p class="aet-price-card__desc">For growing firms. Includes everything above plus priority access to Christian for questions during the first 90 days.</p>
+            <a href={lsFirm25} class="btn btn--outline aet-price-card__btn">Get the 25-Attorney License</a>
+          </div>
+        </div>
+
+        <p class="aet-pricing__enterprise">
+          Enterprise (25+ attorneys or multi-location firms):
+          <a href="/contact">Book a call</a> to discuss a custom governance policy build and firm-wide training.
+        </p>
+      </div>
+    </section>
+
+    <!-- ── Trainer bio ───────────────────────────────────────────── -->
+    <section class="aet-section aet-trainer">
+      <div class="container">
+        <div class="aet-trainer__inner">
+          <picture>
+            <source srcset="/images/christian-kameir.webp" type="image/webp" />
+            <img src="/images/christian-kameir.jpg" alt="Christian Kameir" width="120" height="150" class="aet-trainer__photo" loading="lazy" />
+          </picture>
+          <div class="aet-trainer__bio">
+            <p class="aet-trainer__label">About the author</p>
+            <p class="aet-trainer__name">Christian Kameir</p>
+            <p>
+              Thirty years at the intersection of capital markets, technology, and law.
+              Forbes contributor. Guest lecturer at Harvard on fintech and AI. Chair of the
+              Banking &amp; Finance Special Interest Group at the Decentralized Identity Foundation.
+              Author of <em>Ethics-Safe AI Use for Law Firms</em>, built on direct review of
+              the post-<em>Mata v. Avianca</em> sanctions record and 1,356 documented AI
+              hallucination cases in legal proceedings.
+            </p>
+            <p class="aet-trainer__why">
+              <strong>Why this training exists:</strong> ABA Opinion 512 and the federal sanctions
+              record tell attorneys what the rules are. They don't tell a six-attorney PI firm
+              what to do Monday morning. This fills that gap.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 60-min audit upsell ───────────────────────────────────── -->
+    <section class="aet-section aet-audit">
+      <div class="container">
+        <div class="aet-audit__inner">
+          <div>
+            <p class="label">Work directly with Christian</p>
+            <h3 class="aet-audit__h3">60-Minute AI Risk Audit — $750</h3>
+            <p>A review of your firm's current AI use across intake, drafting, discovery, and advertising — with a written gap analysis and specific protocols to address your highest-priority exposures.</p>
+          </div>
+          <a href="/contact" class="btn btn--outline">Book a call</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FAQ ──────────────────────────────────────────────────── -->
+    <section class="aet-section aet-faq" id="faq">
+      <div class="container">
+        <h2 class="aet-section__h2">Questions</h2>
+        <dl class="aet-faq__list">
+          {[
+            { q:"What do I receive after purchase?", a:"Instant access to the full training protocol — PDF and EPUB, downloadable immediately. Includes the playbook, clause library, 47-point AI audit checklist, and 12-month updates as the law evolves." },
+            { q:"Does this qualify for CLE credit?", a:"This is a practice management training protocol, not an accredited CLE course. Some bar associations grant self-study credit — check with your state bar. For a 6-hour accredited CLE, see the AI Ethics CLE Course." },
+            { q:"Is there a refund policy?", a:"Yes — 30-day refund, no questions asked." },
+            { q:"How many attorneys does the firm license cover?", a:"The $199 firm license covers up to 10 attorneys and all staff. The $499 license covers up to 25 attorneys. For firms larger than 25, or multi-office arrangements, contact for enterprise pricing." },
+            { q:"Does this cover my state's rules?", a:"Chapters covering ABA Model Rules, ABA Formal Opinion 512, and federal court requirements apply in every jurisdiction. California-specific sections provide a useful model even if your state rules differ." },
+            { q:"What if the rules change after I buy?", a:"12-month updates are included. When a new sanctions order drops, a new federal standing order issues, or a significant ethics opinion affects PI firms, the relevant section is updated and sent to you at no charge." },
+            { q:"Can I share this with my whole firm?", a:"The $49 single-user license is for one person. The $199 firm license covers up to 10 attorneys and all staff. The $499 covers up to 25." },
+            { q:"Is this legal advice?", a:"No. This is educational content — a practice management training protocol. It is not legal advice and does not create an attorney-client relationship." },
+          ].map(f => (
+            <div class="aet-faq__item">
+              <dt class="aet-faq__q">{f.q}</dt>
+              <dd class="aet-faq__a">{f.a}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+
+    <!-- ── Also consider ─────────────────────────────────────────── -->
+    <section class="aet-section aet-also">
+      <div class="container">
+        <h2 class="aet-section__h2">Also available</h2>
+        <div class="aet-also__grid">
+          <div class="aet-also__card">
+            <p class="aet-also__label">6-Hour CLE Course</p>
+            <p class="aet-also__title">Generative AI Use Mandatory Training</p>
+            <p class="aet-also__desc">Online, on-demand CLE covering competence, confidentiality, supervision, candor, and billing ethics under the ABA Model Rules. Six modules grounded in the sanctions record.</p>
+            <a href="/AI-Ethics-CLE-Course-Sample" class="btn btn--outline">Preview free module →</a>
+          </div>
+          <div class="aet-also__card">
+            <p class="aet-also__label">Case Database</p>
+            <p class="aet-also__title">1,356 AI Hallucination Cases</p>
+            <p class="aet-also__desc">Every documented case where generative AI produced fabricated citations, invented quotes, or misrepresented authorities in a real court proceeding. Free, searchable, downloadable.</p>
+            <a href="/AI-legal-research" class="btn btn--outline">Browse the database →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Bottom CTA ─────────────────────────────────────────────── -->
+    <section class="aet-section aet-bottom-cta">
+      <div class="container">
+        <p class="aet-bottom-cta__headline">Your next AI error doesn't have to cost you a fee.</p>
+        <p class="aet-bottom-cta__sub">The protocols exist. The disclosure language exists. The checklist exists. You just need them in one place, adapted for how a PI firm actually runs.</p>
+        <div class="aet-hero__ctas">
+          <a href={lsFirm10} class="btn btn--primary aet-btn-main">Get the Firm License — $199</a>
+          <a href={lsIndividual} class="btn btn--outline">Individual access — $49</a>
+        </div>
+        <p class="aet-hero__access">Instant access &nbsp;·&nbsp; PDF + EPUB &nbsp;·&nbsp; 30-day refund &nbsp;·&nbsp; Not legal advice</p>
+      </div>
+    </section>
+
+  </div><!-- /aet-page -->
+</Base>
+
+<style>
+.aet-page { padding-bottom: var(--space-xl); }
+
+/* Hero */
+.aet-hero { padding: var(--space-l) 0 var(--space-m); border-bottom: 1px solid var(--rule); }
+.aet-hero__h1 { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.2; margin: 0.5rem 0 1rem; color: var(--text); }
+.aet-hero__sub { font-size: 1.1rem; color: var(--text-muted); max-width: 60ch; margin-bottom: 1.25rem; }
+.aet-cred { font-family: var(--font-ui); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); margin-bottom: 1.75rem; }
+.aet-hero__ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+.aet-btn-main { font-size: 0.9rem !important; padding: 1rem 2.5rem !important; }
+.aet-hero__access { font-family: var(--font-ui); font-size: 0.8rem; color: var(--text-muted); }
+
+/* Sections */
+.aet-section { padding: var(--space-l) 0; border-bottom: 1px solid var(--rule); }
+.aet-section:last-child { border-bottom: none; }
+.aet-section__h2 { font-family: var(--font-display); font-size: clamp(1.3rem, 3vw, 1.9rem); margin: 0 0 1.25rem; }
+.aet-prose p { max-width: 68ch; margin-bottom: 1rem; line-height: 1.75; }
+
+/* Sanctions chain */
+.aet-chain { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 2rem; }
+.aet-chain__step { display: flex; align-items: center; gap: 0.5rem; background: var(--bg-subtle); border: 1px solid var(--border); padding: 0.4rem 0.8rem; border-radius: 2px; font-family: var(--font-ui); font-size: 0.8rem; }
+.aet-chain__num { font-weight: 700; color: var(--accent); }
+
+/* Who it's for */
+.aet-for__intro { max-width: 60ch; margin-bottom: 1.5rem; color: var(--text-muted); }
+.aet-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+.aet-col { background: var(--bg-subtle); border: 1px solid var(--border); padding: 1.5rem; border-radius: 4px; }
+.aet-col--yes { border-color: var(--accent); }
+.aet-col__head { font-family: var(--font-ui); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.75rem; }
+.aet-col ul { padding-left: 1.25rem; }
+.aet-col li { margin-bottom: 0.4rem; font-size: 0.95rem; }
+.aet-col__note { margin-top: 1rem; font-size: 0.875rem; color: var(--text-muted); font-style: italic; }
+
+/* Modules */
+.aet-module-grid { display: grid; gap: 1.25rem; }
+.aet-module { display: flex; gap: 1.25rem; padding: 1rem; border: 1px solid var(--rule); border-radius: 3px; }
+.aet-module__n { font-family: var(--font-ui); font-size: 0.7rem; font-weight: 700; color: var(--text-muted); min-width: 2rem; padding-top: 0.15rem; }
+.aet-module__t { font-weight: 600; margin-bottom: 0.25rem; }
+.aet-module__d { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin: 0; }
+
+/* Deliverables */
+.aet-deliver-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.aet-deliver { padding: 1.25rem; background: var(--bg-subtle); border-radius: 3px; }
+.aet-deliver__t { font-weight: 700; margin-bottom: 0.4rem; }
+.aet-deliver__d { font-size: 0.9rem; color: var(--text-muted); margin: 0; }
+
+/* Proof */
+.aet-proof__sub { color: var(--text-muted); max-width: 60ch; margin-bottom: 1.5rem; }
+.aet-case-refs { display: flex; flex-direction: column; gap: 0.75rem; }
+.aet-case-ref { display: flex; gap: 1rem; align-items: baseline; padding: 0.85rem 1rem; border: 1px solid var(--border); border-radius: 3px; text-decoration: none; color: var(--text); transition: border-color 0.15s; }
+.aet-case-ref:hover { border-color: var(--accent); }
+.aet-case-ref__court { font-family: var(--font-ui); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); min-width: 5rem; }
+.aet-case-ref__name { font-size: 0.95rem; }
+
+/* Pricing */
+.aet-price-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+.aet-price-card { border: 1px solid var(--border); border-radius: 4px; padding: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.aet-price-card--featured { border-color: var(--accent); border-width: 2px; background: var(--bg-subtle); position: relative; }
+.aet-price-card__tag { font-family: var(--font-ui); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent); margin-bottom: 0; }
+.aet-price-card__name { font-weight: 700; font-size: 1rem; margin: 0; }
+.aet-price-card__price { font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; color: var(--accent); margin: 0; }
+.aet-price-card__desc { font-size: 0.875rem; color: var(--text-muted); flex: 1; }
+.aet-price-card__btn { text-align: center; margin-top: 0.5rem; }
+.aet-price-card__access { font-size: 0.75rem; color: var(--text-muted); text-align: center; margin: 0; }
+.aet-pricing__enterprise { font-size: 0.875rem; color: var(--text-muted); text-align: center; }
+.aet-pricing__enterprise a { color: var(--accent); }
+
+/* Trainer */
+.aet-trainer { background: var(--bg-subtle); }
+.aet-trainer__inner { display: flex; gap: 2rem; align-items: flex-start; }
+.aet-trainer__photo { border-radius: 3px; object-fit: cover; }
+.aet-trainer__label { font-family: var(--font-ui); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); margin-bottom: 0.25rem; }
+.aet-trainer__name { font-family: var(--font-display); font-size: 1.3rem; margin-bottom: 0.75rem; }
+.aet-trainer__bio p { font-size: 0.95rem; line-height: 1.7; margin-bottom: 0.75rem; }
+.aet-trainer__why { font-size: 0.9rem !important; color: var(--text-muted) !important; }
+
+/* Audit */
+.aet-audit__inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+.aet-audit__h3 { font-family: var(--font-display); font-size: 1.3rem; margin: 0.25rem 0 0.5rem; }
+
+/* FAQ */
+.aet-faq__list { display: flex; flex-direction: column; gap: 1.25rem; }
+.aet-faq__item { border-bottom: 1px solid var(--rule); padding-bottom: 1.25rem; }
+.aet-faq__q { font-weight: 700; margin-bottom: 0.4rem; font-size: 1rem; }
+.aet-faq__a { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; margin: 0; }
+
+/* Also available */
+.aet-also__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.aet-also__card { border: 1px solid var(--border); padding: 1.5rem; border-radius: 4px; }
+.aet-also__label { font-family: var(--font-ui); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); margin-bottom: 0.25rem; }
+.aet-also__title { font-weight: 700; font-size: 1.05rem; margin-bottom: 0.5rem; }
+.aet-also__desc { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem; }
+
+/* Bottom CTA */
+.aet-bottom-cta { text-align: center; background: var(--bg-subtle); }
+.aet-bottom-cta__headline { font-family: var(--font-display); font-size: clamp(1.3rem, 3vw, 1.8rem); margin-bottom: 0.75rem; }
+.aet-bottom-cta__sub { color: var(--text-muted); max-width: 55ch; margin: 0 auto 1.75rem; }
+.aet-bottom-cta .aet-hero__ctas { justify-content: center; }
+.aet-bottom-cta .aet-hero__access { margin-top: 0.75rem; }
+
+/* Responsive */
+@media (max-width: 700px) {
+  .aet-cols, .aet-price-grid, .aet-deliver-grid, .aet-also__grid { grid-template-columns: 1fr; }
+  .aet-trainer__inner { flex-direction: column; }
+  .aet-audit__inner { flex-direction: column; }
+  .aet-hero__ctas { flex-direction: column; }
+}
+</style>

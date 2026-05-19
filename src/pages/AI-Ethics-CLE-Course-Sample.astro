@@ -224,12 +224,38 @@ const courseSchema = {
       <!-- ── CTA ─────────────────────────────────────────────── -->
       <section class="cle-cta">
         <h2 class="cle-cta__heading">License for Your Firm or Bar Association</h2>
-        <p class="cle-cta__body">
-          The course is available per attorney or as a firm-wide or bar association
-          license. Questions about the curriculum, accreditation status in your
-          jurisdiction, or volume pricing? Get in touch.
+
+        <!-- Pricing tiers -->
+        <div class="cle-pricing">
+          <div class="cle-price-card">
+            <p class="cle-price-card__name">Per Attorney</p>
+            <p class="cle-price-card__price">$149</p>
+            <p class="cle-price-card__desc">Individual attorney license. Online, on-demand access. Complete all six modules at your own pace.</p>
+            <a href="/CLE-AI-Ethics-Interest" class="btn btn--primary cle-price-card__btn">License This Course</a>
+          </div>
+          <div class="cle-price-card cle-price-card--featured">
+            <p class="cle-price-card__tag">Most common</p>
+            <p class="cle-price-card__name">Firm License</p>
+            <p class="cle-price-card__price">From $599</p>
+            <p class="cle-price-card__desc">Firm-wide access for all attorneys. One purchase, full team coverage. Includes CLE credit tracking support.</p>
+            <a href="/CLE-AI-Ethics-Interest" class="btn btn--primary cle-price-card__btn">Get Firm Pricing</a>
+          </div>
+          <div class="cle-price-card">
+            <p class="cle-price-card__name">Bar Association</p>
+            <p class="cle-price-card__price">Custom</p>
+            <p class="cle-price-card__desc">Co-branded or white-label licensing for bar associations and affinity programs. Volume and accreditation support included.</p>
+            <a href="/CLE-AI-Ethics-Interest" class="btn btn--outline cle-price-card__btn">Discuss Licensing</a>
+          </div>
+        </div>
+
+        <p class="cle-cta__access">
+          Online · On-demand · 6 CLE hours · Instant access after licensing
         </p>
-        <a href="/CLE-AI-Ethics-Interest" class="btn btn--primary">Get in touch →</a>
+
+        <p class="cle-cta__body" style="margin-top:1rem;">
+          Questions about the curriculum, accreditation status in your jurisdiction,
+          or volume pricing? <a href="/CLE-AI-Ethics-Interest">Get in touch</a>.
+        </p>
       </section>
 
     </div>
@@ -514,4 +540,59 @@ const courseSchema = {
   .cle-module--featured { margin: 0; padding: 1rem 0; }
   .cle-cta { padding: 1.5rem; }
 }
+
+/* ── CLE Pricing ─────────────────────────────── */
+.cle-pricing {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.25rem;
+  margin: 1.5rem 0 1rem;
+}
+.cle-price-card {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.cle-price-card--featured {
+  border-color: var(--accent);
+  border-width: 2px;
+  background: var(--bg-subtle);
+}
+.cle-price-card__tag {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--accent);
+  margin: 0;
+}
+.cle-price-card__name { font-weight: 700; margin: 0; }
+.cle-price-card__price {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 0;
+}
+.cle-price-card__desc {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  flex: 1;
+  margin: 0;
+}
+.cle-price-card__btn { text-align: center; margin-top: 0.5rem; }
+.cle-cta__access {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+@media (max-width: 640px) {
+  .cle-pricing { grid-template-columns: 1fr; }
+}
+
 </style>
