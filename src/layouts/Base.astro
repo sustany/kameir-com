@@ -24,7 +24,7 @@ const {
 // Strip .html from canonical URLs (clean URLs served via .htaccess rewrite)
 const cleanPath = Astro.url.pathname.replace(/\.html$/, '');
 const canonicalURL = new URL(cleanPath, Astro.site);
-const fullTitle = title === 'Christian Kameir' ? title : `${title} — Christian Kameir`;
+const fullTitle = title.includes('Christian Kameir') ? title : `${title} — Christian Kameir`;
 const ogImageAbsolute = new URL(ogImage, Astro.site);
 
 const navLinks = [
