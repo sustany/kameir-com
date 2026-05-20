@@ -18,7 +18,6 @@ const fmt = new Intl.DateTimeFormat('en-US', {
   title="Christian Kameir — Investor, Advisor & AI Technologist"
   description="AI ethics training for attorneys — 1,356 documented hallucination cases, the Mata Protocol, and the Five Artifacts test. Advisor, author, and speaker. Newport Beach, CA."
   personSchema={true}
-  preloadImage="/images/christian-kameir.webp"
 >
   <script type="application/ld+json" slot="head" set:html={JSON.stringify({
   "@context": "https://schema.org",
@@ -61,47 +60,22 @@ const fmt = new Intl.DateTimeFormat('en-US', {
 })} />
   <article class="home">
 
-    <!-- ── §01 Hero ──────────────────────────────────────────── -->
-    <section class="home__hero">
-      <div class="home__hero-inner container--wide">
-
-        <div class="home__hero-text">
-          <p class="label home__location">Newport Beach, California</p>
-          <h1 class="home__name">Christian<br>Kameir</h1>
-          <p class="home__tagline">Reality does not have an advertising budget.</p>
-
-          <div class="home__bio prose">
-            <p>
-              Advisor, author, and speaker based in Newport Beach, California.
-              Thirty years at the intersection of capital markets, technology, and law —
-              helping capital-intensive companies from German-speaking countries establish
-              US operations, speaking at conferences on AI, blockchain, and the future of
-              money, and publishing practical guides for practitioners navigating AI risk.
-            </p>
-          </div>
-
-          <div class="home__cta">
-            <a href="/ai-ethics-training" class="btn btn--primary">AI Ethics Training →</a>
-            <a href="/advisory" class="btn btn--outline">Advisory</a>
-            <a href="/ai-ethics-training/newport-beach-june-2026" class="home__cta-ghost">🗓 Live event — Newport Beach, June 27 →</a>
-          </div>
+    <!-- ── §01 Intro ──────────────────────────────────────────── -->
+    <section class="home__intro">
+      <div class="container--wide home__intro-inner">
+        <div class="home__intro-text">
+          <p class="label home__intro-byline">Christian Kameir &mdash; Newport Beach, California</p>
+          <p class="home__intro-desc">
+            Advisor, author, and speaker on AI ethics, capital markets, and technology.
+            Thirty years at the intersection of law, capital, and emerging tech &mdash;
+            now focused on documenting attorney AI sanctions and training law firms
+            to navigate AI risk before courts do it for them.
+          </p>
         </div>
-
-        <div class="home__hero-photo">
-          <picture>
-            <source srcset="/images/christian-kameir.webp" type="image/webp" />
-            <img
-              src="/images/christian-kameir.jpg"
-              alt="Christian Kameir"
-              width="460"
-              height="575"
-              class="home__photo"
-              loading="eager"
-              fetchpriority="high"
-            />
-          </picture>
+        <div class="home__intro-cta">
+          <a href="/ai-ethics-training" class="btn btn--primary">AI Ethics Training →</a>
+          <a href="/advisory" class="btn btn--outline">Advisory</a>
         </div>
-
       </div>
     </section>
 
@@ -119,6 +93,31 @@ const fmt = new Intl.DateTimeFormat('en-US', {
         <span>Oxford · Munich · Münster</span>
         <span class="home__cred-sep" aria-hidden="true">·</span>
         <span>Author</span>
+      </div>
+    </div>
+
+    <!-- ── §02b Stats strip ────────────────────────────────────── -->
+    <div class="home__stats">
+      <div class="container--wide home__stats-inner">
+        <a href="/AI-legal-research/" class="home__stat">
+          <p class="home__stat-num">1,356</p>
+          <p class="home__stat-lbl">AI sanctions cases documented</p>
+        </a>
+        <div class="home__stat-rule" aria-hidden="true"></div>
+        <div class="home__stat">
+          <p class="home__stat-num">$145K</p>
+          <p class="home__stat-lbl">in attorney fines, Q1 2026 alone</p>
+        </div>
+        <div class="home__stat-rule" aria-hidden="true"></div>
+        <div class="home__stat">
+          <p class="home__stat-num">7</p>
+          <p class="home__stat-lbl">Model Rules at risk in every AI filing</p>
+        </div>
+        <div class="home__stat-rule" aria-hidden="true"></div>
+        <a href="/ai-ethics-training/newport-beach-june-2026" class="home__stat">
+          <p class="home__stat-num">50</p>
+          <p class="home__stat-lbl">seats — Newport Beach workshop, June 27</p>
+        </a>
       </div>
     </div>
 
@@ -222,6 +221,42 @@ const fmt = new Intl.DateTimeFormat('en-US', {
             <a href="/AI-Ethics-CLE-Course-Sample" class="btn btn--outline">Preview CLE module →</a>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- ── §06 Recent Writing ─────────────────────────────────── -->
+    <section class="home__writing">
+      <div class="container--wide home__writing-inner">
+        <div class="home__writing-header">
+          <div>
+            <p class="label">Recent writing</p>
+            <p class="home__writing-intro">Research, analysis, and practical guidance on AI ethics, sanctions, and verification for law firms.</p>
+          </div>
+          <a href="/writing" class="home__writing-all">All posts →</a>
+        </div>
+        <ul class="home__writing-list" role="list">
+          {recentPosts.map((post) => (
+            <li class="home__writing-item">
+              <a href={`/writing/${post.slug}`} class="home__writing-link">
+                <time class="label home__writing-date" datetime={post.data.publishedAt.toISOString()}>
+                  {fmt.format(post.data.publishedAt)}
+                </time>
+                <span class="home__writing-title">{post.data.title}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- ── §07 Workshop close ─────────────────────────────────── -->
+    <section class="home__workshop-close">
+      <div class="container--wide home__workshop-close-inner">
+        <div>
+          <p class="home__workshop-close-label">AI Ethics Training Workshop · Newport Beach · June 27, 2026</p>
+          <p class="home__workshop-close-text">50 seats. One day. Leave with a verification workflow you can use immediately.</p>
+        </div>
+        <a href="/ai-ethics-training/newport-beach-june-2026" class="home__workshop-close-btn">Register — $399 →</a>
       </div>
     </section>
 

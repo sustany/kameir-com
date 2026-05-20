@@ -630,3 +630,183 @@
   .home__book-cta { flex-direction: column; }
   .home__book-cta .btn { text-align: center; }
 }
+
+/* ── §02b Stats strip ─────────────────────────────────────────── */
+.home__stats {
+  border-bottom: 1px solid var(--rule);
+  padding-block: var(--space-l);
+  padding-inline: var(--space-m);
+}
+
+.home__stats-inner {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr 1px 1fr 1px 1fr;
+  gap: 0 3rem;
+  margin-inline: auto;
+  align-items: center;
+}
+
+.home__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.15s;
+}
+a.home__stat:hover { color: var(--accent); }
+a.home__stat:hover .home__stat-num { color: var(--accent); }
+
+.home__stat-rule {
+  width: 1px;
+  height: 2.5rem;
+  background: var(--rule);
+}
+
+.home__stat-num {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--accent);
+  transition: color 0.15s;
+}
+
+.home__stat-lbl {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+  line-height: 1.4;
+  max-width: 15ch;
+}
+
+@media (max-width: 900px) {
+  .home__stats-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-m) 2rem;
+  }
+  .home__stat-rule { display: none; }
+}
+
+@media (max-width: 480px) {
+  .home__stats-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-s) 1.5rem;
+  }
+}
+
+/* ── §07 Workshop close bar ───────────────────────────────────── */
+.home__workshop-close {
+  background: var(--accent);
+  padding-block: var(--space-l);
+  padding-inline: var(--space-m);
+}
+
+.home__workshop-close-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 3rem;
+  align-items: center;
+  margin-inline: auto;
+}
+
+.home__workshop-close-label {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.65);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.home__workshop-close-text {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: #fff;
+  max-width: 42ch;
+}
+
+.home__workshop-close-btn {
+  display: inline-block;
+  background: #fff;
+  color: var(--accent);
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 0.85em 1.6em;
+  border-radius: 2px;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+}
+.home__workshop-close-btn:hover {
+  background: rgba(255,255,255,0.88);
+  color: var(--accent);
+}
+
+@media (max-width: 768px) {
+  .home__workshop-close-inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-m);
+  }
+}
+
+/* ── §01 Compact intro ────────────────────────────────────────── */
+.home__intro {
+  padding: var(--space-xl) 0 var(--space-l);
+  border-bottom: 1px solid var(--rule);
+  padding-inline: var(--space-m);
+}
+
+.home__intro-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4rem;
+  align-items: center;
+  margin-inline: auto;
+}
+
+.home__intro-byline {
+  margin-bottom: 0.75rem;
+}
+
+.home__intro-desc {
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 2vw, 1.2rem);
+  line-height: 1.65;
+  color: var(--text);
+  max-width: 58ch;
+}
+
+.home__intro-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.home__intro-cta .btn {
+  text-align: center;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .home__intro-inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-m);
+  }
+
+  .home__intro-cta {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
