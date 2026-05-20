@@ -70,6 +70,26 @@ const articleJsonLd = {
         <Content />
       </div>
 
+      <!-- ── Workshop CTA ─────────────────────────────────── -->
+      <aside class="post__cta">
+        <div class="post__cta-inner">
+          <div class="post__cta-text">
+            <p class="post__cta-label">AI Ethics Training Workshop · Newport Beach · June 27, 2026</p>
+            <p class="post__cta-heading">Put this framework into practice — in one day.</p>
+            <p class="post__cta-body">
+              A full-day intensive for attorneys led by Rahul Gupta, Esq. (CA instructor of record)
+              and Christian Kameir (author of this research). Cover the Mata Protocol, the Five Artifacts
+              test, and a firm AI use policy you can implement the same week.
+              Early-bird <strong>$399 through May 29</strong> — <span class="post__cta-days"></span>.
+            </p>
+          </div>
+          <div class="post__cta-actions">
+            <a href="/ai-ethics-training/newport-beach-june-2026" class="post__cta-btn">Reserve a Seat →</a>
+            <a href="/ai-ethics-ebook" class="post__cta-btn post__cta-btn--secondary">Get the eBook — $49</a>
+          </div>
+        </div>
+      </aside>
+
       <hr class="rule" />
 
       <footer class="post__footer">
@@ -79,6 +99,16 @@ const articleJsonLd = {
     </div>
   </article>
 </Base>
+
+<script>
+  (function() {
+    var els = document.querySelectorAll('.post__cta-days');
+    if (!els.length) return;
+    var diff = Math.ceil((new Date('2026-05-29T23:59:59-07:00') - new Date()) / 86400000);
+    var text = diff > 0 ? diff + ' day' + (diff !== 1 ? 's' : '') + ' left' : 'ends today';
+    els.forEach(function(el) { el.textContent = text; });
+  })();
+</script>
 
 <style>
 .post__header {
@@ -112,4 +142,81 @@ const articleJsonLd = {
 .post__body {
   padding-block: var(--space-m);
   font-size: 1.05rem;
-  
+  line-height: 1.8;
+  max-width: 68ch;
+}
+
+.post__footer {
+  padding-bottom: 4rem;
+}
+
+/* ── Workshop CTA ────────────────────────────────── */
+.post__cta {
+  margin: var(--space-xl, 4rem) 0 var(--space-m, 1.5rem);
+  background: #f0f4f8;
+  border-left: 4px solid var(--accent, #1B3A5C);
+  border-radius: 0 8px 8px 0;
+  padding: 2rem 2rem 2rem 1.75rem;
+}
+.post__cta-inner {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+.post__cta-text { flex: 1; }
+.post__cta-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--accent, #1B3A5C);
+  margin: 0 0 0.5rem;
+}
+.post__cta-heading {
+  font-family: var(--font-display, 'Playfair Display', Georgia, serif);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--accent, #1B3A5C);
+  margin: 0 0 0.75rem;
+  line-height: 1.3;
+}
+.post__cta-body {
+  font-size: 0.93rem;
+  line-height: 1.65;
+  color: var(--text-muted, #64748b);
+  margin: 0;
+}
+.post__cta-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex-shrink: 0;
+  padding-top: 0.25rem;
+}
+.post__cta-btn {
+  display: inline-block;
+  padding: 0.65rem 1.25rem;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  white-space: nowrap;
+  background: var(--accent, #1B3A5C);
+  color: #fff;
+  transition: background 0.15s;
+}
+.post__cta-btn:hover { background: #2a5580; }
+.post__cta-btn--secondary {
+  background: transparent;
+  border: 2px solid var(--accent, #1B3A5C);
+  color: var(--accent, #1B3A5C);
+}
+.post__cta-btn--secondary:hover { background: var(--accent, #1B3A5C); color: #fff; }
+
+@media (max-width: 640px) {
+  .post__cta-inner { flex-direction: column; gap: 1.25rem; }
+  .post__cta-actions { flex-direction: row; flex-wrap: wrap; }
+  .post__cta-btn { flex: 1; min-width: 140px; }
+}
+</style>
