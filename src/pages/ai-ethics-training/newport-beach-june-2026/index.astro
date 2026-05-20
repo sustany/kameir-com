@@ -184,30 +184,56 @@ const breadcrumbSchema = {
 
     <!-- Trainer bio -->
     <section class="nb-section nb-trainer">
-      <div class="nb-section__inner nb-trainer__inner">
-        <div class="nb-trainer__photo">
-          <picture>
-            <source srcset="/images/christian-kameir.webp" type="image/webp" />
-            <img src="/images/christian-kameir.jpg" alt="Christian Kameir" width="200" height="200" loading="lazy" />
-          </picture>
-        </div>
-        <div class="nb-trainer__bio">
-          <h2>Your Trainer</h2>
-          <h3>Christian Kameir</h3>
-          <p class="nb-trainer__credentials">
-            Forbes contributor · Harvard Extension School lecturer · Chair, Decentralized Identity Foundation
-          </p>
-          <p>
-            Christian documented 1,356 AI hallucination cases from real court proceedings — the largest public dataset of AI failures in legal practice. He is the author of <em>Ethics-Safe AI Use for Law Firms</em> and has briefed bar associations, law firms, and legal technology companies on AI compliance.
-          </p>
-          <p>
-            He has worked at the intersection of law, capital markets, and technology since the 1990s and brings a practitioner's perspective that academic instructors can't offer.
-          </p>
-          <div class="nb-trainer__links">
-            <a href="/about">Full bio →</a>
-            <a href="/AI-legal-research">View the case database →</a>
+      <div class="nb-section__inner">
+        <h2>Your Presenters</h2>
+
+        <!-- Lead presenter — Rahul Gupta -->
+        <div class="nb-presenter">
+          <div class="nb-presenter__photo nb-presenter__photo--placeholder" aria-hidden="true">
+            <span class="nb-presenter__initials">RG</span>
+          </div>
+          <div class="nb-presenter__bio">
+            <div class="nb-presenter__role-tag">Lead Presenter · Ethics Instructor of Record</div>
+            <h3>Rahul Gupta, Esq.</h3>
+            <p class="nb-presenter__credentials">
+              California-admitted attorney · Active and in good standing · State Bar of California
+            </p>
+            <p>
+              Rahul Gupta is a California-licensed attorney who serves as the lead presenter and instructor of record for the Legal Ethics designation of this course. He has reviewed the full course curriculum — including all five video modules, the companion ebook, and the written assessment — and endorses its substantive accuracy under the California Rules of Professional Conduct and ABA Formal Opinion 512.
+            </p>
+            <p>
+              His role as California instructor of record means that CLE credit issued through this course carries his bar admission as its professional-responsibility anchor — the credential California's MCLE rules require for ethics hours.
+            </p>
           </div>
         </div>
+
+        <!-- Co-presenter — Christian Kameir -->
+        <div class="nb-presenter">
+          <div class="nb-presenter__photo">
+            <picture>
+              <source srcset="/images/christian-kameir.webp" type="image/webp" />
+              <img src="/images/christian-kameir.jpg" alt="Christian Kameir" width="180" height="180" loading="lazy" />
+            </picture>
+          </div>
+          <div class="nb-presenter__bio">
+            <div class="nb-presenter__role-tag nb-presenter__role-tag--secondary">Co-Presenter · Technology &amp; AI Systems</div>
+            <h3>Christian Kameir</h3>
+            <p class="nb-presenter__credentials">
+              Forbes contributor · Harvard Business School lecturer · LL.M. Münster · M.A. Linguistics / NLP &amp; AI, Bielefeld
+            </p>
+            <p>
+              Christian built the largest public database of attorney AI sanctions — 1,356 documented cases from real court proceedings — and is the author of <em>Ethics-Safe AI Use for Law Firms</em>. He co-presents the technology and AI systems content: how the tools actually work, where they fail, and what verification workflows catch the failures before they reach a filing.
+            </p>
+            <p>
+              He has worked at the intersection of law, capital markets, and technology for nearly thirty years, including as in-house counsel to Bertelsmann, and builds production AI systems deployed in US legal workflows today.
+            </p>
+            <div class="nb-presenter__links">
+              <a href="/about">Full bio →</a>
+              <a href="/AI-legal-research">View the case database →</a>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -514,38 +540,80 @@ const breadcrumbSchema = {
     }
 
     /* ── Trainer ── */
-    .nb-trainer__inner {
-      display: grid;
-      grid-template-columns: 200px 1fr;
-      gap: 2.5rem;
-      align-items: start;
+    /* ── Presenters ── */
+    .nb-trainer h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.25rem);
+      color: var(--nb-accent);
+      margin: 0 0 2rem;
     }
-    .nb-trainer__photo img {
-      width: 200px;
-      height: 200px;
+    .nb-presenter {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 2rem;
+      align-items: start;
+      padding: 2rem 0;
+      border-top: 1px solid var(--nb-border);
+    }
+    .nb-presenter:first-of-type { border-top: none; padding-top: 0; }
+    .nb-presenter__photo img {
+      width: 180px;
+      height: 180px;
       object-fit: cover;
       border-radius: var(--nb-radius-lg);
       border: 3px solid var(--nb-border);
     }
-    .nb-trainer__bio h3 {
+    .nb-presenter__photo--placeholder {
+      width: 180px;
+      height: 180px;
+      background: rgba(27,58,92,0.08);
+      border-radius: var(--nb-radius-lg);
+      border: 3px dashed var(--nb-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .nb-presenter__initials {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--nb-accent);
+      opacity: 0.4;
+    }
+    .nb-presenter__role-tag {
+      display: inline-block;
+      background: var(--nb-accent);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      padding: 0.25rem 0.7rem;
+      border-radius: 100px;
+      margin-bottom: 0.6rem;
+    }
+    .nb-presenter__role-tag--secondary {
+      background: rgba(27,58,92,0.12);
+      color: var(--nb-accent);
+    }
+    .nb-presenter__bio h3 {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       color: var(--nb-accent);
       margin: 0 0 0.25rem;
     }
-    .nb-trainer__credentials {
+    .nb-presenter__credentials {
       font-size: 0.85rem;
       color: var(--nb-muted);
       margin-bottom: 1rem;
     }
-    .nb-trainer__links { display: flex; gap: 1.25rem; margin-top: 1rem; }
-    .nb-trainer__links a {
+    .nb-presenter__links { display: flex; gap: 1.25rem; margin-top: 1rem; }
+    .nb-presenter__links a {
       color: var(--nb-accent);
       font-weight: 600;
       text-decoration: none;
       font-size: 0.9rem;
     }
-    .nb-trainer__links a:hover { text-decoration: underline; }
+    .nb-presenter__links a:hover { text-decoration: underline; }
 
     /* ── Registration card ── */
     .nb-register__card {
@@ -660,9 +728,9 @@ const breadcrumbSchema = {
 
     /* ── Responsive ── */
     @media (max-width: 700px) {
-      .nb-trainer__inner { grid-template-columns: 1fr; }
-      .nb-trainer__photo { text-align: center; }
-      .nb-trainer__photo img { width: 150px; height: 150px; }
+      .nb-presenter { grid-template-columns: 1fr; }
+      .nb-presenter__photo, .nb-presenter__photo--placeholder { width: 120px; height: 120px; margin: 0 auto; }
+      .nb-presenter__photo img { width: 120px; height: 120px; }
       .nb-register__card { grid-template-columns: 1fr; }
       .nb-fallback__inner { flex-direction: column; text-align: center; }
       .nb-agenda__list li { grid-template-columns: 2rem 1fr; }
