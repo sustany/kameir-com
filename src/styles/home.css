@@ -804,6 +804,7 @@ a.home__stat:hover .home__stat-num { color: var(--accent); }
 /* ── §01 Compact intro ────────────────────────────────────────── */
 .home__intro {
   padding: 0.4rem 0 0.45rem;
+  border-bottom: 1px solid var(--rule);
   padding-inline: var(--space-m);
 }
 
