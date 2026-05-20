@@ -563,37 +563,3 @@ main { flex: 1; padding-bottom: 4rem; }
 @media (min-width: 769px) {
   .sticky-cta { display: none; }
 }
-
-/* ── Newport Beach event pill bar ────────────────────────── */
-.nb-pill-bar {
-  border-top: 1px solid var(--rule);
-}
-
-.nb-pill-bar__inner {
-  max-width: var(--max-w-wide);
-  margin-inline: auto;
-  padding-inline: var(--space-m);
-  padding-block: 0.45rem;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.nb-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35em;
-  background: var(--accent);
-  color: #fff;
-  font-size: 0.72rem;
-  letter-spacing: 0.02em;
-  padding: 0.38em 0.85em;
-  border-radius: 4px;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background 0.15s;
-}
-
-.nb-pill:hover {
-  background: var(--accent-hover);
-  color: #fff;
-}
