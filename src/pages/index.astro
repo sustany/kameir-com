@@ -58,6 +58,7 @@ const fmt = new Intl.DateTimeFormat('en-US', {
     "url": "https://kameir.com"
   }
 })} />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/dist/tabler-icons.min.css" slot="head" />
   <article class="home">
 
     <!-- ── §01 Intro ──────────────────────────────────────────── -->
@@ -81,17 +82,43 @@ const fmt = new Intl.DateTimeFormat('en-US', {
     <!-- ── §02 Credibility strip ──────────────────────────────── -->
     <div class="home__cred">
       <div class="container--wide home__cred-inner">
-        <span>Forbes contributor</span>
-        <span class="home__cred-sep" aria-hidden="true">·</span>
-        <span>HackerNoon</span>
-        <span class="home__cred-sep" aria-hidden="true">·</span>
-        <span>Harvard guest lecturer</span>
-        <span class="home__cred-sep" aria-hidden="true">·</span>
-        <span>Keynote speaker</span>
-        <span class="home__cred-sep" aria-hidden="true">·</span>
-        <span>Oxford · Munich · Münster</span>
-        <span class="home__cred-sep" aria-hidden="true">·</span>
-        <span>Author</span>
+
+        <div class="home__cred-item">
+          <i class="ti ti-news home__cred-icon" aria-hidden="true"></i>
+          <span class="home__cred-name">Forbes</span>
+          <span class="home__cred-sub">Contributor</span>
+        </div>
+
+        <div class="home__cred-item">
+          <i class="ti ti-brand-medium home__cred-icon" aria-hidden="true"></i>
+          <span class="home__cred-name">HackerNoon</span>
+          <span class="home__cred-sub">Featured author</span>
+        </div>
+
+        <div class="home__cred-item">
+          <i class="ti ti-school home__cred-icon" aria-hidden="true"></i>
+          <span class="home__cred-name">Harvard</span>
+          <span class="home__cred-sub">Guest lecturer</span>
+        </div>
+
+        <div class="home__cred-item">
+          <i class="ti ti-microphone home__cred-icon" aria-hidden="true"></i>
+          <span class="home__cred-name">Keynote</span>
+          <span class="home__cred-sub">Speaker</span>
+        </div>
+
+        <div class="home__cred-item">
+          <i class="ti ti-map-pin home__cred-icon" aria-hidden="true"></i>
+          <span class="home__cred-name">Oxford · Munich</span>
+          <span class="home__cred-sub">Münster</span>
+        </div>
+
+        <div class="home__cred-item">
+          <i class="ti ti-book home__cred-icon" aria-hidden="true"></i>
+          <span class="home__cred-name">Author</span>
+          <span class="home__cred-sub">Published</span>
+        </div>
+
       </div>
     </div>
 
