@@ -762,7 +762,7 @@ a.home__stat:hover .home__stat-num { color: var(--accent); }
 
 /* ── §01 Compact intro ────────────────────────────────────────── */
 .home__intro {
-  padding: var(--space-xl) 0 var(--space-l);
+  padding: var(--space-m) 0 var(--space-m);
   border-bottom: 1px solid var(--rule);
   padding-inline: var(--space-m);
 }
