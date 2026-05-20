@@ -566,10 +566,16 @@ main { flex: 1; padding-bottom: 4rem; }
 
 /* ── Newport Beach event pill bar ────────────────────────── */
 .nb-pill-bar {
+  border-top: 1px solid var(--rule);
+}
+
+.nb-pill-bar__inner {
+  max-width: var(--max-w-wide);
+  margin-inline: auto;
+  padding-inline: var(--space-m);
+  padding-block: 0.45rem;
   display: flex;
   justify-content: flex-end;
-  padding: 0.45rem var(--space-m);
-  border-top: 1px solid var(--rule);
 }
 
 .nb-pill {
