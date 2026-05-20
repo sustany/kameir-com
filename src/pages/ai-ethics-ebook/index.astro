@@ -345,8 +345,8 @@ const breadcrumbSchema = {
     .ebook-chapter { display: grid; grid-template-columns: 3rem 1fr; gap: 1.25rem; padding: 1.5rem 0; border-bottom: 1px solid var(--eb-border); align-items: start; }
     .ebook-chapter:last-child { border-bottom: none; }
     .ebook-chapter__num { font-size: 0.75rem; font-weight: 700; color: var(--eb-accent); background: rgba(27,58,92,0.08); border-radius: 4px; padding: 0.3rem 0.4rem; text-align: center; margin-top: 0.2rem; font-family: 'Courier New', monospace; }
-    .ebook-chapter h3 { font-family: 'Playfair Display', Georgia, serif; font-size: 1.05rem; color: var(--eb-text); margin: 0 0 0.5rem; }
-    .ebook-chapter p { font-size: 0.88rem; line-height: 1.7; color: var(--eb-muted); margin: 0; }
+    .ebook-chapter h3 { grid-column: 2; font-family: 'Playfair Display', Georgia, serif; font-size: 1.05rem; color: var(--eb-text); margin: 0 0 0.5rem; }
+    .ebook-chapter p { grid-column: 2; font-size: 0.88rem; line-height: 1.7; color: var(--eb-muted); margin: 0; }
 
     /* For grid */
     .ebook-for__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.75rem; }
