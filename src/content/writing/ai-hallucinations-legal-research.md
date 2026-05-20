@@ -1,5 +1,5 @@
 ---
-title: "AI Hallucinations in Legal Research: What Actually Goes Wrong and How to Catch It"
+title: "AI Hallucinations in Legal Research: A Five-Category Taxonomy"
 description: "Not all AI errors in legal research are the same. A five-category taxonomy explains how hallucinations differ from citation errors, and what verification step catches each."
 publishedAt: 2026-05-19
 draft: false
