@@ -64,13 +64,29 @@ const fmt = new Intl.DateTimeFormat('en-US', {
     <!-- ── §01 Intro ──────────────────────────────────────────── -->
     <section class="home__intro">
       <div class="container--wide home__intro-inner">
-        <p class="home__intro-desc">
-          Advisor, author, and speaker on AI ethics, capital markets, and technology &mdash;
-          documenting attorney AI sanctions and training law firms to navigate AI risk.
-        </p>
-        <div class="home__intro-cta">
-          <a href="/ai-ethics-training" class="btn btn--primary">AI Ethics Training →</a>
-          <a href="/advisory" class="btn btn--outline">Advisory</a>
+        <div class="home__intro-content">
+          <p class="home__intro-desc">
+            Advisor, author, and speaker on AI ethics, capital markets, and technology &mdash;
+            documenting attorney AI sanctions and training law firms to navigate AI risk.
+          </p>
+          <div class="home__intro-cta">
+            <a href="/ai-ethics-training" class="btn btn--primary">AI Ethics Training →</a>
+            <a href="/advisory" class="btn btn--outline">Advisory</a>
+          </div>
+        </div>
+        <div class="home__intro-photo" aria-hidden="false">
+          <picture>
+            <source srcset="/images/chris-london.webp" type="image/webp" />
+            <img
+              src="/images/chris-london.png"
+              alt="Christian Kameir — AI ethics advisor, author, and speaker"
+              class="home__intro-img"
+              width="1626"
+              height="967"
+              loading="eager"
+              fetchpriority="high"
+            />
+          </picture>
         </div>
       </div>
     </section>
