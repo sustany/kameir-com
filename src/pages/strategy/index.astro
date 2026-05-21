@@ -1,28 +1,28 @@
 ---
 import Base from '../../layouts/Base.astro';
----
 
-<Base
-  title="US Market Strategy for German Companies"
-  description="Independent advisory for capital-intensive German companies entering the US market — federal incentives, private capital, and go-to-market strategy."
->
-  <script type="application/ld+json" slot="head" set:html={JSON.stringify({
+const strategyJsonLd = {
   "@context": "https://schema.org",
-  "@type": "Service",
-  "name": "US Market Entry Strategy for German Companies",
-  "description": "Independent advisory for capital-intensive German companies entering the US market \u2014 federal incentives, private capital, and go-to-market strategy.",
+  "@type": "ProfessionalService",
+  "name": "Christian Kameir — Strategy",
+  "description": "US market entry strategy for capital-intensive companies from German-speaking countries. Federal and state incentives, private capital connections, and operational advisory.",
+  "url": "https://kameir.com/strategy",
   "provider": {
     "@type": "Person",
     "name": "Christian Kameir",
-    "url": "https://kameir.com"
+    "url": "https://kameir.com",
+    "jobTitle": "Independent Advisor"
   },
-  "areaServed": {
-    "@type": "Country",
-    "name": "United States"
-  },
-  "serviceType": "Business Strategy Consulting",
-  "url": "https://kameir.com/strategy"
-})} />
+  "serviceType": "Strategic Advisory",
+  "areaServed": { "@type": "Country", "name": "United States" }
+};
+---
+
+<Base
+  title="Strategy"
+  description="US market entry advisory for capital-intensive German-speaking companies. Federal and state incentives, private capital connections, and operational advisory from inside the deal."
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(strategyJsonLd)} />
   <article class="advisory">
 
     <!-- ── Hero ──────────────────────────────────────────── -->
@@ -64,18 +64,15 @@ import Base from '../../layouts/Base.astro';
         </div>
 
         <div class="advisory__hero-photo">
-          <picture>
-            <source srcset="/images/christian-kameir.webp" type="image/webp" />
-            <img
-              src="/images/christian-kameir.jpg"
-              alt="Christian Kameir"
-              width="460"
-              height="575"
-              class="advisory__photo"
-              loading="eager"
-              fetchpriority="high"
-            />
-          </picture>
+          <img
+            src="/images/christian-kameir.jpg"
+            alt="Christian Kameir"
+            width="460"
+            height="575"
+            class="advisory__photo"
+            loading="eager"
+            fetchpriority="high"
+          />
         </div>
 
       </div>
@@ -220,32 +217,4 @@ import Base from '../../layouts/Base.astro';
   line-height: 1.6;
 }
 
-/* ── Responsive ─────────────────────────────────────────────── */
-@media (max-width: 768px) {
-  .advisory__hero-inner {
-    grid-template-columns: 1fr;
-    gap: var(--space-l);
-  }
-
-  .advisory__hero-photo {
-    order: -1;
-    justify-content: flex-start;
-  }
-
-  .advisory__photo {
-    max-width: 220px;
-    aspect-ratio: 4/5;
-  }
-
-  .advisory__hero {
-    padding-top: 3rem;
-    padding-bottom: var(--space-l);
-  }
-}
-
-@media (max-width: 480px) {
-  .advisory__cta { flex-direction: column; }
-  .advisory__cta .btn { text-align: center; }
-  .anchors__item { grid-template-columns: 1fr; gap: 0.2rem; }
-}
-</style>
+/* �
