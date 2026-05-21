@@ -2,7 +2,7 @@
 title: "Reality and Capital"
 description: "Most investment theses mistake narrative momentum for durable value. A few thoughts on how to tell them apart."
 publishedAt: 2025-01-15
-draft: false
+draft: true
 ---
 
 Most investment theses mistake narrative momentum for durable value.
