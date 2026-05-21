@@ -25,7 +25,7 @@ const articleJsonLd = {
   "headline": post.data.title,
   "description": post.data.description,
   "datePublished": post.data.publishedAt.toISOString(),
-  "dateModified": post.data.publishedAt.toISOString(),
+  "dateModified": (post.data.updatedAt ?? post.data.publishedAt).toISOString(),
   "url": new URL(`/writing/${post.slug}`, Astro.site).toString(),
   "image": new URL('/images/og-default.jpg', Astro.site).toString(),
   "author": {
@@ -34,8 +34,8 @@ const articleJsonLd = {
     "url": "https://kameir.com"
   },
   "publisher": {
-    "@type": "Person",
-    "name": "Christian Kameir",
+    "@type": "Organization",
+    "name": "Decentralized Publishing LLC",
     "url": "https://kameir.com"
   },
   "mainEntityOfPage": {
