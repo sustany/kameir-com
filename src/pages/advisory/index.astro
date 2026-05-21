@@ -1,28 +1,48 @@
 ---
 import Base from '../../layouts/Base.astro';
----
 
-<Base
-  title="US Market Entry for German Companies"
-  description="Independent advisory helping German companies establish US operations, capture federal incentives, and connect with private capital."
->
-  <script type="application/ld+json" slot="head" set:html={JSON.stringify({
+const advisoryJsonLd = {
   "@context": "https://schema.org",
-  "@type": "Service",
-  "name": "US Market Entry Advisory for German Companies",
-  "description": "Independent advisory helping German companies establish US operations, capture federal incentives, and connect with private capital.",
+  "@type": "ProfessionalService",
+  "name": "Christian Kameir — Advisory",
+  "description": "Independent advisory helping capital-intensive companies from German-speaking countries enter the US market, capture federal and state incentives, and connect with private capital.",
+  "url": "https://kameir.com/advisory",
   "provider": {
     "@type": "Person",
     "name": "Christian Kameir",
-    "url": "https://kameir.com"
+    "url": "https://kameir.com",
+    "jobTitle": "Independent Advisor",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Newport Beach",
+      "addressRegion": "CA",
+      "addressCountry": "US"
+    }
   },
-  "areaServed": {
-    "@type": "Country",
-    "name": "United States"
-  },
-  "serviceType": "Business Advisory",
-  "url": "https://kameir.com/advisory"
-})} />
+  "serviceType": "Market Entry Advisory",
+  "areaServed": [
+    { "@type": "Country", "name": "United States" },
+    { "@type": "Country", "name": "Germany" },
+    { "@type": "Country", "name": "Austria" },
+    { "@type": "Country", "name": "Switzerland" }
+  ],
+  "offers": {
+    "@type": "Offer",
+    "priceSpecification": {
+      "@type": "PriceSpecification",
+      "priceCurrency": "USD",
+      "minPrice": 18000,
+      "description": "Retained engagements from $18,000/month"
+    }
+  }
+};
+---
+
+<Base
+  title="Advisory"
+  description="Independent advisory helping German-speaking companies enter the US market, capture federal and state incentives, and connect with private capital. Retained engagements."
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(advisoryJsonLd)} />
   <article class="advisory">
 
     <!-- ── Hero ──────────────────────────────────────────── -->
@@ -64,18 +84,15 @@ import Base from '../../layouts/Base.astro';
         </div>
 
         <div class="advisory__hero-photo">
-          <picture>
-            <source srcset="/images/christian-kameir.webp" type="image/webp" />
-            <img
-              src="/images/christian-kameir.jpg"
-              alt="Christian Kameir"
-              width="460"
-              height="575"
-              class="advisory__photo"
-              loading="eager"
-              fetchpriority="high"
-            />
-          </picture>
+          <img
+            src="/images/christian-kameir.jpg"
+            alt="Christian Kameir"
+            width="460"
+            height="575"
+            class="advisory__photo"
+            loading="eager"
+            fetchpriority="high"
+          />
         </div>
 
       </div>
@@ -109,38 +126,9 @@ import Base from '../../layouts/Base.astro';
       </div>
     </section>
 
-  <div class="container"><hr class="rule" /></div>
-
-    <!-- ── Sub-pages ───────────────────────────────────── -->
-    <section style="padding: 2.5rem var(--space-m) 4rem;">
-      <div class="container">
-        <p class="label" style="margin-bottom:1.5rem;">Practice areas</p>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem;max-width:860px;">
-          <a href="/advisory/german-companies-us-market-entry" style="display:block;border:1px solid var(--rule);border-radius:8px;padding:1.5rem 1.75rem;text-decoration:none;color:var(--text);transition:border-color 0.15s;" onmouseover="this.style.borderColor='#1B3A5C'" onmouseout="this.style.borderColor='var(--rule)'">
-            <span style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);display:block;margin-bottom:0.5rem;">Full Scope</span>
-            <h3 style="font-family:var(--font-display);font-size:1rem;color:#1B3A5C;margin:0 0 0.5rem;line-height:1.3;">US Market Entry for German Companies</h3>
-            <p style="font-size:0.85rem;line-height:1.6;color:var(--text-muted);margin:0 0 0.75rem;">Market assessment, capital sourcing, structuring, and the full entry arc.</p>
-            <span style="font-size:0.82rem;font-weight:600;color:#1B3A5C;">Read more →</span>
-          </a>
-          <a href="/advisory/us-site-selection-german-manufacturers" style="display:block;border:1px solid var(--rule);border-radius:8px;padding:1.5rem 1.75rem;text-decoration:none;color:var(--text);transition:border-color 0.15s;" onmouseover="this.style.borderColor='#1B3A5C'" onmouseout="this.style.borderColor='var(--rule)'">
-            <span style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);display:block;margin-bottom:0.5rem;">Site Selection</span>
-            <h3 style="font-family:var(--font-display);font-size:1rem;color:#1B3A5C;margin:0 0 0.5rem;line-height:1.3;">US Site Selection for German Manufacturers</h3>
-            <p style="font-size:0.85rem;line-height:1.6;color:var(--text-muted);margin:0 0 0.75rem;">How to choose a US location without being sold one.</p>
-            <span style="font-size:0.82rem;font-weight:600;color:#1B3A5C;">Read more →</span>
-          </a>
-          <a href="/advisory/ira-incentives-german-companies" style="display:block;border:1px solid var(--rule);border-radius:8px;padding:1.5rem 1.75rem;text-decoration:none;color:var(--text);transition:border-color 0.15s;" onmouseover="this.style.borderColor='#1B3A5C'" onmouseout="this.style.borderColor='var(--rule)'">
-            <span style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);display:block;margin-bottom:0.5rem;">Federal Incentives</span>
-            <h3 style="font-family:var(--font-display);font-size:1rem;color:#1B3A5C;margin:0 0 0.5rem;line-height:1.3;">IRA Incentives for German Companies</h3>
-            <p style="font-size:0.85rem;line-height:1.6;color:var(--text-muted);margin:0 0 0.75rem;">Tax credits, grants, and loan programs under the Inflation Reduction Act.</p>
-            <span style="font-size:0.82rem;font-weight:600;color:#1B3A5C;">Read more →</span>
-          </a>
-        </div>
-      </div>
-    </section>
-
   </article>
 </Base>
-
+  
 <style>
 /* ── Hero ─────────────────────────────────────────────────── */
 .advisory__hero {
@@ -163,7 +151,7 @@ import Base from '../../layouts/Base.astro';
 
 .advisory__name {
   font-family: var(--font-display);
-  font-size: clamp(2.8rem, 7vw, 5rem);
+  font-size: clamp(2.8rem, 7vw ,5rem);
   font-weight: 700;
   line-height: 1.0;
   letter-spacing: -0.03em;
@@ -215,66 +203,4 @@ import Base from '../../layouts/Base.astro';
   filter: grayscale(12%);
 }
 
-/* ── Anchors ───────────────────────────────────────────────── */
-.advisory__anchors {
-  padding-bottom: var(--space-xl);
-}
-
-.advisory__anchors .label {
-  margin-bottom: 1.5rem;
-}
-
-.anchors__dl {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.anchors__item {
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: 1rem;
-  align-items: baseline;
-}
-
-.anchors__item dt {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--text);
-}
-
-.anchors__item dd {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  line-height: 1.6;
-}
-
-/* ── Responsive ─────────────────────────────────────────────── */
-@media (max-width: 768px) {
-  .advisory__hero-inner {
-    grid-template-columns: 1fr;
-    gap: var(--space-l);
-  }
-
-  .advisory__hero-photo {
-    order: -1;
-    justify-content: flex-start;
-  }
-
-  .advisory__photo {
-    max-width: 220px;
-    aspect-ratio: 4/5;
-  }
-
-  .advisory__hero {
-    padding-top: 3rem;
-    padding-bottom: var(--space-l);
-  }
-}
-
-@media (max-width: 480px) {
-  .advisory__cta { flex-direction: column; }
-  .advisory__cta .btn { text-align: center; }
-  .anchors__item { grid-template-columns: 1fr; gap: 0.2rem; }
-}
-</style>
+/* ── Anchors ──────────────────────────
