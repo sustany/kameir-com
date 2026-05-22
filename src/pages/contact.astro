@@ -1,14 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
 
-// Formspree — main notification to Chris
+// Formspree â main notification to Chris
 const FORMSPREE_ID = 'xjgjawba';
-// Web3Forms — auto-response to submitter
+// Web3Forms â auto-response to submitter
 const WEB3FORMS_KEY = 'bc729c5a-7f38-4e21-9ed8-42afb924c951';
 ---
 
 <Base
-  title="Contact"
+  title="Request a Strategy or Advisory Call"
   description="The practice carries a capped roster. Request a call if you have a live US site decision, capital application, or active transaction. Bring the specifics, not a general inquiry."
 >
   <article class="contact">
@@ -24,7 +24,7 @@ const WEB3FORMS_KEY = 'bc729c5a-7f38-4e21-9ed8-42afb924c951';
         </p>
       </header>
 
-      <!-- ── Three paths ─────────────────────────────────── -->
+      <!-- ââ Three paths âââââââââââââââââââââââââââââââââââ -->
       <div class="contact__paths">
 
         <div class="path path--active">
@@ -33,7 +33,7 @@ const WEB3FORMS_KEY = 'bc729c5a-7f38-4e21-9ed8-42afb924c951';
             A US site decision in front of you. A federal capital application open. A
             private capital round or project-finance package you are structuring. An
             acquisition you are evaluating. A board seat you need filled. Use the form
-            below to request a thirty-minute call. Bring the specific situation —
+            below to request a thirty-minute call. Bring the specific situation â
             not a general inquiry.
           </p>
         </div>
@@ -58,13 +58,13 @@ const WEB3FORMS_KEY = 'bc729c5a-7f38-4e21-9ed8-42afb924c951';
 
       <hr class="rule" />
 
-      <!-- ── Form ────────────────────────────────────────── -->
+      <!-- ââ Form ââââââââââââââââââââââââââââââââââââââââââ -->
       <form
         id="contact-form"
         class="contact__form"
         novalidate
       >
-        <!-- Honeypot – spam filter -->
+        <!-- Honeypot â spam filter -->
         <input type="text" name="_gotcha" style="display:none" aria-hidden="true" />
 
         <div class="form-group">
@@ -110,7 +110,7 @@ const WEB3FORMS_KEY = 'bc729c5a-7f38-4e21-9ed8-42afb924c951';
           <textarea
             id="message"
             name="message"
-            placeholder="Describe the live situation: site decision, capital structure, transaction, or advisory need — and your decision timeline."
+            placeholder="Describe the live situation: site decision, capital structure, transaction, or advisory need â and your decision timeline."
             required
             rows="7"
           ></textarea>
@@ -130,7 +130,7 @@ const WEB3FORMS_KEY = 'bc729c5a-7f38-4e21-9ed8-42afb924c951';
           if (!form.checkValidity()) { form.reportValidity(); return; }
 
           btn.disabled = true;
-          btn.textContent = 'Sending…';
+          btn.textContent = 'Sendingâ¦';
 
           const data = new FormData(form);
           const name    = data.get('name')    || '';
@@ -139,7 +139,7 @@ const WEB3FORMS_KEY = 'bc729c5a-7f38-4e21-9ed8-42afb924c951';
           const message = data.get('message') || '';
 
           try {
-            // 1 — Main notification to Chris via Formspree
+            // 1 â Main notification to Chris via Formspree
             const fsRes = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
               method: 'POST',
               body: data,
@@ -155,14 +155,14 @@ const WEB3FORMS_KEY = 'bc729c5a-7f38-4e21-9ed8-42afb924c951';
               return;
             }
 
-            // 2 — Courtesy copy to submitter via Web3Forms
+            // 2 â Courtesy copy to submitter via Web3Forms
             if (WEB3FORMS_KEY && WEB3FORMS_KEY !== 'REPLACE_WITH_WEB3FORMS_KEY') {
               await fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
                 body: JSON.stringify({
                   access_key: WEB3FORMS_KEY,
-                  subject: 'Your message to Christian Kameir — received',
+                  subject: 'Your message to Christian Kameir â received',
                   from_name: 'Christian Kameir',
                   name,
                   email,
@@ -209,7 +209,7 @@ const WEB3FORMS_KEY = 'bc729c5a-7f38-4e21-9ed8-42afb924c951';
   line-height: 1.75;
 }
 
-/* ── Paths ────────────────────────────────────────────────── */
+/* ââ Paths ââââââââââââââââââââââââââââââââââââââââââââââââââ */
 .contact__paths {
   display: flex;
   flex-direction: column;
@@ -255,7 +255,7 @@ const WEB3FORMS_KEY = 'bc729c5a-7f38-4e21-9ed8-42afb924c951';
   color: var(--text-muted);
 }
 
-/* ── Form ─────────────────────────────────────────────────── */
+/* ââ Form âââââââââââââââââââââââââââââââââââââââââââââââââââ */
 .contact__form {
   display: flex;
   flex-direction: column;
@@ -279,4 +279,3 @@ const WEB3FORMS_KEY = 'bc729c5a-7f38-4e21-9ed8-42afb924c951';
   margin-top: 0.5rem;
 }
 </style>
-       
