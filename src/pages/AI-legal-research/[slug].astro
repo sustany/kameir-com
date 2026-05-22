@@ -55,6 +55,7 @@ const dateStr    = fmtDate(c.date);
   title={c.name}
   description={metaDesc}
   ogType="article"
+  publishedAt={c.date ? new Date(c.date) : undefined}
 >
   <script type="application/ld+json" slot="head" set:html={JSON.stringify({
     "@context": "https://schema.org",
