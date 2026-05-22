@@ -1,12 +1,49 @@
 ---
 import Base from '../../layouts/Base.astro';
+
+const bookJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Book",
+  "name": "Ethics-Safe AI Use for Law Firms",
+  "subtitle": "A Litigation Risk Reduction Playbook for Personal Injury Firms",
+  "description": "Operational protocols, supervision checklists, and AI disclosure language mapped to ABA Formal Opinion 512 and the post-Mata v. Avianca sanctions record.",
+  "url": "https://kameir.com/ai-ethics",
+  "author": {
+    "@type": "Person",
+    "name": "Christian Kameir",
+    "url": "https://kameir.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Decentralized Publishing LLC"
+  },
+  "genre": "Legal Technology",
+  "inLanguage": "en",
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "Single-User License",
+      "price": "49.00",
+      "priceCurrency": "USD",
+      "url": "https://kameir.lemonsqueezy.com/checkout/buy/d48ff7aa-63b0-4499-9d02-56bf965d2347"
+    },
+    {
+      "@type": "Offer",
+      "name": "Firm License",
+      "price": "199.00",
+      "priceCurrency": "USD",
+      "url": "https://kameir.lemonsqueezy.com/checkout/buy/c14c90b5-e6fd-4aef-aaef-e5a37cb3c7d1"
+    }
+  ]
+};
 ---
 
 <Base
   title="AI Ethics Playbook for Personal Injury Firms"
-  description="Litigation risk reduction for PI firms. Protocols, checklists, and AI disclosure language mapped to ABA Formal Opinion 512 and the post-Mata v. Avianca sanctions record."
+  description="Litigation risk reduction for PI firms. Protocols, checklists, and AI disclosure language mapped to ABA Formal Opinion 512 and the post-Mata sanctions record."
   noIndex={false}
 >
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(bookJsonLd)} />
   <article class="ai-ethics">
 
     <!-- ── Hero ─────────────────────────────────────────────── -->
@@ -27,18 +64,13 @@ import Base from '../../layouts/Base.astro';
           </div>
         </div>
         <div class="aie-hero__book">
-          <picture>
-            <source srcset="/images/book-cover_ai.webp" type="image/webp" />
-            <img
-              src="/images/book-cover_ai.jpg"
-              alt="Ethics-Safe AI Use for Law Firms — A Practitioner's Guide to Op. 512 and Beyond, by Christian Kameir"
-              class="aie-book-cover-img"
-              width="420"
-              height="560"
-              loading="eager"
-              fetchpriority="high"
-            />
-          </picture>
+          <img
+            src="/images/book-cover_ai.jpg"
+            alt="Ethics-Safe AI Use for Law Firms — A Practitioner's Guide to Op. 512 and Beyond, by Christian Kameir"
+            class="aie-book-cover-img"
+            width="420"
+            height="560"
+          />
         </div>
       </div>
     </section>
@@ -711,7 +743,6 @@ import Base from '../../layouts/Base.astro';
   max-width: 560px;
 }
 
-/* ── Excerpts ─────────────────────────────────────────────── */
 .aie-chapter__link {
   color: #111;
   font-weight: 600;
@@ -990,68 +1021,4 @@ import Base from '../../layouts/Base.astro';
 }
 
 /* ── Disclaimer ───────────────────────────────────────────── */
-.aie-disclaimer {
-  padding-bottom: var(--space-l);
-  font-family: var(--font-ui);
-  font-size: 0.72rem;
-  color: var(--text-muted);
-  letter-spacing: 0.02em;
-}
-
-/* ── Responsive ───────────────────────────────────────────── */
-@media (max-width: 768px) {
-  .aie-hero__inner {
-    grid-template-columns: 1fr;
-    gap: var(--space-l);
-  }
-
-  .aie-book-cover-img {
-    max-width: 280px;
-  }
-
-  .aie-proof__inner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-
-  .aie-proof__sep { display: none; }
-
-  .aie-split {
-    grid-template-columns: 1fr;
-    gap: var(--space-m);
-  }
-
-  .aie-bonuses {
-    grid-template-columns: 1fr;
-  }
-
-  .aie-pricing {
-    grid-template-columns: 1fr;
-  }
-
-  .aie-consult {
-    grid-template-columns: 1fr;
-  }
-
-  .aie-chain__list {
-    flex-direction: column;
-    gap: 0.35rem;
-  }
-
-  .aie-chain__list li + li::before {
-    content: '↓';
-    margin-inline: 0;
-    margin-bottom: 0;
-  }
-
-  .aie-final-cta__btns {
-    flex-direction: column;
-  }
-}
-
-@media (max-width: 480px) {
-  .aie-hero { padding-top: 3rem; }
-  .aie-chapter { flex-direction: column; gap: 0.4rem; }
-}
-</style>
+.aie-disclaimer 
