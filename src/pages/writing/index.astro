@@ -50,12 +50,25 @@ const articles = [
   { title: 'The Economics Of Decentralized Organizations: The End Of For-Profit Corporations?', venue: 'Forbes', date: 'July 30, 2018', url: 'https://www.forbes.com/sites/forbesfinancecouncil/2018/07/30/the-economics-of-decentralized-organizations-the-end-of-for-profit-corporations/' },
   { title: 'The Impact of Blockchain-Based Solutions on Poverty', venue: 'LinkedIn', date: '', url: 'https://www.linkedin.com/pulse/impact-blockchain-based-solutions-poverty-christian-kameir' },
 ];
+const writingJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "Writing by Christian Kameir",
+  "url": "https://kameir.com/writing",
+  "description": "Essays on AI, capital markets, and technology",
+  "author": {
+    "@type": "Person",
+    "name": "Christian Kameir",
+    "url": "https://kameir.com"
+  }
+};
 ---
 
 <Base
   title="Writing on AI, Capital & Technology"
   description="Essays and short takes on capital, technology, and ideas by Christian Kameir. Published in Forbes and HackerNoon. Original pieces on money, AI, and investing."
 >
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(writingJsonLd)} />
   <article class="writing">
     <div class="container">
       <header class="writing__header">
