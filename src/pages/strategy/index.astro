@@ -217,4 +217,32 @@ const strategyJsonLd = {
   line-height: 1.6;
 }
 
-/* �
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .advisory__hero-inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-l);
+  }
+
+  .advisory__hero-photo {
+    order: -1;
+    justify-content: flex-start;
+  }
+
+  .advisory__photo {
+    max-width: 220px;
+    aspect-ratio: 4/5;
+  }
+
+  .advisory__hero {
+    padding-top: 3rem;
+    padding-bottom: var(--space-l);
+  }
+}
+
+@media (max-width: 480px) {
+  .advisory__cta { flex-direction: column; }
+  .advisory__cta .btn { text-align: center; }
+  .anchors__item { grid-template-columns: 1fr; gap: 0.2rem; }
+}
+</style>
