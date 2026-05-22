@@ -1,16 +1,29 @@
 ---
 import Base from '../layouts/Base.astro';
 
-// Formspree Ã¢ÂÂ main notification to Chris
+// Formspree ÃÂ¢ÃÂÃÂ main notification to Chris
 const FORMSPREE_ID = 'xjgjawba';
-// Web3Forms Ã¢ÂÂ auto-response to submitter
+// Web3Forms ÃÂ¢ÃÂÃÂ auto-response to submitter
 const WEB3FORMS_KEY = 'bc729c5a-7f38-4e21-9ed8-42afb924c951';
+const contactJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": "Request a Call — Christian Kameir",
+  "url": "https://kameir.com/contact",
+  "description": "Request an advisory or strategy call with Christian Kameir",
+  "mainEntity": {
+    "@type": "Person",
+    "name": "Christian Kameir",
+    "url": "https://kameir.com"
+  }
+};
 ---
 
 <Base
   title="Request a Strategy or Advisory Call"
   description="Capped roster. Request a call if you have a live US site decision, capital application, or active transaction. Bring specifics, not a general inquiry."
 >
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(contactJsonLd)} />
   <article class="contact">
     <div class="container">
 
@@ -24,7 +37,7 @@ const WEB3FORMS_KEY = 'bc729c5a-7f38-4e21-9ed8-42afb924c951';
         </p>
       </header>
 
-      <!-- Ã¢ÂÂÃ¢ÂÂ Three paths Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ -->
+      <!-- ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ Three paths ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ -->
       <div class="contact__paths">
 
         <div class="path path--active">
@@ -33,7 +46,7 @@ const WEB3FORMS_KEY = 'bc729c5a-7f38-4e21-9ed8-42afb924c951';
             A US site decision in front of you. A federal capital application open. A
             private capital round or project-finance package you are structuring. An
             acquisition you are evaluating. A board seat you need filled. Use the form
-            below to request a thirty-minute call. Bring the specific situation Ã¢ÂÂ
+            below to request a thirty-minute call. Bring the specific situation ÃÂ¢ÃÂÃÂ
             not a general inquiry.
           </p>
         </div>
@@ -58,13 +71,13 @@ const WEB3FORMS_KEY = 'bc729c5a-7f38-4e21-9ed8-42afb924c951';
 
       <hr class="rule" />
 
-      <!-- Ã¢ÂÂÃ¢ÂÂ Form Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ -->
+      <!-- ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ Form ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ -->
       <form
         id="contact-form"
         class="contact__form"
         novalidate
       >
-        <!-- Honeypot Ã¢ÂÂ spam filter -->
+        <!-- Honeypot ÃÂ¢ÃÂÃÂ spam filter -->
         <input type="text" name="_gotcha" style="display:none" aria-hidden="true" />
 
         <div class="form-group">
@@ -110,7 +123,7 @@ const WEB3FORMS_KEY = 'bc729c5a-7f38-4e21-9ed8-42afb924c951';
           <textarea
             id="message"
             name="message"
-            placeholder="Describe the live situation: site decision, capital structure, transaction, or advisory need Ã¢ÂÂ and your decision timeline."
+            placeholder="Describe the live situation: site decision, capital structure, transaction, or advisory need ÃÂ¢ÃÂÃÂ and your decision timeline."
             required
             rows="7"
           ></textarea>
@@ -130,7 +143,7 @@ const WEB3FORMS_KEY = 'bc729c5a-7f38-4e21-9ed8-42afb924c951';
           if (!form.checkValidity()) { form.reportValidity(); return; }
 
           btn.disabled = true;
-          btn.textContent = 'SendingÃ¢ÂÂ¦';
+          btn.textContent = 'SendingÃÂ¢ÃÂÃÂ¦';
 
           const data = new FormData(form);
           const name    = data.get('name')    || '';
@@ -139,7 +152,7 @@ const WEB3FORMS_KEY = 'bc729c5a-7f38-4e21-9ed8-42afb924c951';
           const message = data.get('message') || '';
 
           try {
-            // 1 Ã¢ÂÂ Main notification to Chris via Formspree
+            // 1 ÃÂ¢ÃÂÃÂ Main notification to Chris via Formspree
             const fsRes = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
               method: 'POST',
               body: data,
@@ -155,14 +168,14 @@ const WEB3FORMS_KEY = 'bc729c5a-7f38-4e21-9ed8-42afb924c951';
               return;
             }
 
-            // 2 Ã¢ÂÂ Courtesy copy to submitter via Web3Forms
+            // 2 ÃÂ¢ÃÂÃÂ Courtesy copy to submitter via Web3Forms
             if (WEB3FORMS_KEY && WEB3FORMS_KEY !== 'REPLACE_WITH_WEB3FORMS_KEY') {
               await fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
                 body: JSON.stringify({
                   access_key: WEB3FORMS_KEY,
-                  subject: 'Your message to Christian Kameir Ã¢ÂÂ received',
+                  subject: 'Your message to Christian Kameir ÃÂ¢ÃÂÃÂ received',
                   from_name: 'Christian Kameir',
                   name,
                   email,
@@ -209,7 +222,7 @@ const WEB3FORMS_KEY = 'bc729c5a-7f38-4e21-9ed8-42afb924c951';
   line-height: 1.75;
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ Paths Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
+/* ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ Paths ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ */
 .contact__paths {
   display: flex;
   flex-direction: column;
@@ -255,7 +268,7 @@ const WEB3FORMS_KEY = 'bc729c5a-7f38-4e21-9ed8-42afb924c951';
   color: var(--text-muted);
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ Form Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
+/* ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ Form ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ */
 .contact__form {
   display: flex;
   flex-direction: column;
