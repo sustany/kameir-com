@@ -1,0 +1,53 @@
+Options -Indexes
+ServerSignature Off
+
+# -- Security headers ---------------------------------------------------------
+<IfModule mod_headers.c>
+  # Force HTTPS for 1 year (no preload until subdomains are confirmed)
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  # Prevent clickjacking
+  Header always set X-Frame-Options "SAMEORIGIN"
+  # Prevent MIME sniffing
+  Header always set X-Content-Type-Options "nosniff"
+  # Limit referrer info sent cross-origin
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  # Disable unused browser features
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+  # CSP: static site + Plausible analytics + Formspree contact form
+  # 'unsafe-inline' required for Astro inline scripts and JSON-LD blocks
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://plausible.io; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://plausible.io https://formspree.io; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action https://formspree.io;"
+</IfModule>
+
+RewriteEngine On
+
+# Block dotfiles (/.git, /.env, etc.) - exempt .well-known for AutoSSL
+RewriteRule (^|/)\.(?!well-known) - [F,L]
+
+# Strip trailing slash for non-existing paths
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+# Extensionless URL -> .html sibling (handles /about, /contact, etc.)
+# Uses REQUEST_FILENAME.html test (no $1 in condition - works reliably on LiteSpeed)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.+?)/?$ /$1.html [L]
+
+# Directory request with same-name .html sibling -> serve the .html
+# (handles /AI-legal-research where both the dir and AI-legal-research.html exist)
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.+?)/?$ /$1.html [L]
+
+# -- 301 redirects for removed pages ------------------------------------------
+RewriteRule ^smart-contracts(/.*)?$ /writing [R=301,L]
+RewriteRule ^what-is-google(/.*)?$ /writing [R=301,L]
+RewriteRule ^money(/.*)?$ /writing [R=301,L]
+
+# Removed non-US case pages: /AI-legal-research/<slug> with no built file -> table.
+# Both conditions required: file doesn't exist AND its .html sibling doesn't exist.
+# Pattern excludes paths containing a dot, so direct .html requests for kept cases
+# (e.g. /AI-legal-research/williams.html) are NOT caught here.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME}.html !-f
+RewriteRule ^AI-legal-research/([^./]+?)/?$ /AI-legal-research [R=301,L]
