@@ -25,8 +25,8 @@ function penaltyShort(p: string) {
 const datasetJsonLd = {
   "@context": "https://schema.org",
   "@type": "Dataset",
-  "name": "AI Hallucination Cases in Legal Proceedings",
-  "description": "A database of legal decisions worldwide where generative AI produced hallucinated content, including fabricated citations, invented quotes, and misrepresented authorities.",
+  "name": "Court Decisions Involving AI",
+  "description": "A database of court decisions involving generative AI - fabricated citations, disclosure failures, evidentiary disputes, and sanctions orders.",
   "url": "https://kameir.com/AI-legal-research",
   "creator": {
     "@type": "Person",
@@ -45,18 +45,18 @@ const datasetJsonLd = {
 ---
 
 <Base
-  title="AI Hallucination Cases"
-  description={`A growing database of ${totalCases} legal decisions where AI produced hallucinated content — fake citations, invented quotes, and misrepresented authorities.`}
+  title="Court Decisions Involving AI"
+  description="A database of court decisions involving generative AI - fabricated citations, disclosure failures, evidentiary disputes, and sanctions orders."
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(datasetJsonLd)} />
   <div class="hc-page">
     <!-- Header -->
     <header class="hc-header container container--wide">
       <p class="label">Resource</p>
-      <h1 class="hc-header__title">AI Hallucination Cases</h1>
+      <h1 class="hc-header__title">Court Decisions Involving AI</h1>
       <p class="hc-header__desc">
-        {totalCases.toLocaleString()} legal decisions from {states.length} jurisdictions where generative AI
-        produced hallucinated content — fake citations, invented quotes, and misrepresented authorities.
+        Court decisions involving generative AI - fabricated citations, disclosure failures,
+        evidentiary disputes, and sanctions orders.
       </p>
     </header>
 
