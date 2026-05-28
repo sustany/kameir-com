@@ -24,4 +24,9 @@ RewriteRule ^what-is-google(/.*)?$ /writing [R=301,L]
 RewriteRule ^money(/.*)?$ /writing [R=301,L]
 
 # Removed non-US case pages: /AI-legal-research/<slug> with no built file -> table.
-# Both conditions required: file doesn't e
+# Both conditions required: file doesn't exist AND its .html sibling doesn't exist.
+# Pattern excludes paths containing a dot, so direct .html requests for kept cases
+# (e.g. /AI-legal-research/williams.html) are NOT caught here.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME}.html !-f
+RewriteRule ^AI-legal-research/([^./]+?)/?$ /AI-legal-research [R=301,L]
