@@ -1,14 +1,19 @@
-Options -Indexes
+Options +MultiViews -Indexes
 
 # ── Clean URL rewrites (strip .html) ─────────────────────────
 RewriteEngine On
 
-# Serve existing files and directories as-is
+# Strip trailing slash (except root)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-
-# Strip trailing slash (except root)
 RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+# Internal rewrite: extensionless URL -> .html when the .html file exists
+# (covers /about -> /about.html, /AI-legal-research -> /AI-legal-research.html, etc.)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+RewriteRule ^([^.]+?)/?$ /$1.html [L]
 
 # ── 301 redirects for removed pages ──────────────────────────
 # Former smart-contracts page (malformed external links land here)
@@ -19,7 +24,4 @@ RewriteRule ^what-is-google(/.*)?$ /writing [R=301,L]
 RewriteRule ^money(/.*)?$ /writing [R=301,L]
 
 # Removed non-US case pages (2026-05-28): any /AI-legal-research/<slug>
-# that no longer has a built .html file -> redirect to the database table.
-# Catches all 435 retired non-US slugs plus any future typos to dead case pages.
-RewriteCond %{DOCUMENT_ROOT}/AI-legal-research/$1.html !-f
-RewriteRule ^AI-legal-research/([^/]+)/?$ /AI-legal-research [R=301,L]
+# (no ext
