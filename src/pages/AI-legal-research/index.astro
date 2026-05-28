@@ -411,4 +411,49 @@ const datasetJsonLd = {
   const catEl     = document.getElementById('hc-category') as HTMLSelectElement;
   const resetBtn  = document.getElementById('hc-reset') as HTMLButtonElement;
   const countEl   = document.getElementById('hc-count') as HTMLElement;
-  const rows      = 
+  const rows      = Array.from(document.querySelectorAll<HTMLTableRowElement>('#hc-table tbody tr'));
+  const total     = rows.length;
+
+  function filter() {
+    const q     = searchEl.value.toLowerCase().trim();
+    const state = stateEl.value;
+    const party = partyEl.value;
+    const cat   = catEl.value;
+
+    let visible = 0;
+    for (const row of rows) {
+      const name  = row.dataset.name ?? '';
+      const rState = row.dataset.state ?? '';
+      const rParty = row.dataset.party ?? '';
+      const rCats  = row.dataset.categories ?? '';
+
+      const matchQ     = !q     || name.includes(q);
+      const matchState = !state || rState === state;
+      const matchParty = !party || rParty.includes(party);
+      const matchCat   = !cat   || rCats.includes(cat);
+
+      const show = matchQ && matchState && matchParty && matchCat;
+      row.classList.toggle('hc-hidden', !show);
+      if (show) visible++;
+    }
+
+    countEl.textContent = visible === total
+      ? `Showing all ${total.toLocaleString()} cases`
+      : `Showing ${visible.toLocaleString()} of ${total.toLocaleString()} cases`;
+  }
+
+  let timer: ReturnType<typeof setTimeout>;
+  searchEl.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(filter, 200); });
+  stateEl.addEventListener('change', filter);
+  partyEl.addEventListener('change', filter);
+  catEl.addEventListener('change', filter);
+
+  resetBtn.addEventListener('click', () => {
+    searchEl.value = '';
+    stateEl.value = '';
+    partyEl.value = '';
+    catEl.value = '';
+    filter();
+  });
+})();
+</script>
