@@ -7,7 +7,7 @@ draft: false
 
 Most conversations about AI hallucination in legal practice treat it as a single problem: the AI made something up. That framing is too coarse to be useful. Different hallucination types have different causes, different detection methods, and different professional responsibility implications. Treating them as one category means your verification protocol has the wrong shape.
 
-The taxonomy below draws on the framework developed in [Ethics-Safe AI Use for Law Firms](/ai-ethics) and on the patterns documented in the [AI Legal Research case library](/AI-legal-research). Each type is distinct. Each requires a different catch.
+The taxonomy below draws on the framework developed in [Ethics-Safe AI Use for Law Firms](/ai-ethics) and on the patterns documented in the documented court orders and sanctions. Each type is distinct. Each requires a different catch.
 
 ## Type 1: Citation Fabrication
 
@@ -83,4 +83,4 @@ The [framework in Ethics-Safe AI Use for Law Firms](/ai-ethics) maps each halluc
 
 The attorneys who have been sanctioned for AI-related filing errors were not careless practitioners. They were attorneys who understood one failure mode and did not know about the others. The taxonomy exists to close that gap.
 
-*Christian Kameir is the author of [Ethics-Safe AI Use for Law Firms](/ai-ethics) and maintains the [AI Legal Research case library](/AI-legal-research) documenting court orders and sanctions involving AI-generated legal content.*
+*Christian Kameir is the author of [Ethics-Safe AI Use for Law Firms](/ai-ethics) documenting court orders and sanctions involving AI-generated legal content.*
