@@ -2,7 +2,7 @@
 title: "1,356 Cases: Publishing the AI Hallucination Legal Database"
 description: "We've been tracking every court proceeding where generative AI produced fabricated citations, invented quotes, or misrepresented legal authorities. The full dataset is now public."
 publishedAt: 2026-05-19
-draft: false
+draft: true
 ---
 
 For the past two years, we have been documenting every case we could find where generative AI produced hallucinated content in a legal proceeding — fabricated citations, invented quotes, cases that don't exist, statutes that were never passed, holdings that say the opposite of what the AI claimed.
