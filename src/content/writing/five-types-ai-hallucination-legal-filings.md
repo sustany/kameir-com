@@ -69,7 +69,7 @@ Each hallucination type has a corresponding catch that a well-designed workflow 
 
 A verification protocol that addresses only citation fabrication leaves four failure modes unaddressed. Firms that implemented citation checks after Mata v. Avianca and stopped there have a partial protocol, not a complete one.
 
-The AI Legal Research case library documents instances of each type across court orders and sanctions proceedings. The pattern across those cases is consistent: the hallucination that caused the problem was not the type the attorney was watching for.
+The pattern across those cases is consistent: the hallucination that caused the problem was not the type the attorney was watching for.
 
 ## Why the Taxonomy Matters for Professional Responsibility
 
