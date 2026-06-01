@@ -1,6 +1,23 @@
 Options -Indexes
+ServerSignature Off
+
+# -- Security headers ---------------------------------------------------------
+# Note: no <IfModule mod_headers.c> wrapper - LiteSpeed supports Header
+# directives natively in .htaccess without requiring mod_headers to be loaded.
+Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+Header always set X-Frame-Options "SAMEORIGIN"
+Header always set X-Content-Type-Options "nosniff"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://plausible.io; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://plausible.io https://formspree.io; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action https://formspree.io;"
 
 RewriteEngine On
+
+# Block dotfiles (/.git, /.env, etc.) - exempt .well-known for AutoSSL
+RewriteRule (^|/)\.(?!well-known) - [F,L]
+
+# AI legal research section hidden - redirect all URLs to homepage
+RewriteRule ^AI-legal-research(/.*)?$ / [R=301,L]
 
 # Strip trailing slash for non-existing paths
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -18,15 +35,7 @@ RewriteCond %{REQUEST_FILENAME} -d
 RewriteCond %{REQUEST_FILENAME}.html -f
 RewriteRule ^(.+?)/?$ /$1.html [L]
 
-# ââ 301 redirects for removed pages ââââââââââââââââââââââââââ
+# -- 301 redirects for removed pages ------------------------------------------
 RewriteRule ^smart-contracts(/.*)?$ /writing [R=301,L]
 RewriteRule ^what-is-google(/.*)?$ /writing [R=301,L]
 RewriteRule ^money(/.*)?$ /writing [R=301,L]
-
-# Removed non-US case pages: /AI-legal-research/<slug> with no built file -> table.
-# Both conditions required: file doesn't exist AND its .html sibling doesn't exist.
-# Pattern excludes paths containing a dot, so direct .html requests for kept cases
-# (e.g. /AI-legal-research/williams.html) are NOT caught here.
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME}.html !-f
-RewriteRule ^AI-legal-research/([^./]+?)/?$ /AI-legal-research [R=301,L]
