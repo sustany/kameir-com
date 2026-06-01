@@ -18,7 +18,7 @@ RewriteCond %{REQUEST_FILENAME} -d
 RewriteCond %{REQUEST_FILENAME}.html -f
 RewriteRule ^(.+?)/?$ /$1.html [L]
 
-# ── 301 redirects for removed pages ──────────────────────────
+# ââ 301 redirects for removed pages ââââââââââââââââââââââââââ
 RewriteRule ^smart-contracts(/.*)?$ /writing [R=301,L]
 RewriteRule ^what-is-google(/.*)?$ /writing [R=301,L]
 RewriteRule ^money(/.*)?$ /writing [R=301,L]
