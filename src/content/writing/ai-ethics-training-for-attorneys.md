@@ -85,4 +85,4 @@ Every state bar has said, in some form, that competence under Rule 1.1 now inclu
 
 The window between "understanding AI is now part of competence" and "here is the specific training you are required to complete" is the window in which firms that act voluntarily are positioned as prepared rather than reactive — and in which the documentation showing proactive training is available if a disciplinary matter arises.
 
-The [AI Ethics Training for Attorneys](/ai-ethics-training) covers all five areas described above, grounded in the sanctions record rather than in theory. The [eBook](/ai-ethics-ebook) covers the same framework for individual practitioners. The [case database](/AI-legal-research) remains available as a free research resource — 1,356 cases, downloadable as JSON, CC BY 4.0.
+The [AI Ethics Training for Attorneys](/ai-ethics-training) covers all five areas described above, grounded in the sanctions record rather than in theory. The [eBook](/ai-ethics-ebook) covers the same framework for individual practitioners. The case database remains available as a free research resource — 1,356 cases, downloadable as JSON, CC BY 4.0.
