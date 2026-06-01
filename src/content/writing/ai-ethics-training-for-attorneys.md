@@ -9,7 +9,7 @@ Every state bar has now issued guidance on attorney AI use. Most of it cites ABA
 
 That guidance is correct. It is also insufficient, because it does not tell you what specific failures have already produced sanctions — and therefore what specific protocols actually matter.
 
-After documenting [1,356 AI hallucination cases from real court proceedings](/AI-legal-research), the pattern is clear enough to say precisely what AI ethics training for attorneys needs to cover, and what most programs currently miss.
+After documenting 1,356 documented AI hallucination cases, the pattern is clear enough to say precisely what AI ethics training for attorneys needs to cover, and what most programs currently miss.
 
 ## What the Sanctions Record Shows
 
