@@ -29,9 +29,6 @@ const sections = [
       })),
     ],
   },
-      { label: 'How AI Got a Lawyer Sanctioned in Federal Court', href: '/AI-legal-research/How-AI-Got-Lawyer-Sanctioned-in-Federal-Court',       desc: 'Chaney v. Transdev Services Inc. (C.D. Cal. 2026)' },
-    ],
-  },
   {
     heading: 'AI Ethics',
     pages: [
@@ -50,8 +47,8 @@ const sections = [
 ---
 
 <Base
-  title="Sitemap: All Pages on kameir.com"
-  description="Complete index of all pages on kameir.com ÃÂ¢ÃÂÃÂ advisory, speaking, writing, and AI ethics. Find any page on the site quickly."
+  title="Sitemap"
+  description="Complete index of all pages on kameir.com — advisory, speaking, writing, and AI ethics. Find any page on the site quickly."
 >
   <div class="sitemap-page">
     <header class="sitemap-page__header">
@@ -153,4 +150,12 @@ const sections = [
   @media (max-width: 600px) {
     .sitemap-list__item {
       flex-direction: column;
-      g
+      gap: 0.2rem;
+    }
+
+    .sitemap-list__desc {
+      white-space: normal;
+      overflow: visible;
+    }
+  }
+</style>
