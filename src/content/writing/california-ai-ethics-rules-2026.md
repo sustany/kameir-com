@@ -29,7 +29,7 @@ This is not an aspirational standard. If finalized, it is the bar's definition o
 
 The rule also extends the existing technology-competence language to make explicit that staying abreast of "the benefits and risks associated with relevant technology" now expressly includes artificial intelligence.
 
-Our [database of more than 1,300 documented AI sanctions cases](/AI-legal-research/) shows exactly what happens when this verification step fails: fabricated citations, misrepresented holdings, sanctions ranging from public reprimand to five-figure fines.
+Our more than 1,300 documented AI sanctions cases shows exactly what happens when this verification step fails: fabricated citations, misrepresented holdings, sanctions ranging from public reprimand to five-figure fines.
 
 ## Rule 1.4 — Communication: Conditional Disclosure
 
@@ -87,7 +87,7 @@ But the direction is unmistakable, and the underlying obligations are already im
 
 Attorneys who are not should not wait for the rules to become final.
 
-The pattern documented across our [AI-legal-research case database](/AI-legal-research/) is consistent: sanctions do not require bad intent. They follow from the absence of verification. The attorneys disciplined over the past two years did not mean to submit fabricated citations — they relied on AI output without the independent review step the proposed Rule 1.1 now makes explicit.
+The pattern documented across our the documented sanctions case record is consistent: sanctions do not require bad intent. They follow from the absence of verification. The attorneys disciplined over the past two years did not mean to submit fabricated citations — they relied on AI output without the independent review step the proposed Rule 1.1 now makes explicit.
 
 ---
 
