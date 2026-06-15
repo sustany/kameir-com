@@ -1,350 +1,75 @@
 ---
-import { getCollection } from 'astro:content';
-import Base from '../layouts/Base.astro';
-import '../styles/home.css';
-
-const allPosts = await getCollection('writing', ({ data }) => !data.draft);
-const recentPosts = allPosts
-  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
-  .slice(0, 4);
-
-const fmt = new Intl.DateTimeFormat('en-US', {
-  year: 'numeric',
-  month: 'long',
-});
 ---
-
-<Base
-  title="Christian Kameir - Advisor, Author & AI Technologist"
-  description="Advisor, author, and speaker. Helping German-speaking companies enter the US market. Keynotes on AI, the future of money, and practical AI ethics guides."
-  personSchema={true}
->
-  <link rel="preload" as="image" href="/images/chris-london.webp" fetchpriority="high" slot="head" />
-  <script type="application/ld+json" slot="head" set:html={JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Decentralized Publishing LLC",
-  "url": "https://kameir.com",
-  "logo": {
-    "@type": "ImageObject",
-    "url": "https://kameir.com/images/og-default.jpg"
-  },
-  "founder": {
-    "@type": "Person",
-    "name": "Christian Kameir",
-    "url": "https://kameir.com"
-  },
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Newport Beach",
-    "addressRegion": "CA",
-    "addressCountry": "US"
-  },
-  "sameAs": [
-    "https://www.linkedin.com/in/kameir/",
-    "https://x.com/kameir",
-    "https://hackernoon.com/u/kameir",
-    "https://www.forbes.com/councils/forbesfinancecouncil/people/christiankameir1/"
-  ]
-})} />
-  <script type="application/ld+json" slot="head" set:html={JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "Christian Kameir",
-  "url": "https://kameir.com",
-  "description": "Advisor, author, and speaker on AI ethics for law firms ;  builder of the largest public database of attorney AI sanctions, author of Ethics-Safe AI Use for Law Firms, and trainer of California attorneys on Op. 512 compliance.",
-  "publisher": {
-    "@type": "Person",
-    "name": "Christian Kameir",
-    "url": "https://kameir.com"
-  }
-})} />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/dist/tabler-icons.min.css" slot="head" />
-  <article class="home">
-
-    <!-- === ===01 Intro === -->
-    <section class="home__intro">
-      <div class="container--wide home__intro-inner">
-        <div class="home__intro-content">
-          <h1 style="font-size:2rem;font-weight:700;color:#1c1c1c;margin:0 0 0.75rem;letter-spacing:-0.02em">Christian Kameir</h1>
-          <p class="home__intro-desc">
-            Advisor, author, and speaker on AI ethics, capital markets, and technology &mdash;
-            documenting attorney AI sanctions and training law firms to navigate AI risk.
-          </p>
-          <div class="home__intro-cta">
-            <a href="/ai-ethics-training" class="btn btn--primary">AI Ethics Training </a>
-            <a href="/advisory" class="btn btn--outline">Advisory</a>
-          </div>
-        </div>
-        <div class="home__intro-photo" aria-hidden="false">
-          <picture>
-            <source srcset="/images/chris-london.webp" type="image/webp" />
-            <img
-              src="/images/chris-london.png"
-              alt="Christian Kameir ,  AI ethics advisor, author, and speaker"
-              class="home__intro-img"
-              width="1626"
-              height="967"
-              loading="eager"
-              fetchpriority="high"
-            />
-          </picture>
-        </div>
-      </div>
-    </section>
-
-    <!-- === ===02 Credibility strip === -->
-    <div class="home__cred">
-      <div class="container--wide home__cred-inner">
-
-        <div class="home__cred-item">
-          <i class="ti ti-news home__cred-icon" aria-hidden="true"></i>
-          <span class="home__cred-name">Forbes</span>
-          <span class="home__cred-sub">Contributor</span>
-        </div>
-
-        <div class="home__cred-item">
-          <i class="ti ti-brand-medium home__cred-icon" aria-hidden="true"></i>
-          <span class="home__cred-name">HackerNoon</span>
-          <span class="home__cred-sub">Featured author</span>
-        </div>
-
-        <div class="home__cred-item">
-          <i class="ti ti-school home__cred-icon" aria-hidden="true"></i>
-          <span class="home__cred-name">Harvard</span>
-          <span class="home__cred-sub">Guest lecturer</span>
-        </div>
-
-        <div class="home__cred-item">
-          <i class="ti ti-microphone home__cred-icon" aria-hidden="true"></i>
-          <span class="home__cred-name">Keynote</span>
-          <span class="home__cred-sub">Speaker</span>
-        </div>
-
-        <div class="home__cred-item">
-          <i class="ti ti-map-pin home__cred-icon" aria-hidden="true"></i>
-          <span class="home__cred-name">Oxford - Munich</span>
-          <span class="home__cred-sub">Muenster</span>
-        </div>
-
-        <div class="home__cred-item">
-          <i class="ti ti-book home__cred-icon" aria-hidden="true"></i>
-          <span class="home__cred-name">Author</span>
-          <span class="home__cred-sub">Published</span>
-        </div>
-
-      </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Christian Kameir</title>
+  <meta name="description" content="Author and speaker." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://kameir.com" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <script defer data-domain="kameir.com" src="https://plausible.io/js/script.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      background: #fff;
+      color: #111;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: 3rem 2rem;
+    }
+    h1 {
+      font-size: clamp(1.75rem, 5vw, 2.5rem);
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.4rem;
+    }
+    .sub {
+      font-size: 0.8125rem;
+      color: #888;
+      letter-spacing: 0.04em;
+    }
+    footer {
+      border-top: 1px solid #eee;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.6875rem;
+      color: #aaa;
+    }
+    footer a {
+      color: #aaa;
+      text-decoration: none;
+      margin-left: 1rem;
+    }
+    footer a:hover { color: #555; }
+  </style>
+</head>
+<body>
+  <main>
+    <div>
+      <h1>Christian Kameir</h1>
+      <p class="sub">Author &middot; Speaker</p>
     </div>
-
-    <!-- === ===02b Stats strip === -->
-    <div class="home__stats">
-      <div class="container--wide home__stats-inner">
-        <div class="home__stat">
-          <p class="home__stat-num">1,356</p>
-          <p class="home__stat-lbl">AI sanctions cases documented</p>
-        </a>
-        <div class="home__stat-rule" aria-hidden="true"></div>
-        <div class="home__stat">
-          <p class="home__stat-num">$145K</p>
-          <p class="home__stat-lbl">in attorney fines, Q1 2026 alone</p>
-        </div>
-        <div class="home__stat-rule" aria-hidden="true"></div>
-        <div class="home__stat">
-          <p class="home__stat-num">7</p>
-          <p class="home__stat-lbl">Model Rules at risk in every AI filing</p>
-        </div>
-        <div class="home__stat-rule" aria-hidden="true"></div>
-        <a href="/ai-ethics-training/newport-beach-june-2026" class="home__stat">
-          <p class="home__stat-num">50</p>
-          <p class="home__stat-lbl">seats - Newport Beach workshop, June 27</p>
-        </a>
-      </div>
-    </div>
-
-    <!-- === ===03 Three pillars === -->
-    <section class="home__pillars">
-      <div class="container--wide home__pillars-inner">
-
-        <div class="home__pillar">
-          <p class="label home__pillar-label">Advisory</p>
-          <h2 class="home__pillar-title">German companies<br>entering the US market</h2>
-          <p class="home__pillar-desc">
-            Market entry, federal and state incentives, and private capital for
-            capital-intensive industrials, energy developers, and advanced manufacturers.
-            Retained engagements from $18,000/month.
-          </p>
-          <a href="/advisory" class="home__pillar-link">Learn more -</a>
-        </div>
-
-        <div class="home__pillar-rule" aria-hidden="true"></div>
-
-        <div class="home__pillar">
-          <p class="label home__pillar-label">Speaking</p>
-          <h2 class="home__pillar-title">Keynotes on AI,<br>blockchain &amp; money</h2>
-          <p class="home__pillar-desc">
-            Practitioner-level sessions for conferences, executive events, and industry
-            summits. Topics span AI ethics, decentralized finance, and the future of
-            monetary systems. From $1,950 virtual.
-          </p>
-          <a href="/speaking" class="home__pillar-link">Book a keynote -</a>
-        </div>
-
-        <div class="home__pillar-rule" aria-hidden="true"></div>
-
-        <div class="home__pillar">
-          <p class="label home__pillar-label">Books</p>
-          <h2 class="home__pillar-title">Practical AI ethics<br>guides for practitioners</h2>
-          <p class="home__pillar-desc">
-            Operational playbooks for the real risks AI creates - not academic theory,
-            not vendor brochures. First: law firms. Second coming soon: money and AI.
-          </p>
-          <a href="/ai-ethics-ebook" class="home__pillar-link">Get the eBook -</a>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- === ===04 eBook spotlight === -->
-    <section class="home__book">
-      <div class="container--wide home__book-inner">
-
-        <div class="home__book-cover" aria-hidden="true">
-          <p class="home__book-cover-title">Ethics Safe AI Use<br>for Law Firms</p>
-          <p class="home__book-cover-sub">A Litigation Risk Reduction Playbook<br>for Personal Injury Firms</p>
-          <p class="home__book-cover-author">Christian Kameir</p>
-          <p class="home__book-cover-pub">Decentralized Publishing LLC</p>
-        </div>
-
-        <div class="home__book-text">
-          <p class="label">New release</p>
-          <h2 class="home__book-title">The AI mistakes costing PI&nbsp;firms their fees - and the protocols that prevent them.</h2>
-          <ul class="home__book-points" role="list">
-            <li>ABA Formal Opinion 512 mapped to your firm's workflow</li>
-            <li>47-point Red/Yellow/Green audit checklist included</li>
-            <li>Disclosure language for N.D.&nbsp;Cal. and C.D.&nbsp;Cal. filings</li>
-            <li>12-month updates as the sanctions record grows</li>
-          </ul>
-          <div class="home__book-cta">
-            <a href="/ai-ethics-training" class="btn btn--primary">Get AI Ethics Training </a>
-            <a href="/ai-ethics-ebook" class="btn btn--outline">eBook - $49</a>
-          </div>
-          <p class="home__book-single">
-            Firm license (10 attorneys): <a href="https://kameir.lemonsqueezy.com/checkout/buy/c14c90b5-e6fd-4aef-aaef-e5a37cb3c7d1">$199</a>
-            &thinsp;-&thinsp;
-            <a href="/ai-ethics-ebook">Full eBook details -</a>
-          </p>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- === ===05 CLE course spotlight === -->
-    <section class="home__cle">
-      <div class="container--wide home__cle-inner">
-        <div class="home__cle-text">
-          <p class="label">CLE Training</p>
-          <h2 class="home__cle-title">Courts are sanctioning AI errors. Train before it's your firm's turn.</h2>
-          <p class="home__cle-body">
-            The <strong>Generative AI Use Mandatory Training</strong> is a 6-hour CLE course covering the seven Model Rules courts have already invoked, the five hallucination categories that produce sanctions, and the verification protocols that prevent them. Designed for law firms and bar associations. Licensed per attorney.
-          </p>
-          <div class="home__cle-facts">
-            <span>6 CLE hours</span>
-            <span class="home__cred-sep" aria-hidden="true">-</span>
-            <span>6 modules</span>
-            <span class="home__cred-sep" aria-hidden="true">-</span>
-            <span>Online</span>
-            <span class="home__cred-sep" aria-hidden="true">-</span>
-            <span>Per-attorney licensing</span>
-          </div>
-          <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
-            <a href="/ai-ethics-training" class="btn btn--primary">Get the Training -</a>
-            <a href="/AI-Ethics-CLE-Course-Sample" class="btn btn--outline">Preview CLE module -</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- === ===06 Recent Writing === -->
-    <section class="home__writing">
-      <div class="container--wide home__writing-inner">
-        <div class="home__writing-header">
-          <div>
-            <p class="label">Recent writing</p>
-            <p class="home__writing-intro">Research, analysis, and practical guidance on AI ethics, sanctions, and verification for law firms.</p>
-          </div>
-          <a href="/writing" class="home__writing-all">All posts -</a>
-        </div>
-        <ul class="home__writing-list" role="list">
-          {recentPosts.map((post) => (
-            <li class="home__writing-item">
-              <a href={`/writing/${post.slug}`} class="home__writing-link">
-                <time class="label home__writing-date" datetime={post.data.publishedAt.toISOString()}>
-                  {fmt.format(post.data.publishedAt)}
-                </time>
-                <span class="home__writing-title">{post.data.title}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-
-    <!-- === ===07 Workshop close === -->
-    <section class="home__workshop-close">
-      <div class="container--wide home__workshop-close-inner">
-        <div>
-          <p class="home__workshop-close-label">AI Ethics Training Workshop - Newport Beach | June 27, 2026</p>
-          <p class="home__workshop-close-text">50 seats. One day. Early-bird $399 ends May 29 - <span id="home-eb-days"></span>.</p>
-        </div>
-        <a href="/ai-ethics-training/newport-beach-june-2026" class="home__workshop-close-btn">Register - $399</a>
-      </div>
-    </section>
-    <script>
-      (function() {
-        var el = document.getElementById('home-eb-days');
-        if (!el) return;
-        var diff = Math.ceil((new Date('2026-05-29T23:59:59-07:00') - new Date()) / 86400000);
-        el.textContent = diff > 0 ? diff + ' day' + (diff !== 1 ? 's' : '') + ' left' : 'ends today';
-      })();
-    </script>
-
-  </article>
-</Base>
-
-<style>
-  .home__cle {
-    padding: var(--space-3xl, 4rem) 0;
-    border-top: 1px solid var(--rule);
-  }
-
-  .home__cle-inner {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-m);
-  }
-
-  .home__cle-title {
-    font-size: clamp(1.4rem, 2.5vw, 2rem);
-    line-height: 1.25;
-    max-width: 26ch;
-    margin: 0.5rem 0 1rem;
-  }
-
-  .home__cle-body {
-    max-width: 64ch;
-    color: var(--text-muted);
-    line-height: 1.75;
-    margin-bottom: 1.5rem;
-    font-size: var(--text-base);
-  }
-
-  .home__cle-facts {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.25rem 0.5rem;
-    font-size: var(--text-sm);
-    color: var(--text-muted);
-    margin-bottom: 1.5rem;
-  }
-</style>
+  </main>
+  <footer>
+    <span>&copy; 2026 Kameir &amp; Co LLC</span>
+    <span>
+      <a href="/privacy">Privacy</a>
+      <a href="https://www.linkedin.com/in/kameir/" target="_blank" rel="noopener">LinkedIn</a>
+    </span>
+  </footer>
+</body>
+</html>
