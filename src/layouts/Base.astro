@@ -9,7 +9,6 @@ export interface Props {
   publishedAt?: Date;
   noIndex?: boolean;
   personSchema?: boolean;
-  preloadImage?: string;
 }
 
 const {
@@ -20,21 +19,20 @@ const {
   publishedAt,
   noIndex = false,
   personSchema = false,
-  preloadImage,
 } = Astro.props;
 
 // Strip .html from canonical URLs (clean URLs served via .htaccess rewrite)
 const cleanPath = Astro.url.pathname.replace(/\.html$/, '');
 const canonicalURL = new URL(cleanPath, Astro.site);
-const fullTitle = title.includes('Christian Kameir') ? title : `${title} — Christian Kameir`;
+const fullTitle = title === 'Christian Kameir' ? title : `${title} — Christian Kameir`;
 const ogImageAbsolute = new URL(ogImage, Astro.site);
 
 const navLinks = [
-  { href: '/ai-ethics-training', label: 'AI Training' },
   { href: '/about', label: 'About' },
-  { href: '/advisory', label: 'Advisory' },
+  { href: '/strategy', label: 'Strategy' },
   { href: '/writing', label: 'Writing' },
   { href: '/speaking', label: 'Speaking' },
+  { href: '/AI-Ethics-CLE-Course-Sample', label: 'AI Training' },
   { href: '/contact', label: 'Contact' },
 ];
 
@@ -44,11 +42,11 @@ const personJsonLd = {
   "name": "Christian Kameir",
   "url": "https://kameir.com",
   "image": "https://kameir.com/images/christian-kameir.jpg",
-  "description": "AI ethics advisor, author of Ethics-Safe AI Use for Law Firms, and keynote speaker. Builder of the largest public database of attorney AI sanctions. Trainer of California attorneys on ABA Formal Opinion 512 compliance.",
-  "jobTitle": "AI Ethics Advisor & Author",
+  "description": "Independent advisory helping capital-intensive companies from German-speaking countries enter the US market, capture federal and state incentives, and connect with private capital.",
+  "jobTitle": "Independent Advisor",
   "worksFor": {
     "@type": "Organization",
-    "name": "Decentralized Publishing LLC"
+    "name": "Kameir & Co LLC"
   },
   "address": {
     "@type": "PostalAddress",
@@ -91,9 +89,6 @@ const personJsonLd = {
   }
 
   <link rel="canonical" href={canonicalURL} />
-  {preloadImage && (
-    <link rel="preload" as="image" type="image/webp" href={preloadImage} fetchpriority="high" />
-  )}
 
   <!-- Open Graph -->
   <meta property="og:type" content={ogType} />
@@ -101,7 +96,6 @@ const personJsonLd = {
   <meta property="og:title" content={fullTitle} />
   <meta property="og:description" content={description} />
   <meta property="og:image" content={ogImageAbsolute} />
-  <meta property="og:image:alt" content={description} />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:site_name" content="Christian Kameir" />
@@ -109,8 +103,8 @@ const personJsonLd = {
   {ogType === 'article' && publishedAt && (
     <>
       <meta property="article:published_time" content={publishedAt.toISOString()} />
-      <meta property="article:author" content="Christian Kameir" />
-      <meta property="article:section" content="AI Ethics" />
+      <meta property="article:author" content="https://kameir.com/about" />
+      <meta property="article:section" content="Investing" />
     </>
   )}
 
@@ -128,12 +122,6 @@ const personJsonLd = {
 
   <!-- Sitemap -->
   <link rel="sitemap" href="/sitemap-index.xml" />
-
-  <!-- Google Fonts: async non-blocking -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" /></noscript>
 
   <!-- Preconnect for analytics -->
   <link rel="preconnect" href="https://plausible.io" />
@@ -192,7 +180,7 @@ const personJsonLd = {
   <footer class="site-footer">
     <div class="site-footer__inner">
       <div class="site-footer__copy">
-        <span>© {new Date().getFullYear()} Decentralized Publishing LLC</span>
+        <span>© {new Date().getFullYear()} Kameir & Co LLC</span>
         <a href="/privacy" class="site-footer__privacy">Privacy</a>
         <a href="/sitemap" class="site-footer__privacy">Sitemap</a>
       </div>
@@ -285,3 +273,6 @@ const personJsonLd = {
       </a>
     </div>
   )}
+</body>
+</html>
+                                                  
