@@ -1,7 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 
-const lsCheckout = "https://kameir.lemonsqueezy.com/checkout/buy/d48ff7aa-63b0-4499-9d02-56bf965d2347";
+const courseCheckout = "https://kameir.gumroad.com/l/cmasbz";
 
 const bookSchema = {
   "@context": "https://schema.org",
@@ -23,10 +23,10 @@ const bookSchema = {
   "url": "https://kameir.com/ai-ethics-ebook",
   "offers": {
     "@type": "Offer",
-    "price": "49",
+    "price": "249",
     "priceCurrency": "USD",
     "availability": "https://schema.org/InStock",
-    "url": lsCheckout
+    "url": courseCheckout
   }
 };
 
@@ -42,7 +42,7 @@ const breadcrumbSchema = {
 
 <Base
   title="Ethics-Safe AI Use for Law Firms — eBook | Christian Kameir"
-  description="The practitioner's framework for AI compliance in legal practice. ABA Model Rules mapped to AI failure modes, the Mata Protocol, the Five Artifacts test, and a hallucination taxonomy drawn from 1,356 documented court cases. $49."
+  description="The practitioner's framework for AI compliance in legal practice. ABA Model Rules mapped to AI failure modes, the Mata Protocol, the Five Artifacts test, and a hallucination taxonomy drawn from 1,356 documented court cases. California MCLE course $249 — accreditation pending."
   canonicalUrl="https://kameir.com/ai-ethics-ebook"
 >
   <Fragment slot="head">
@@ -56,7 +56,7 @@ const breadcrumbSchema = {
     <section class="ebook-hero">
       <div class="ebook-hero__inner">
         <div class="ebook-hero__text">
-          <p class="label">eBook · Immediate Download</p>
+          <p class="label">California MCLE Course · Accreditation Pending</p>
           <h1 class="ebook-hero__h1">Ethics-Safe AI Use<br>for Law Firms</h1>
           <p class="ebook-hero__author">by Christian Kameir</p>
           <p class="ebook-hero__lead">
@@ -73,13 +73,13 @@ const breadcrumbSchema = {
 
           <div class="ebook-hero__cta">
             <div class="ebook-price-block">
-              <span class="ebook-price__amount">$49</span>
-              <span class="ebook-price__label">One-time · Immediate access · PDF + EPUB</span>
+              <span class="ebook-price__amount">$249</span>
+              <span class="ebook-price__label">On-demand CA MCLE · Lifetime access · 111-page eBook included</span>
             </div>
-            <a href={lsCheckout} class="btn btn--primary btn--lg" rel="noopener">
-              Get the eBook →
+            <a href={courseCheckout} class="btn btn--primary btn--lg" rel="noopener">
+              Enroll in the Course — $249 →
             </a>
-            <p class="ebook-hero__guarantee">30-day refund guarantee. No questions.</p>
+            <p class="ebook-hero__guarantee">California MCLE — Accreditation Pending. Certificate upon provider number issuance.</p>
           </div>
         </div>
 
@@ -252,19 +252,18 @@ const breadcrumbSchema = {
     <!-- CTA block -->
     <section class="ebook-cta-block">
       <div class="ebook-cta-block__inner">
-        <h2>Get the Framework</h2>
-        <p>Immediate download. PDF and EPUB. 30-day refund guarantee.</p>
+        <h2>Enroll in the Course</h2>
+        <p>On-demand California MCLE. Five modules, 111-page eBook, 35-question assessment. Accreditation pending.</p>
         <div class="ebook-cta-block__price">
-          <span class="ebook-price__amount">$49</span>
+          <span class="ebook-price__amount">$249</span>
         </div>
-        <a href={lsCheckout} class="btn btn--primary btn--lg" rel="noopener">
-          Get Ethics-Safe AI Use for Law Firms →
+        <a href={courseCheckout} class="btn btn--primary btn--lg" rel="noopener">
+          Enroll in Ethics-Safe AI Use for Law Firms — $249 →
         </a>
         <div class="ebook-cta-block__also">
-          <p>Prefer live training?</p>
+          <p>Course home</p>
           <div class="ebook-cta-block__also-links">
-            <a href="/ai-ethics-training">Online self-paced training ($49 individual / $199 firm)</a>
-            <a href="/ai-ethics-training/newport-beach-june-2026">Live Newport Beach intensive — June 27 ($399 early bird)</a>
+            <a href="https://alcbar.com">alcbar.com — full course detail</a>
           </div>
         </div>
       </div>
